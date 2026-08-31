@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenAccessibilit
             aria-label="Elamel Home - Return to main page"
           >
             <img
-              src="/logowith-text.png"
+              src="./logowith-text.png"
               alt="elamel Colors - Pinte • Crie • Desfrute logo"
               className="navbar-logo-img"
             />
@@ -157,7 +157,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenAccessibilit
           <div className="mobile-nav-backdrop" onClick={() => setIsMobileMenuOpen(false)} />
           <div className="mobile-nav-panel">
             <div className="mobile-nav-header">
-              <img src="/logowith-text.png" alt="elamel" className="mobile-nav-logo" />
+              <img src="./logowith-text.png" alt="elamel" className="mobile-nav-logo" />
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="btn-icon"

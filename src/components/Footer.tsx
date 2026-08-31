@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
               className="footer-logo-link"
               aria-label="Elamel Home"
             >
-              <img src="/logowith-text.png" alt="elamel" className="footer-logo-img" />
+              <img src="./logowith-text.png" alt="elamel" className="footer-logo-img" />
             </a>
             <p className="footer-tagline">
               Pinte • Crie • Desfrute<br />

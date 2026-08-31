@@ -52,7 +52,7 @@ export const AboutPage: React.FC = () => {
 
           <div className="about-hero-logo-box">
             <img
-              src="/logowith-text.png"
+              src="./logowith-text.png"
               alt="elamel Colors - Pinte • Crie • Desfrute"
               className="about-hero-logo-img"
             />
@@ -67,7 +67,7 @@ export const AboutPage: React.FC = () => {
           <div className="story-split-grid">
             <div className="story-media-wrap">
               <img
-                src="/images/about_studio.jpg"
+                src="./images/about_studio.jpg"
                 alt="The Elamel welcoming artisan craft studio and fresh bakery counter"
                 className="story-studio-img"
               />

@@ -48,7 +48,7 @@ export const TreatBoxBuilder: React.FC = () => {
       price: boxPrice,
       description: `Hand-selected assortment of ${boxSize} gourmet treats: ${selectedTreats.map(t => t.name).join(', ')}.`,
       longDescription: `Your personalized family treat box packed fresh in a presentation gift box with parchment lining. Contains: ${selectedTreats.map(t => t.name).join(' • ')}.`,
-      image: '/images/goodies_assortment.jpg',
+      image: './images/goodies_assortment.jpg',
       rating: 5.0,
       reviewCount: 1,
       tags: ['Custom Assortment', 'Gift Box', 'Family Sharing'],

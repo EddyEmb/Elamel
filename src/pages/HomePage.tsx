@@ -115,7 +115,7 @@ export const HomePage: React.FC = () => {
           <div className="hero-media-col">
             <div className="hero-image-card">
               <img
-                src="/images/hero_family.jpg"
+                src="./images/hero_family.jpg"
                 alt="Joyful family laughing and painting ceramic pottery together around a table with sweet cookies"
                 className="hero-main-img"
               />
@@ -151,7 +151,7 @@ export const HomePage: React.FC = () => {
             <div className="category-feature-card category-colors-card">
               <div className="cat-card-media">
                 <img
-                  src="/images/ceramic_kits.jpg"
+                  src="./images/ceramic_kits.jpg"
                   alt="Elamel Colors ceramic craft kits with pastel glazes and brushes"
                   className="cat-card-img"
                 />
@@ -180,7 +180,7 @@ export const HomePage: React.FC = () => {
             <div className="category-feature-card category-goodies-card">
               <div className="cat-card-media">
                 <img
-                  src="/images/goodies_assortment.jpg"
+                  src="./images/goodies_assortment.jpg"
                   alt="Elamel Goodies freshly baked cakes and rainbow swirl cookies"
                   className="cat-card-img"
                 />
@@ -209,7 +209,7 @@ export const HomePage: React.FC = () => {
             <div className="category-feature-card category-moments-card">
               <div className="cat-card-media">
                 <img
-                  src="/images/moments_gifts.jpg"
+                  src="./images/moments_gifts.jpg"
                   alt="Personalized family tree plate and custom couples mugs"
                   className="cat-card-img"
                 />
