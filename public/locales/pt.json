@@ -5,6 +5,7 @@
     "name": "elamel",
     "tagline": "Cores, Iguarias e Momentos para Toda a Família",
     "motto": "Pinte • Crie • Desfrute",
+    "slogan": "Pinte • Crie • Desfrute",
     "subbrands": {
       "colors": "Elamel Cores",
       "goodies": "Elamel Iguarias",
@@ -41,12 +42,15 @@
     "loading": "A carregar...",
     "searchPlaceholder": "Pesquisar kits de cerâmica, bolos, bolachas, lembranças...",
     "clear": "Limpar",
+    "clearFilters": "Limpar Filtros",
     "all": "Todos",
     "filters": "Filtros",
     "sortBy": "Ordenar por",
     "sortFeatured": "Em Destaque",
     "sortPriceLow": "Preço: Mais Baixo",
     "sortPriceHigh": "Preço: Mais Alto",
+    "priceLowHigh": "Preço: Mais Baixo",
+    "priceHighLow": "Preço: Mais Alto",
     "sortRating": "Melhor Classificação",
     "sortName": "Nome: A a Z",
     "reviews": "avaliações",
@@ -72,10 +76,12 @@
   "home": {
     "hero": {
       "eyebrow": "Bem-vindo à Família Elamel",
+      "badge": "Atelier Criativo & Pastelaria Familiar",
       "title": "Crie Momentos Inesquecíveis com Arte, Sabores e Amor",
       "subtitle": "Kits seguros de pintura em cerâmica vidrada, bolos e biscoitos artesanais confeccionados com ingredientes nobres, e recordações personalizadas concebidas para perdurar de geração em geração.",
       "ctaColors": "Explorar Kits de Cerâmica",
       "ctaGoodies": "Descobrir Iguarias",
+      "ctaMoments": "Recordações Personalizadas",
       "badge1": "100% Não-Tóxico e Seguro",
       "badge2": "Pastelaria sem Amendoins",
       "badge3": "Concebido para Todas as Idades"
@@ -84,6 +90,21 @@
       "eyebrow": "A Experiência Elamel",
       "title": "Três Universos de Alegria Familiar",
       "subtitle": "Quer pretenda pintar louça decorativa em conjunto, saborear pastelaria fresca e reconfortante, ou criar uma recordação de família eterna, temos a proposta perfeita para si.",
+      "colors": {
+        "title": "Kits de Pintura Cerâmica & Artesanato",
+        "desc": "Loiça em faiança fina porosa, vidrados minerais laváveis e guias simples para criar arte sem sair de casa.",
+        "action": "Explorar Elamel Cores"
+      },
+      "goodies": {
+        "title": "Pastelaria & Iguarias de Celebração",
+        "desc": "Bolos esponjosos com frutos frescos e biscoitos decorados à mão com baixo teor de açúcar.",
+        "action": "Explorar Elamel Iguarias"
+      },
+      "moments": {
+        "title": "Recordações & Momentos de Família",
+        "desc": "Pratos heráldicos, canecas comemorativas e caixas em madeira maciça com gravações únicas.",
+        "action": "Explorar Lembranças"
+      },
       "colorsTitle": "Kits de Pintura Cerâmica & Artesanato",
       "colorsDesc": "Kits completos com loiça em faiança fina porosa, vasos e figuras decorativas infantis, acompanhados de vidrados minerais laváveis e seguros.",
       "colorsFeature1": "Pratos de jantar, taças e canecas ergonómicas",
@@ -99,6 +120,40 @@
       "momentsFeature1": "Gravação artesanal à mão no nosso estúdio",
       "momentsFeature2": "Vidrados de alta resistência e durabilidade",
       "momentsFeature3": "Embalagem requintada em caixa de madeira maciça"
+    },
+    "whyLove": {
+      "eyebrow": "O Nosso Compromisso",
+      "title": "Por Que Razão as Famílias Adoram a Elamel",
+      "subtitle": "Quatro pilares fundamentais que asseguram pureza, segurança e memórias inesquecíveis para todas as gerações.",
+      "reasons": {
+        "safe": {
+          "title": "100% Não-Tóxico",
+          "desc": "Vidrados minerais e cores certificados segundo as normas europeias EN71-3 e ASTM D-4236, totalmente isentos de chumbo e solventes."
+        },
+        "allergens": {
+          "title": "Segurança de Alergénios",
+          "desc": "Cozinha com exclusão rigorosa de amendoins e transparência total de ingredientes para tranquilidade absoluta dos pais."
+        },
+        "bonding": {
+          "title": "União Familiar",
+          "desc": "Actividades sem ecrãs desenhadas para avós, pais e crianças criarem peças com as próprias mãos à volta da mesa."
+        },
+        "transparency": {
+          "title": "Pureza Artesanal",
+          "desc": "Faianças porosas de qualidade superior e doçaria fresca com ingredientes nobres para recordar sempre."
+        }
+      }
+    },
+    "featured": {
+      "eyebrow": "Criações em Destaque",
+      "title": "Os Favoritos das Nossas Famílias"
+    },
+    "cta": {
+      "eyebrow": "Comece a Criar Hoje",
+      "title": "Pronto para Criar Momentos Inesquecíveis?",
+      "subtitle": "Escolha um kit de pintura cerâmica ou componha uma caixa de doces personalizada entregue com amor.",
+      "buttonColors": "Ver Kits de Cerâmica",
+      "buttonMoments": "Personalizar Lembrança"
     },
     "studios": {
       "eyebrow": "Experiências Interactivas ao Vivo",
@@ -116,6 +171,15 @@
       "card3Desc": "Concebemos cada produto com pegas ergonómicas e instruções visuais claras, permitindo a participação activa de avós a netos sem barreiras físicas ou cognitivas."
     }
   },
+  "colors": {
+    "title": "Elamel Cores • Kits de Pintura Cerâmica",
+    "subtitle": "Descubra faianças em biscoito prontas a pintar, acompanhadas por paletas de vidrados luminosos, pincéis de pelo sintético e guias passo-a-passo para artistas de todas as idades.",
+    "highlights": {
+      "nonToxic": "Vidrados 100% Não-Tóxicos",
+      "foodSafe": "Apto para Alimentos após Cozedura",
+      "easyCure": "Cura Simples em Forno Doméstico (150°C)"
+    }
+  },
   "colorsPage": {
     "title": "Elamel Cores • Kits de Pintura Cerâmica",
     "subtitle": "Descubra faianças em biscoito prontas a pintar, acompanhadas por paletas de vidrados luminosos, pincéis de pelo sintético e guias passo-a-passo para artistas de todas as idades.",
@@ -127,6 +191,15 @@
     "studioBannerTitle": "Simulador de Vidragem em Tempo Real",
     "studioBannerText": "Escolha um modelo cerâmico, aplique as suas cores preferidas e visualize o efeito de brilho vitrificado antes de pintar em casa!"
   },
+  "goodies": {
+    "title": "Elamel Iguarias • Pastelaria Artesanal Familiar",
+    "subtitle": "Bolos aromáticos, biscoitos decorados com requinte e bolachas saudáveis, confeccionados diariamente na nossa pastelaria familiar.",
+    "highlights": {
+      "peanutFree": "Cozinha Isenta de Amendoins",
+      "glutenFree": "Opções Sem Glúten Disponíveis",
+      "natural": "100% Ingredientes Naturais"
+    }
+  },
   "goodiesPage": {
     "title": "Elamel Iguarias • Pastelaria Artesanal Familiar",
     "subtitle": "Bolos aromáticos, biscoitos decorados com requinte e bolachas saudáveis, confeccionados diariamente na nossa pastelaria familiar.",
@@ -136,6 +209,10 @@
     "filterOccasions": "Celebrações & Caixas",
     "boxBuilderBannerTitle": "Componha a Sua Caixa de Iguarias",
     "boxBuilderBannerText": "Seleccione 4 ou 6 doces à sua escolha, acompanhe o perfil dietético em directo e receba uma embalagem de oferta requintada."
+  },
+  "moments": {
+    "title": "Momentos & Lembranças • Peças Personalizadas",
+    "subtitle": "Presentes comoventes e peças comemorativas com os nomes da sua família, datas especiais e dedicatórias gravadas para sempre."
   },
   "momentsPage": {
     "title": "Momentos & Lembranças • Peças Personalizadas",
@@ -235,12 +312,37 @@
     }
   },
   "about": {
+    "story": {
+      "eyebrow": "A Nossa Essência",
+      "title": "Pintar Cores, Cozinhar Alegria, Celebrar Famílias"
+    },
     "heroTitle": "Pintar Cores, Cozinhar Alegria, Celebrar Famílias",
     "heroLead": "A elamel nasceu à volta de uma mesa de cozinha simples, com a convicção profunda de que as recordações mais preciosas acontecem quando as mãos criam arte e as famílias se reúnem em torno de iguarias com sabor a aconchego.",
     "studioTag": "Um Lar para Todas as Gerações • Atelier de Cerâmica e Pastelaria Sob o Mesmo Teto",
     "storyHeading": "A Nossa História: Da Mesa da Cozinha para o Vosso Lar",
     "storyP1": "A Elamel surgiu do encontro entre o amor pelas artes plásticas tradicionais e a paixão pela pastelaria genuína. Apercebemo-nos de que faltavam actividades verdadeiramente envolventes que unissem crianças, pais e avós sem a interferência de ecrãs digitais.",
     "storyP2": "Decidimos criar peças de faiança de textura aveludada e vidrados totalmente inócuos que qualquer pessoa pode decorar em casa, acompanhados por bolos e biscoitos que despertam memórias de infância.",
+    "values": {
+      "eyebrow": "Os Nossos Valores",
+      "title": "Os Quatro Pilares da Experiência Elamel",
+      "subtitle": "Tudo o que criamos é guiado pelo amor, pela segurança e pela celebração dos laços familiares.",
+      "safety": {
+        "title": "Pureza & Não-Toxicidade",
+        "desc": "Vidrados minerais 100% isentos de chumbo e cozinha de pastelaria estritamente sem amendoins para total tranquilidade."
+      },
+      "artisan": {
+        "title": "Arte e Dedicação",
+        "desc": "Peças de faiança de textura aveludada e receitas com manteiga nobre preparadas com paixão e detalhe."
+      },
+      "inclusivity": {
+        "title": "Design Intergeracional",
+        "desc": "Pincéis e peças ergonómicas concebidas para mãos pequeninas e avós partilharem momentos sem esforço."
+      },
+      "joy": {
+        "title": "Momentos Especiais",
+        "desc": "Objectos e sabores que transformam uma tarde em casa num tesouro de família para recordar sempre."
+      }
+    },
     "safetyHeading": "Compromisso Inquebrável com a Não-Toxicidade e Alergénios",
     "safetyLead": "A tranquilidade dos pais é a nossa maior prioridade. Todos os aspectos da produção são pensados para a protecção infantil.",
     "safetyPoint1Title": "Vidrados 100% Isentos de Chumbo e Cádmio",
@@ -249,6 +351,13 @@
     "safetyPoint2Desc": "A nossa cozinha funciona em circuito rigoroso sem contaminação cruzada de frutos secos perigosos.",
     "safetyPoint3Title": "Ergonomia Intergeracional",
     "safetyPoint3Desc": "Canecas e pratos moldados com formas confortáveis tanto para mãos pequenas como para articulações sensíveis de idosos.",
+    "workshops": {
+      "eyebrow": "Experiências no Atelier",
+      "title": "Ateliers Presenciais & Tardes em Família",
+      "subtitle": "Visite o nosso espaço no Porto para pintar loiça em conjunto e provar pastelaria acabadinha de sair do forno.",
+      "spotsLeft": "{count} lugares disponíveis",
+      "inquireAction": "Reservar Atelier"
+    },
     "workshopsTitle": "Ateliers Presenciais & Eventos Familiares",
     "workshopsSubtitle": "Venha visitar o nosso espaço acolhedor e participar em sessões conjuntas de olaria, pintura e degustação de pastelaria fresca.",
     "bookWorkshop": "Inscrever no Atelier"
@@ -264,6 +373,17 @@
     "emailValue": "ola@elamel.pt / encomendas@elamel.pt",
     "hoursTitle": "Horário de Funcionamento",
     "hoursValue": "Terça a Sábado: 09:30 – 18:30 • Domingo: 10:00 – 16:00 (Segunda: Encerrado)",
+    "form": {
+      "title": "Envie-nos uma Mensagem Directa",
+      "name": "O Seu Nome Completo",
+      "email": "Endereço de Correio Electrónico",
+      "phone": "Número de Contacto Telefónico",
+      "interest": "Área de Interesse",
+      "eventDate": "Data Prevista para o Evento / Recepção",
+      "message": "Mensagem ou Pedido Especial",
+      "send": "Enviar Mensagem",
+      "thankYou": "Mensagem enviada com sucesso! Entraremos em contacto brevemente."
+    },
     "formTitle": "Envie-nos uma Mensagem Directa",
     "name": "O Seu Nome",
     "email": "O Seu Correio Electrónico",

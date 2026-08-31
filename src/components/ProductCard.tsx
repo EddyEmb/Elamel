@@ -210,6 +210,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           border-radius: var(--radius-sm);
           border: 1px solid var(--color-border-light);
         }
+        .product-card-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-top: 1rem;
+          border-top: 1px solid var(--color-border-light);
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
         .price-prefix {
           font-size: 0.8125rem;
           color: var(--color-text-light);
@@ -218,6 +227,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           display: flex;
           align-items: center;
           gap: 0.4rem;
+          flex-wrap: wrap;
         }
       `}</style>
     </article>

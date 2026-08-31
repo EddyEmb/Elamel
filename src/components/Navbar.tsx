@@ -389,6 +389,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, onOpenAccessibilit
           border-radius: var(--radius-full);
           padding: 0.2rem 0.45rem;
           gap: 0.35rem;
+          flex-shrink: 0;
+          white-space: nowrap;
         }
         .lang-btn {
           background: none;

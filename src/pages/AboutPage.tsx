@@ -375,8 +375,9 @@ export const AboutPage: React.FC = () => {
         }
         .values-grid-4 {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.75rem;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 1.5rem;
+          width: 100%;
         }
         .value-card {
           background: #FFFFFF;
@@ -387,6 +388,9 @@ export const AboutPage: React.FC = () => {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          min-width: 0;
+          word-break: break-word;
+          overflow-wrap: break-word;
           transition: transform var(--transition-normal);
         }
         .value-card:hover {
@@ -534,15 +538,18 @@ export const AboutPage: React.FC = () => {
           gap: 0.5rem;
         }
 
+        @media (max-width: 1100px) {
+          .values-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+          .workshops-list-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
         @media (max-width: 992px) {
           .about-hero-container { grid-template-columns: 1fr; }
           .story-split-grid { grid-template-columns: 1fr; }
-          .values-grid-4 { grid-template-columns: 1fr 1fr; }
           .safety-standards-banner { grid-template-columns: 1fr; }
-          .workshops-list-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 640px) {
           .values-grid-4 { grid-template-columns: 1fr; }
+          .workshops-list-grid { grid-template-columns: 1fr; }
           .about-main-title { font-size: 2.1rem; }
         }
       `}</style>

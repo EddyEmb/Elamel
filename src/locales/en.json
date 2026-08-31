@@ -5,6 +5,7 @@
     "name": "elamel",
     "tagline": "Colors, Treats, and Moments for Every Family",
     "motto": "Pinte • Crie • Desfrute",
+    "slogan": "Paint • Create • Enjoy",
     "subbrands": {
       "colors": "Elamel Colors",
       "goodies": "Elamel Goodies",
@@ -41,12 +42,15 @@
     "loading": "Loading...",
     "searchPlaceholder": "Search ceramic kits, cakes, cookies, keepsakes...",
     "clear": "Clear",
+    "clearFilters": "Clear Filters",
     "all": "All",
     "filters": "Filters",
     "sortBy": "Sort by",
     "sortFeatured": "Featured",
     "sortPriceLow": "Price: Low to High",
     "sortPriceHigh": "Price: High to Low",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low",
     "sortRating": "Highest Rated",
     "sortName": "Name: A to Z",
     "reviews": "reviews",
@@ -72,10 +76,12 @@
   "home": {
     "hero": {
       "eyebrow": "Welcome to the Elamel Family",
+      "badge": "Creative Studio & Family Bakery",
       "title": "Crafting Colors, Baking Joy, Celebrating Families",
       "subtitle": "Safe ceramic painting kits with food-safe glazes, wholesome artisanal bakery treats, and personalized family keepsakes designed to be treasured for generations.",
       "ctaColors": "Explore Ceramic Kits",
       "ctaGoodies": "Discover Goodies",
+      "ctaMoments": "Personalized Keepsakes",
       "badge1": "100% Non-Toxic & Safe",
       "badge2": "Peanut-Free Bakery",
       "badge3": "Designed for All Ages"
@@ -84,6 +90,21 @@
       "eyebrow": "The Elamel Experience",
       "title": "Three Worlds of Family Joy",
       "subtitle": "Whether you want to paint tableware together, share warm artisanal bakery treats, or create an heirloom family gift, we have something special for you.",
+      "colors": {
+        "title": "Ceramic Painting & Craft Kits",
+        "desc": "Bisque tableware, washable mineral glazes, and step-by-step guides to create art at home.",
+        "action": "Explore Elamel Colors"
+      },
+      "goodies": {
+        "title": "Pastry & Celebration Goodies",
+        "desc": "Tender sponge cakes with fresh berries and hand-piped low-sugar cookies.",
+        "action": "Explore Elamel Goodies"
+      },
+      "moments": {
+        "title": "Family Keepsakes & Moments",
+        "desc": "Heirloom family plates, couples mugs, and solid wood boxes with custom engravings.",
+        "action": "Explore Keepsakes"
+      },
       "colorsTitle": "Ceramic Painting & Craft Kits",
       "colorsDesc": "Complete DIY kits featuring smooth bisque porcelain tableware, vases, and child-friendly figures with certified lead-free mineral glazes.",
       "colorsFeature1": "Dinner plates, bowls & ergonomic mugs",
@@ -99,6 +120,40 @@
       "momentsFeature1": "Hand-lettered by studio artisans",
       "momentsFeature2": "Durable kiln-baked glazed finishes",
       "momentsFeature3": "Gift packaging in luxury wooden box"
+    },
+    "whyLove": {
+      "eyebrow": "Our Family Promise",
+      "title": "Why Families Love Elamel",
+      "subtitle": "Four essential pillars ensuring purity, allergen safety, and unforgettable bonding for every generation.",
+      "reasons": {
+        "safe": {
+          "title": "100% Non-Toxic",
+          "desc": "Mineral glazes and paints certified under European EN71-3 and ASTM D-4236 standards, completely free of lead and volatile solvents."
+        },
+        "allergens": {
+          "title": "Peanut-Free Bakery",
+          "desc": "Strict peanut-free kitchen protocols and total ingredient transparency for complete parental peace of mind."
+        },
+        "bonding": {
+          "title": "Family Bonding",
+          "desc": "Screen-free activities designed for grandparents, parents, and toddlers to create memories together around the table."
+        },
+        "transparency": {
+          "title": "Artisan Quality",
+          "desc": "Premium porous bisque pottery and wholesome organic baking crafted to be treasured for years to come."
+        }
+      }
+    },
+    "featured": {
+      "eyebrow": "Featured Creations",
+      "title": "Family Favorites"
+    },
+    "cta": {
+      "eyebrow": "Start Creating Today",
+      "title": "Ready to Create Unforgettable Moments?",
+      "subtitle": "Pick a ceramic craft kit or build a personalized treat box delivered with love.",
+      "buttonColors": "View Ceramic Kits",
+      "buttonMoments": "Personalize Keepsake"
     },
     "studios": {
       "eyebrow": "Live Interactive Experiences",
@@ -116,6 +171,15 @@
       "card3Desc": "Every kit features easy-grip handles and visual guides, making it easy for both grandparents and toddlers to create art without frustration."
     }
   },
+  "colors": {
+    "title": "Elamel Colors • Ceramic Painting Kits",
+    "subtitle": "Discover unglazed bisque ceramics, vibrant pastel mineral glazes, artist brushes, and step-by-step guides for creators of all ages.",
+    "highlights": {
+      "nonToxic": "100% Non-Toxic Glazes",
+      "foodSafe": "Food-Safe After Oven Cure",
+      "easyCure": "Easy Home Oven Cure (150°C)"
+    }
+  },
   "colorsPage": {
     "title": "Elamel Colors • Ceramic Painting Kits",
     "subtitle": "Discover unglazed bisque ceramics, vibrant pastel mineral glazes, artist brushes, and step-by-step guides for creators of all ages.",
@@ -127,6 +191,15 @@
     "studioBannerTitle": "Live Ceramic Glaze Simulator",
     "studioBannerText": "Select a pottery piece, brush your favorite colors, and toggle the glossy kiln reflection before painting at home!"
   },
+  "goodies": {
+    "title": "Elamel Goodies • Artisanal Family Bakery",
+    "subtitle": "Aromatic cakes, decorated sugar cookies, and wholesome honey biscuits baked fresh daily in our dedicated nut-free kitchen.",
+    "highlights": {
+      "peanutFree": "Peanut-Free Bakery Kitchen",
+      "glutenFree": "Gluten-Free Options Available",
+      "natural": "100% Natural Ingredients"
+    }
+  },
   "goodiesPage": {
     "title": "Elamel Goodies • Artisanal Family Bakery",
     "subtitle": "Aromatic cakes, decorated sugar cookies, and wholesome honey biscuits baked fresh daily in our dedicated nut-free kitchen.",
@@ -136,6 +209,10 @@
     "filterOccasions": "Celebrations & Boxes",
     "boxBuilderBannerTitle": "Build Your Custom Treat Box",
     "boxBuilderBannerText": "Choose 4 or 6 artisan treats, monitor dietary tags in real time, and receive them in a presentation gift box."
+  },
+  "moments": {
+    "title": "Moments & Souvenirs • Custom Keepsakes",
+    "subtitle": "Heartfelt gifts and commemorative ceramic pieces personalized with your family names, dates, and special dedications."
   },
   "momentsPage": {
     "title": "Moments & Souvenirs • Custom Keepsakes",
@@ -159,11 +236,11 @@
     },
     "selectColor": "2. Choose Mineral Glaze Color:",
     "colors": {
-      "rose": "Soft Rose Petal",
+      "rose": "Soft Petal Rose",
       "coral": "Sunset Coral",
-      "sunshine": "Sunshine Yellow",
-      "sage": "Gentle Sage Green",
-      "teal": "Oceanic Marine Teal",
+      "sunshine": "Warm Sunshine Yellow",
+      "sage": "Soft Sage Green",
+      "teal": "Deep Sea Teal",
       "lavender": "Wild Lavender",
       "terracotta": "Warm Terracotta",
       "cream": "Natural Vanilla Cream"
@@ -171,132 +248,175 @@
     "brushSize": "Brush Thickness:",
     "actions": {
       "clearCanvas": "Clear Surface",
-      "toggleGloss": "Simulate Kiln Gloss",
+      "toggleGloss": "Simulate Oven Gloss",
       "saveArtwork": "Download Artwork",
       "addToKit": "Order Kit with These Colors"
     },
-    "ovenSimulationNote": "The glaze simulator replicates the deep gloss reflections achieved after home oven curing at 150°C."
+    "ovenSimulationNote": "Glaze simulation replicates the glossy vitreous sheen obtained after baking in your home oven at 150°C (300°F)."
   },
   "treatBox": {
-    "title": "Custom Family Treat Box Creator",
-    "subtitle": "Curate the perfect assortment of freshly baked artisan pastries for family tea or a thoughtful gift.",
-    "step1": "1. Choose Box Size:",
-    "box4": "Family Sampler (4 Treats)",
-    "box4Desc": "Perfect for an intimate tea time or parent-child sharing.",
-    "box6": "Celebration Box (6 Treats)",
-    "box6Desc": "Ideal for birthdays, family dinners, and weekend parties.",
+    "title": "Custom Treat Box Builder",
+    "subtitle": "Create the ideal assortment for family teatime or a heartfelt gift for someone special.",
+    "step1": "1. Choose Your Box Size:",
+    "box4": "Family Sampler (4 Items)",
+    "box4Desc": "Perfect for a cozy afternoon treat or for kids.",
+    "box6": "Celebration Box (6 Items)",
+    "box6Desc": "Ideal for sharing during family gatherings and birthdays.",
     "step2": "2. Select Your Favorite Treats:",
-    "slotsLabel": "Box Slots Filled:",
+    "slotsLabel": "Filled Slots in Box:",
     "emptySlot": "Empty Slot — Click a treat below to add",
     "remove": "Remove",
-    "dietarySummary": "Box Dietary & Allergen Profile:",
+    "dietarySummary": "Box Allergen Summary:",
     "boxFull": "Box Complete! Ready to Order",
-    "boxIncomplete": "Add {remaining} more treat(s) to complete your box",
-    "orderBox": "Add Treat Box to Bag (€{price})"
+    "boxIncomplete": "Add {remaining} more treat(s) to complete the box",
+    "orderBox": "Add Box to Bag (€{price})"
   },
   "personalisation": {
     "title": "Live Personalisation Studio",
-    "subtitle": "Preview your custom lettered family heirloom piece in real time.",
-    "familyName": "Family Name / Last Name:",
-    "familyPlaceholder": "e.g. The Silva Ramos Family",
+    "subtitle": "Preview how your custom hand-lettered dedication will look before ordering.",
+    "familyName": "Family Surname / Name:",
+    "familyPlaceholder": "e.g., The Miller Family",
     "estYear": "Established / Wedding Year:",
-    "yearPlaceholder": "e.g. 2018",
-    "members": "Family Member Names (comma separated):",
-    "membersPlaceholder": "e.g. Mariana, Tiago, Clara, Tomás",
-    "dedication": "Special Inscription / Dedication:",
-    "dedicationPlaceholder": "e.g. Where life begins and love never ends.",
-    "themeColor": "Glaze Accent Theme:",
-    "giftWrap": "Include Luxury Wooden Keepsake Box (+€6.00)",
-    "previewLabel": "Live Handcrafted Piece Preview:",
-    "orderPersonalised": "Order Personalized Piece (€{price})"
+    "yearPlaceholder": "e.g., 2018",
+    "members": "Family Members' Names (comma-separated):",
+    "membersPlaceholder": "e.g., Sarah, David, Leo, Emma",
+    "dedication": "Special Message or Dedication:",
+    "dedicationPlaceholder": "e.g., Where life begins and love never ends.",
+    "themeColor": "Base Glaze Shade:",
+    "giftWrap": "Include Handcrafted Solid Wood Gift Box (+€6.00)",
+    "previewLabel": "Handcrafted Piece Live Preview:",
+    "orderPersonalised": "Order Custom Piece (€{price})"
   },
   "cart": {
     "title": "Your Shopping Bag",
     "empty": "Your shopping bag is empty.",
-    "emptySubtitle": "Explore our ceramic kits, artisanal cakes, and keepsakes to get started!",
+    "emptySubtitle": "Explore our craft color kits, fresh bakery goods, and family keepsakes to get started!",
     "itemsCount": "{count} item(s) selected",
     "subtotal": "Subtotal",
-    "shipping": "Shipping",
+    "shipping": "Shipping Fee",
     "shippingFree": "Free",
     "shippingCalculated": "€4.50 (Free over €45)",
     "total": "Order Total",
-    "checkoutButton": "Submit Reservation Inquiry",
-    "inquiryNotice": "Elamel operates with artisanal batch scheduling. When you submit your order, our studio team will contact you directly to confirm delivery dates or in-store pickup.",
+    "checkoutButton": "Complete Reservation Request",
+    "inquiryNotice": "Elamel operates with artisan care and personalized reservations. When you submit, our studio team will contact you directly to confirm delivery dates or studio pick-up.",
     "form": {
       "fullName": "Full Name",
       "email": "Email Address",
-      "phone": "Phone / WhatsApp Number",
+      "phone": "Phone Number",
       "address": "Delivery Address (or studio pickup)",
-      "deliveryDate": "Desired Celebration / Delivery Date",
-      "notes": "Dietary Requests or Special Inscription Notes",
-      "submit": "Send Family Reservation Request",
-      "successTitle": "Order Request Received!",
-      "successMessage": "Thank you for choosing Elamel. Our team will contact you via email or phone within 24 hours to confirm scheduling and preparation."
+      "deliveryDate": "Desired Date for Delivery / Celebration",
+      "notes": "Additional Notes or Dietary Requirements",
+      "submit": "Submit Family Reservation Order",
+      "successTitle": "Order Submitted Successfully!",
+      "successMessage": "Thank you for your order! Our team will contact you via email or phone within 24 hours to confirm all details."
     }
   },
   "about": {
-    "heroTitle": "Crafting Colors, Baking Joy, Celebrating Families",
-    "heroLead": "elamel was born around a simple kitchen table with a heartfelt belief: that the most cherished family memories happen when hands are making art and families are gathered around wholesome treats.",
+    "story": {
+      "eyebrow": "Our Essence",
+      "title": "Painting Colors, Baking Joy, Celebrating Families"
+    },
+    "heroTitle": "Painting Colors, Baking Joy, Celebrating Families",
+    "heroLead": "elamel was born around a simple kitchen table with the heartfelt belief that the most precious memories happen when hands create art and families gather around wholesome treats.",
     "studioTag": "A Home for Every Generation • Pottery Studio & Bakery Under One Roof",
     "storyHeading": "Our Story: From the Kitchen Table to Your Home",
-    "storyP1": "Elamel emerged from the union of traditional ceramic arts and wholesome artisanal baking. We noticed a lack of truly engaging activities that connected grandparents, parents, and children without digital screens.",
-    "storyP2": "We set out to create silky porcelain bisque and non-toxic mineral glazes that anyone can paint at home, alongside cakes and biscuits that taste like childhood comfort.",
-    "safetyHeading": "Unwavering Commitment to Safety & Allergen Transparency",
-    "safetyLead": "Parents' peace of mind is our highest priority. Every step of our craft and baking process is designed for child safety.",
+    "storyP1": "Elamel was born from the meeting of a passion for traditional ceramic craft and the love of wholesome bakery treats. We realized that families were missing engaging screen-free activities that brought kids, parents, and grandparents together.",
+    "storyP2": "We decided to craft smooth bisque pottery with certified non-toxic glazes that anyone can paint at home, paired with artisanal bakery treats that evoke childhood joy.",
+    "values": {
+      "eyebrow": "Our Core Values",
+      "title": "The Four Pillars of the Elamel Experience",
+      "subtitle": "Everything we craft is guided by love, safety, and the celebration of family bonds.",
+      "safety": {
+        "title": "Purity & Non-Toxicity",
+        "desc": "100% lead-free mineral glazes and a strictly peanut-free bakery kitchen for complete peace of mind."
+      },
+      "artisan": {
+        "title": "Artistry & Dedication",
+        "desc": "Velvety bisque pottery and pure butter recipes prepared with passion and meticulous detail."
+      },
+      "inclusivity": {
+        "title": "Intergenerational Design",
+        "desc": "Ergonomic brushes and shapes crafted for little hands and grandparents to share moments effortlessly."
+      },
+      "joy": {
+        "title": "Cherished Moments",
+        "desc": "Objects and flavors that transform an afternoon at home into a treasured family memory to keep forever."
+      }
+    },
+    "safetyHeading": "Unwavering Commitment to Safety & Allergens",
+    "safetyLead": "Parental peace of mind is our highest priority. Every detail of production is designed for child safety.",
     "safetyPoint1Title": "100% Lead-Free & Cadmium-Free Glazes",
-    "safetyPoint1Desc": "Certified under the strictest European standards for food contact safety and children's toys.",
-    "safetyPoint2Title": "Dedicated Peanut-Free Bakery Kitchen",
-    "safetyPoint2Desc": "Our bakery operates with strict separation protocols to eliminate nut cross-contamination.",
+    "safetyPoint1Desc": "Certified under the strictest European toy safety and food contact directives.",
+    "safetyPoint2Title": "Dedicated Peanut-Free Bakery Facility",
+    "safetyPoint2Desc": "Our kitchen operates under strict segregation protocols to eliminate allergen cross-contamination.",
     "safetyPoint3Title": "Intergenerational Ergonomics",
-    "safetyPoint3Desc": "Mugs and plates shaped for easy gripping by both toddler hands and elderly joint comfort.",
-    "workshopsTitle": "Studio Workshops & Family Celebrations",
-    "workshopsSubtitle": "Visit our welcoming Porto studio for combined pottery painting and fresh pastry tasting sessions.",
-    "bookWorkshop": "Book Workshop Spot"
+    "safetyPoint3Desc": "Mugs and tableware molded with comfortable grips for both toddlers and elderly hands.",
+    "workshops": {
+      "eyebrow": "Studio Experiences",
+      "title": "In-Person Workshops & Family Afternoons",
+      "subtitle": "Visit our welcoming space in Porto to paint pottery together and taste pastries fresh from the oven.",
+      "spotsLeft": "{count} spots left",
+      "inquireAction": "Book Workshop"
+    },
+    "workshopsTitle": "In-Person Workshops & Family Events",
+    "workshopsSubtitle": "Come visit our studio and participate in family pottery painting and pastry tasting sessions.",
+    "bookWorkshop": "Register for Workshop"
   },
   "contact": {
     "title": "Get in Touch • Direct Contact",
-    "subtitle": "Have questions about our ceramic kits, custom bakery orders, or private events? We are here to help.",
-    "addressTitle": "Our Studio & Bakery",
+    "subtitle": "Have questions about our ceramic craft kits, custom bakery orders, or private events? We are here to help.",
+    "addressTitle": "Our Studio & Kitchen",
     "addressValue": "Rua das Flores Criativas, 128, 4000-064 Porto, Portugal",
-    "phoneTitle": "Phone & WhatsApp",
+    "phoneTitle": "Phone & WhatsApp Support",
     "phoneValue": "+351 220 123 456 / +351 912 345 678",
-    "emailTitle": "Email Address",
-    "emailValue": "ola@elamel.pt / orders@elamel.pt",
+    "emailTitle": "Email Inquiries",
+    "emailValue": "hello@elamel-family.com / orders@elamel-family.com",
     "hoursTitle": "Opening Hours",
     "hoursValue": "Tuesday to Saturday: 09:30 – 18:30 • Sunday: 10:00 – 16:00 (Monday: Closed)",
+    "form": {
+      "title": "Send Us a Direct Message",
+      "name": "Your Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "interest": "Area of Interest",
+      "eventDate": "Event / Delivery Date",
+      "message": "Message or Special Request",
+      "send": "Send Message",
+      "thankYou": "Message sent successfully! We will get in touch shortly."
+    },
     "formTitle": "Send Us a Direct Message",
     "name": "Your Name",
-    "email": "Your Email Address",
-    "subject": "Message Subject",
+    "email": "Your Email",
+    "subject": "Subject",
     "message": "Your Message",
     "send": "Send Message",
-    "sentSuccess": "Message sent successfully! We will get back to you shortly."
+    "sentSuccess": "Message sent successfully! We will reply very soon."
   },
   "accessibility": {
     "title": "Accessibility & Universal Inclusion",
-    "subtitle": "Formal commitment to WCAG 2.2 Level AA standards so every family member can browse without barriers.",
+    "subtitle": "Formal commitment to WCAG 2.2 Level AA standards so every visitor can explore without barriers.",
     "controlsTitle": "Quick Display Controls",
     "textSize": "Text Size",
-    "textSizeNormal": "Default (100%)",
+    "textSizeNormal": "Normal (100%)",
     "textSizeLarge": "Large (125%)",
     "textSizeXLarge": "Extra Large (150%)",
     "contrast": "High Contrast Mode",
-    "contrastHelp": "Enhances color differentiation and text clarity for easier reading.",
-    "motion": "Reduce Motion",
-    "motionHelp": "Suppresses dynamic animations for users with vestibular sensitivity.",
+    "contrastHelp": "Enhances text sharpness and color distinction for easier reading.",
+    "motion": "Reduce Animations",
+    "motionHelp": "Suppresses dynamic transitions for visitors with vestibular sensitivities.",
     "complianceTitle": "WCAG 2.2 AA Compliance Statement",
-    "complianceText": "This website was built and tested to meet Web Content Accessibility Guidelines (WCAG 2.2 AA), ensuring full keyboard navigation, screen reader compatibility (NVDA, VoiceOver, JAWS), and robust semantic hierarchy."
+    "complianceText": "This website is designed and tested to comply with Web Content Accessibility Guidelines (WCAG 2.2 AA), ensuring full keyboard navigation, screen reader compatibility (NVDA, VoiceOver, JAWS), and structured semantic hierarchy."
   },
   "footer": {
     "newsletterTitle": "Join the Elamel Family Club",
-    "newsletterSubtitle": "Be the first to know about new pottery kits, seasonal bakery recipes, and studio workshop invites.",
+    "newsletterSubtitle": "Be the first to hear about new craft kits, seasonal bakery treats, and family workshop invitations.",
     "newsletterPlaceholder": "Enter your email address...",
     "subscribe": "Subscribe",
-    "privacyNotice": "We respect your privacy. No intrusive ads or data sharing with third parties.",
-    "rights": "All rights reserved. elamel — Pinte • Crie • Desfrute.",
+    "privacyNotice": "We respect your privacy. No spam or third-party data sharing.",
+    "rights": "All rights reserved. elamel — Paint • Create • Enjoy.",
     "links": {
       "privacy": "Privacy Policy & Data",
-      "terms": "Terms & Conditions",
+      "terms": "General Terms of Service",
       "accessibility": "Accessibility Statement",
       "sitemap": "Website Sitemap"
     }

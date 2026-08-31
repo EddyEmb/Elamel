@@ -706,23 +706,32 @@ export const HomePage: React.FC = () => {
           background: #FFFFFF;
           border-radius: var(--radius-xl);
           border: 1px solid var(--color-border-light);
-          padding: 4rem 3rem;
+          padding: 3.5rem 2.5rem;
           box-shadow: var(--shadow-md);
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+          overflow: hidden;
         }
         .text-center-wrap {
           text-align: center;
-          margin: 0 auto 3rem auto;
+          margin: 0 auto 2.5rem auto;
+          max-width: 680px;
         }
         .why-love-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 2rem;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 1.5rem;
+          width: 100%;
         }
         .why-card {
           text-align: center;
           display: flex;
           flex-direction: column;
           align-items: center;
+          min-width: 0;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
         .why-icon-circle {
           width: 64px;
@@ -732,6 +741,7 @@ export const HomePage: React.FC = () => {
           align-items: center;
           justify-content: center;
           margin-bottom: 1.25rem;
+          flex-shrink: 0;
         }
         .color-rose { background: var(--color-primary-light); }
         .color-orange { background: var(--color-orange-light); }
@@ -741,11 +751,13 @@ export const HomePage: React.FC = () => {
           font-size: 1.15rem;
           margin-bottom: 0.5rem;
           color: var(--color-text-main);
+          word-break: break-word;
         }
         .why-card-desc {
           font-size: 0.875rem;
           color: var(--color-text-muted);
-          line-height: 1.5;
+          line-height: 1.55;
+          word-break: break-word;
         }
 
         /* Featured Carousel */
@@ -921,17 +933,26 @@ export const HomePage: React.FC = () => {
           50% { transform: translateY(-8px); }
         }
 
+        @media (max-width: 1100px) {
+          .why-love-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2rem 1.5rem;
+          }
+          .why-love-banner {
+            padding: 3rem 2rem;
+          }
+        }
         @media (max-width: 992px) {
           .hero-container { grid-template-columns: 1fr; }
           .hero-main-title { font-size: 2.6rem; }
           .categories-grid-3 { grid-template-columns: 1fr; }
-          .why-love-grid { grid-template-columns: 1fr 1fr; }
           .carousel-slide-grid { grid-template-columns: 1fr; }
           .carousel-slide-info { padding: 1.75rem; }
         }
         @media (max-width: 640px) {
           .hero-main-title { font-size: 2.1rem; }
-          .why-love-grid { grid-template-columns: 1fr; }
+          .why-love-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+          .why-love-banner { padding: 2.25rem 1.25rem; }
           .cta-title { font-size: 1.85rem; }
         }
       `}</style>
