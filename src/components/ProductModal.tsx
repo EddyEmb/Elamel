@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { useCart } from '../context/CartContext';
+import { useI18n } from '../context/I18nContext';
 import { ALL_PRODUCTS } from '../data/mockData';
 import { ColorProduct, GoodiesProduct, PersonalisationItem } from '../types';
 import { X, Star, Plus, Minus, ShieldCheck, AlertTriangle, Sparkles, Check, Info, Heart } from 'lucide-react';
@@ -8,6 +9,7 @@ import { X, Star, Plus, Minus, ShieldCheck, AlertTriangle, Sparkles, Check, Info
 export const ProductModal: React.FC = () => {
   const { selectedProductId, closeProductModal, navigate } = useRouter();
   const { addToCart } = useCart();
+  const { t, formatCurrency, locale } = useI18n();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'overview' | 'safety' | 'care' | 'family'>('overview');
 
@@ -44,7 +46,7 @@ export const ProductModal: React.FC = () => {
         <button
           onClick={closeProductModal}
           className="btn-icon modal-close-btn"
-          aria-label="Close product details modal"
+          aria-label={t('common.close')}
         >
           <X size={20} />
         </button>
@@ -69,11 +71,11 @@ export const ProductModal: React.FC = () => {
                 <>
                   <div className="modal-badge-item">
                     <ShieldCheck size={16} color="#10B981" />
-                    <span>Non-Toxic Lead-Free Glazes</span>
+                    <span>{locale === 'pt' ? 'Vidrados Não-Tóxicos e Sem Chumbo' : 'Non-Toxic Lead-Free Glazes'}</span>
                   </div>
                   <div className="modal-badge-item">
                     <Sparkles size={16} color="#F8971D" />
-                    <span>{colorProd.difficulty} Level</span>
+                    <span>{locale === 'pt' ? `Nível ${colorProd.difficulty}` : `${colorProd.difficulty} Level`}</span>
                   </div>
                 </>
               )}
@@ -81,11 +83,11 @@ export const ProductModal: React.FC = () => {
                 <>
                   <div className="modal-badge-item">
                     <ShieldCheck size={16} color="#10B981" />
-                    <span>Peanut-Free Dedicated Bakery</span>
+                    <span>{locale === 'pt' ? 'Pastelaria Sem Amendoins' : 'Peanut-Free Dedicated Bakery'}</span>
                   </div>
                   <div className="modal-badge-item">
                     <Heart size={16} color="#E1285B" />
-                    <span>{goodiesProd.servings} Servings</span>
+                    <span>{locale === 'pt' ? `${goodiesProd.servings} Porções` : `${goodiesProd.servings} Servings`}</span>
                   </div>
                 </>
               )}
@@ -99,7 +101,7 @@ export const ProductModal: React.FC = () => {
               <div className="modal-rating">
                 <Star size={14} fill="#F8971D" color="#F8971D" />
                 <strong>{product.rating.toFixed(1)}</strong>
-                <span>({product.reviewCount} family reviews)</span>
+                <span>({product.reviewCount} {t('common.reviews')})</span>
               </div>
             </div>
 
@@ -108,7 +110,7 @@ export const ProductModal: React.FC = () => {
             </h2>
 
             <div className="product-modal-price-row">
-              <span className="product-modal-price">${product.price.toFixed(2)}</span>
+              <span className="product-modal-price">{formatCurrency(product.price)}</span>
               {goodiesProd && <span className="modal-portion-tag">{goodiesProd.portionSize}</span>}
               {colorProd && <span className="modal-portion-tag">{colorProd.dimensions}</span>}
             </div>
@@ -123,7 +125,7 @@ export const ProductModal: React.FC = () => {
                 onClick={() => setActiveTab('overview')}
                 className={`modal-tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
               >
-                {isColor ? 'Materials & Kit' : isGoodies ? 'Flavor & Ingredients' : 'Specifications'}
+                {isColor ? (locale === 'pt' ? 'Materiais & Kit' : 'Materials & Kit') : isGoodies ? (locale === 'pt' ? 'Ingredientes & Sabor' : 'Flavor & Ingredients') : (locale === 'pt' ? 'Especificações' : 'Specifications')}
               </button>
               <button
                 role="tab"
@@ -131,7 +133,7 @@ export const ProductModal: React.FC = () => {
                 onClick={() => setActiveTab('safety')}
                 className={`modal-tab-btn ${activeTab === 'safety' ? 'active' : ''}`}
               >
-                {isGoodies ? 'Allergen Information' : 'Safety & Child Guidelines'}
+                {isGoodies ? (locale === 'pt' ? 'Alergénios & Dieta' : 'Allergen Information') : (locale === 'pt' ? 'Segurança Infantil' : 'Safety Guidelines')}
               </button>
               <button
                 role="tab"
@@ -139,7 +141,7 @@ export const ProductModal: React.FC = () => {
                 onClick={() => setActiveTab('care')}
                 className={`modal-tab-btn ${activeTab === 'care' ? 'active' : ''}`}
               >
-                {isGoodies ? 'Storage & Serving' : 'Care & Curing'}
+                {isGoodies ? (locale === 'pt' ? 'Conservação' : 'Storage & Serving') : (locale === 'pt' ? 'Cuidado & Cura' : 'Care & Curing')}
               </button>
               <button
                 role="tab"
@@ -147,7 +149,7 @@ export const ProductModal: React.FC = () => {
                 onClick={() => setActiveTab('family')}
                 className={`modal-tab-btn ${activeTab === 'family' ? 'active' : ''}`}
               >
-                Family Moments Tip
+                {locale === 'pt' ? 'Momento em Família' : 'Family Moments Tip'}
               </button>
             </div>
 
@@ -157,7 +159,7 @@ export const ProductModal: React.FC = () => {
                 <div className="tab-pane">
                   {colorProd && (
                     <>
-                      <h4 className="tab-section-heading">What's Inside Your Craft Box:</h4>
+                      <h4 className="tab-section-heading">{locale === 'pt' ? 'Conteúdo da Caixa de Pintura:' : "What's Inside Your Craft Box:"}</h4>
                       <ul className="modal-bullets">
                         {colorProd.materials.map((mat, i) => (
                           <li key={i}>
@@ -169,8 +171,8 @@ export const ProductModal: React.FC = () => {
                   )}
                   {goodiesProd && (
                     <>
-                      <h4 className="tab-section-heading">Flavor & Natural Ingredients:</h4>
-                      <p className="tab-highlight"><strong>Flavor Profile:</strong> {goodiesProd.flavorProfile}</p>
+                      <h4 className="tab-section-heading">{locale === 'pt' ? 'Sabor e Ingredientes Naturais:' : 'Flavor & Natural Ingredients:'}</h4>
+                      <p className="tab-highlight"><strong>{locale === 'pt' ? 'Perfil de Sabor:' : 'Flavor Profile:'}</strong> {goodiesProd.flavorProfile}</p>
                       <ul className="modal-bullets">
                         {goodiesProd.ingredients.map((ing, i) => (
                           <li key={i}>
@@ -182,7 +184,7 @@ export const ProductModal: React.FC = () => {
                   )}
                   {momentProd && (
                     <>
-                      <h4 className="tab-section-heading">Personalization Process:</h4>
+                      <h4 className="tab-section-heading">{locale === 'pt' ? 'Processo de Confecção e Gravação:' : 'Personalization Process:'}</h4>
                       <ul className="modal-bullets">
                         {momentProd.customizationSteps.map((step, i) => (
                           <li key={i}>
@@ -201,9 +203,9 @@ export const ProductModal: React.FC = () => {
                     <div className="safety-alert-box">
                       <ShieldCheck size={20} color="#10B981" />
                       <div>
-                        <strong>Child Safety & Non-Toxic Certification:</strong>
+                        <strong>{locale === 'pt' ? 'Segurança Infantil e Certificação Não-Tóxica:' : 'Child Safety & Non-Toxic Certification:'}</strong>
                         <p>{colorProd.safetyInfo}</p>
-                        <p className="sub-note"><strong>Recommended Age:</strong> {colorProd.recommendedAge}</p>
+                        <p className="sub-note"><strong>{locale === 'pt' ? 'Idade Recomendada:' : 'Recommended Age:'}</strong> {colorProd.recommendedAge}</p>
                       </div>
                     </div>
                   )}
@@ -211,7 +213,7 @@ export const ProductModal: React.FC = () => {
                     <div className="allergen-alert-box">
                       <AlertTriangle size={20} color="#D97706" />
                       <div>
-                        <strong>Allergen & Diet Advice:</strong>
+                        <strong>{locale === 'pt' ? 'Avisos Alergénicos e Dieta:' : 'Allergen & Diet Advice:'}</strong>
                         <p>{goodiesProd.allergenWarning}</p>
                         <div className="diet-tags-wrap">
                           {goodiesProd.dietaryTags.map((tag) => (
@@ -222,7 +224,7 @@ export const ProductModal: React.FC = () => {
                     </div>
                   )}
                   {momentProd && (
-                    <p>Hand-inspected for highest heirloom quality. Non-toxic glazes and packaging.</p>
+                    <p>{locale === 'pt' ? 'Inspecionado manualmente para garantir a mais elevada qualidade de loiça de família. Vidrados e embalagens seguros.' : 'Hand-inspected for highest heirloom quality. Non-toxic glazes and packaging.'}</p>
                   )}
                 </div>
               )}
@@ -231,7 +233,7 @@ export const ProductModal: React.FC = () => {
                 <div className="tab-pane">
                   {colorProd && (
                     <>
-                      <h4 className="tab-section-heading">Washing & Curing Instructions:</h4>
+                      <h4 className="tab-section-heading">{locale === 'pt' ? 'Instruções de Lavagem e Cura:' : 'Washing & Curing Instructions:'}</h4>
                       <ul className="modal-bullets">
                         {colorProd.careInstructions.map((c, i) => (
                           <li key={i}><Info size={14} color="#0284C7" /> {c}</li>
@@ -241,9 +243,9 @@ export const ProductModal: React.FC = () => {
                   )}
                   {goodiesProd && (
                     <>
-                      <h4 className="tab-section-heading">Freshness & Serving Temperature:</h4>
-                      <p><strong>Storage:</strong> {goodiesProd.storageInstructions}</p>
-                      <p><strong>Serving Suggestion:</strong> {goodiesProd.servingTemperature}</p>
+                      <h4 className="tab-section-heading">{locale === 'pt' ? 'Conservação e Temperatura de Serviço:' : 'Freshness & Serving Temperature:'}</h4>
+                      <p><strong>{locale === 'pt' ? 'Conservação:' : 'Storage:'}</strong> {goodiesProd.storageInstructions}</p>
+                      <p><strong>{locale === 'pt' ? 'Sugestão de Degustação:' : 'Serving Suggestion:'}</strong> {goodiesProd.servingTemperature}</p>
                     </>
                   )}
                 </div>
@@ -255,7 +257,7 @@ export const ProductModal: React.FC = () => {
                     <div className="family-tip-box">
                       <Sparkles size={20} color="#E1285B" />
                       <div>
-                        <strong>Shared Memory Tip:</strong>
+                        <strong>{locale === 'pt' ? 'Sugestão para a Família:' : 'Shared Memory Tip:'}</strong>
                         <p>{colorProd.familyMomentTip}</p>
                       </div>
                     </div>
@@ -264,8 +266,8 @@ export const ProductModal: React.FC = () => {
                     <div className="family-tip-box">
                       <Heart size={20} color="#E1285B" />
                       <div>
-                        <strong>Celebration Suggestion:</strong>
-                        <p>Pairs wonderfully with weekend storytime or family milestone afternoon teas.</p>
+                        <strong>{locale === 'pt' ? 'Sugestão para Celebração:' : 'Celebration Suggestion:'}</strong>
+                        <p>{locale === 'pt' ? 'Combina na perfeição com lanches de domingo, aniversários e histórias à mesa.' : 'Pairs wonderfully with weekend storytime or family milestone afternoon teas.'}</p>
                       </div>
                     </div>
                   )}
@@ -310,10 +312,10 @@ export const ProductModal: React.FC = () => {
                 className="btn btn-primary btn-lg flex-grow-btn"
               >
                 {isMoment ? (
-                  <>Customize in Studio & Live Preview</>
+                  <>{locale === 'pt' ? 'Personalizar no Estúdio ao Vivo' : 'Customize in Studio & Live Preview'}</>
                 ) : (
                   <>
-                    <Plus size={18} /> Add to Treat Box (${(product.price * quantity).toFixed(2)})
+                    <Plus size={18} /> {t('common.addToCart')} ({formatCurrency(product.price * quantity)})
                   </>
                 )}
               </button>
@@ -324,32 +326,30 @@ export const ProductModal: React.FC = () => {
 
       <style>{`
         .product-modal-dialog {
-          max-width: 900px;
-          padding: 0;
-          overflow: hidden;
+          max-width: 880px;
+          padding: 2.25rem;
+        }
+        .modal-close-btn {
+          position: absolute;
+          top: 1.25rem;
+          right: 1.25rem;
+          z-index: 10;
         }
         .product-modal-grid {
           display: grid;
-          grid-template-columns: 1fr 1.25fr;
-        }
-        .product-modal-media-col {
-          background: var(--color-bg-subtle);
-          padding: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          border-right: 1px solid var(--color-border-light);
+          grid-template-columns: 1fr 1.35fr;
+          gap: 2.5rem;
         }
         .product-modal-image-wrap {
           position: relative;
           border-radius: var(--radius-lg);
           overflow: hidden;
-          aspect-ratio: 1;
+          background: var(--color-bg-subtle);
           box-shadow: var(--shadow-md);
         }
         .product-modal-image {
           width: 100%;
-          height: 100%;
+          height: 340px;
           object-fit: cover;
         }
         .product-modal-tag-overlay {
@@ -358,6 +358,7 @@ export const ProductModal: React.FC = () => {
           left: 1rem;
         }
         .product-modal-badges {
+          margin-top: 1.25rem;
           display: flex;
           flex-direction: column;
           gap: 0.6rem;
@@ -369,15 +370,10 @@ export const ProductModal: React.FC = () => {
           font-size: 0.8125rem;
           font-weight: 600;
           color: var(--color-text-muted);
-          background: #FFFFFF;
-          padding: 0.5rem 0.8rem;
+          background: var(--color-surface);
+          padding: 0.5rem 0.75rem;
           border-radius: var(--radius-md);
           border: 1px solid var(--color-border-light);
-        }
-        .product-modal-details-col {
-          padding: 2.25rem;
-          display: flex;
-          flex-direction: column;
         }
         .modal-header-meta {
           display: flex;
@@ -386,9 +382,8 @@ export const ProductModal: React.FC = () => {
           margin-bottom: 0.5rem;
         }
         .modal-category-label {
-          font-family: var(--font-heading);
-          font-size: 0.8125rem;
-          font-weight: 700;
+          font-size: 0.75rem;
+          font-weight: 800;
           color: var(--color-primary);
           letter-spacing: 0.05em;
         }
@@ -396,12 +391,15 @@ export const ProductModal: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 0.35rem;
-          font-size: 0.875rem;
-          color: var(--color-text-main);
+          font-size: 0.8125rem;
+          color: var(--color-text-muted);
         }
         .product-modal-title {
-          font-size: 1.85rem;
-          margin-bottom: 0.6rem;
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: var(--color-text-main);
+          margin-bottom: 0.75rem;
+          line-height: 1.25;
         }
         .product-modal-price-row {
           display: flex;
@@ -411,28 +409,30 @@ export const ProductModal: React.FC = () => {
         }
         .product-modal-price {
           font-family: var(--font-heading);
-          font-size: 1.65rem;
-          font-weight: 700;
+          font-size: 1.6rem;
+          font-weight: 800;
           color: var(--color-primary);
         }
         .modal-portion-tag {
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
+          font-weight: 600;
           color: var(--color-text-muted);
           background: var(--color-bg-subtle);
-          padding: 0.3rem 0.75rem;
+          padding: 0.3rem 0.65rem;
           border-radius: var(--radius-full);
+          border: 1px solid var(--color-border-light);
         }
         .product-modal-summary {
-          font-size: 0.95rem;
-          color: var(--color-text-muted);
+          font-size: 0.9375rem;
           line-height: 1.6;
+          color: var(--color-text-muted);
           margin-bottom: 1.5rem;
         }
         .modal-tabs {
           display: flex;
-          gap: 0.4rem;
-          border-bottom: 2px solid var(--color-border-light);
-          margin-bottom: 1.25rem;
+          gap: 0.35rem;
+          border-bottom: 1px solid var(--color-border-light);
+          margin-bottom: 1rem;
           overflow-x: auto;
           padding-bottom: 2px;
         }
@@ -443,12 +443,11 @@ export const ProductModal: React.FC = () => {
           font-size: 0.875rem;
           font-weight: 600;
           color: var(--color-text-light);
-          padding: 0.6rem 0.8rem;
+          padding: 0.5rem 0.85rem;
           cursor: pointer;
-          border-bottom: 3px solid transparent;
-          margin-bottom: -2px;
-          white-space: nowrap;
+          border-bottom: 2px solid transparent;
           transition: all var(--transition-fast);
+          white-space: nowrap;
         }
         .modal-tab-btn:hover {
           color: var(--color-primary);
@@ -456,105 +455,132 @@ export const ProductModal: React.FC = () => {
         .modal-tab-btn.active {
           color: var(--color-primary);
           border-bottom-color: var(--color-primary);
+          font-weight: 700;
         }
         .modal-tab-content {
           min-height: 160px;
-          margin-bottom: 2rem;
-          font-size: 0.9375rem;
+          margin-bottom: 1.5rem;
         }
         .tab-section-heading {
-          font-size: 1rem;
-          margin-bottom: 0.75rem;
+          font-size: 0.9375rem;
+          font-weight: 700;
           color: var(--color-text-main);
+          margin-bottom: 0.6rem;
         }
         .modal-bullets {
           list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 0.45rem;
+          gap: 0.4rem;
         }
         .modal-bullets li {
           display: flex;
           align-items: flex-start;
           gap: 0.5rem;
+          font-size: 0.875rem;
           color: var(--color-text-muted);
-        }
-        .safety-alert-box,
-        .allergen-alert-box,
-        .family-tip-box {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.85rem;
-          padding: 1rem 1.25rem;
-          border-radius: var(--radius-md);
-          font-size: 0.9rem;
+          line-height: 1.4;
         }
         .safety-alert-box {
-          background: #ECFDF5;
-          border: 1px solid #A7F3D0;
-          color: #065F46;
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          background: rgba(16, 185, 129, 0.08);
+          border: 1px solid rgba(16, 185, 129, 0.25);
+          padding: 0.9rem;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          color: var(--color-text-main);
         }
         .allergen-alert-box {
-          background: #FFFBEB;
-          border: 1px solid #FDE68A;
-          color: #92400E;
-        }
-        .family-tip-box {
-          background: #FFF1F2;
-          border: 1px solid #FECDD3;
-          color: #9F1239;
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          background: rgba(245, 158, 11, 0.08);
+          border: 1px solid rgba(245, 158, 11, 0.25);
+          padding: 0.9rem;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          color: var(--color-text-main);
         }
         .diet-tags-wrap {
           display: flex;
           gap: 0.4rem;
           margin-top: 0.5rem;
         }
+        .family-tip-box {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          background: var(--color-primary-light);
+          border: 1px solid rgba(225, 40, 91, 0.2);
+          padding: 0.9rem;
+          border-radius: var(--radius-md);
+          font-size: 0.875rem;
+          color: var(--color-text-main);
+        }
+        .family-stories-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+        }
+        .sample-story-card {
+          background: var(--color-surface);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-sm);
+          padding: 0.6rem 0.75rem;
+          font-size: 0.8125rem;
+        }
         .modal-action-bar {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          margin-top: auto;
-          padding-top: 1rem;
+          gap: 0.85rem;
+          padding-top: 1.25rem;
           border-top: 1px solid var(--color-border-light);
         }
         .quantity-counter {
           display: inline-flex;
           align-items: center;
-          border: 1.5px solid var(--color-border);
+          border: 1px solid var(--color-border);
           border-radius: var(--radius-full);
           padding: 0.25rem;
-          background: #FFFFFF;
+          background: var(--color-surface);
         }
         .btn-qty {
           width: 32px;
           height: 32px;
           border-radius: 50%;
           border: none;
-          background: var(--color-bg-subtle);
-          color: var(--color-text-main);
-          cursor: pointer;
-          display: inline-flex;
+          background: transparent;
+          display: flex;
           align-items: center;
           justify-content: center;
+          cursor: pointer;
+          transition: background var(--transition-fast);
         }
         .btn-qty:hover {
-          background: var(--color-primary-light);
-          color: var(--color-primary);
+          background: var(--color-bg-subtle);
         }
         .qty-value {
           font-family: var(--font-heading);
           font-weight: 700;
-          width: 36px;
+          font-size: 0.9375rem;
+          min-width: 2rem;
           text-align: center;
         }
         .flex-grow-btn {
-          flex-grow: 1;
+          flex: 1;
+          justify-content: center;
         }
 
         @media (max-width: 768px) {
-          .product-modal-grid { grid-template-columns: 1fr; }
-          .product-modal-media-col { padding: 1.25rem; }
-          .product-modal-details-col { padding: 1.25rem; }
+          .product-modal-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .product-modal-image {
+            height: 240px;
+          }
         }
       `}</style>
     </div>

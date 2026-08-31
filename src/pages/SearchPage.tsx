@@ -1,10 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { ProductCard } from '../components/ProductCard';
-import { ALL_PRODUCTS } from '../data/mockData';
+import { getLocalizedAllProducts } from '../data/mockData';
+import { useI18n } from '../context/I18nContext';
 import { Search, Sparkles } from 'lucide-react';
 
 export const SearchPage: React.FC = () => {
+  const { t, locale, formatCurrency } = useI18n();
+
   const getQueryFromUrl = () => {
     if (typeof window === 'undefined') return '';
     const searchPart = window.location.hash.split('?')[1] || window.location.search.replace(/^\?/, '');
@@ -17,6 +20,8 @@ export const SearchPage: React.FC = () => {
   const [maxPrice, setMaxPrice] = useState<number>(60);
   const [sortBy, setSortBy] = useState<'match' | 'price-asc' | 'price-desc' | 'rating'>('match');
 
+  const allProducts = getLocalizedAllProducts(locale);
+
   useEffect(() => {
     setSearchTerm(getQueryFromUrl());
   }, []);
@@ -24,7 +29,7 @@ export const SearchPage: React.FC = () => {
   const results = useMemo(() => {
     const q = searchTerm.toLowerCase().trim();
 
-    return ALL_PRODUCTS.filter((prod) => {
+    return allProducts.filter((prod) => {
       const matchCat = selectedCat === 'all' || prod.category === selectedCat;
       const matchPrice = prod.price <= maxPrice;
       const matchQuery =
@@ -41,7 +46,7 @@ export const SearchPage: React.FC = () => {
       if (sortBy === 'rating') return b.rating - a.rating;
       return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
     });
-  }, [searchTerm, selectedCat, maxPrice, sortBy]);
+  }, [allProducts, searchTerm, selectedCat, maxPrice, sortBy]);
 
   return (
     <div className="search-page">
@@ -51,11 +56,11 @@ export const SearchPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <Search size={14} /> Catalog Search
+              <Search size={14} /> {t('nav.search')}
             </span>
-            <h1 className="cat-page-title">Explore All Elamel Kits, Treats & Keepsakes</h1>
+            <h1 className="cat-page-title">{locale === 'pt' ? 'Explorar Todo o Catálogo Elamel' : 'Explore All Elamel Kits, Treats & Keepsakes'}</h1>
             <p className="cat-page-lead">
-              Instantly find ceramic painting sets, bakery cakes, cookies, and personalized gifts.
+              {locale === 'pt' ? 'Encontre de imediato conjuntos de cerâmica, bolos artesanais, biscoitos e lembranças personalizadas.' : 'Instantly find ceramic painting sets, bakery cakes, cookies, and personalized gifts.'}
             </p>
 
             <div className="search-page-input-wrap">
@@ -64,7 +69,7 @@ export const SearchPage: React.FC = () => {
                 type="search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by keyword, product name, dietary tag..."
+                placeholder={t('common.searchPlaceholder')}
                 className="search-bar-input"
                 aria-label="Search all products"
               />
@@ -72,9 +77,9 @@ export const SearchPage: React.FC = () => {
                 <button
                   onClick={() => setSearchTerm('')}
                   className="search-clear-btn"
-                  aria-label="Clear search input"
+                  aria-label={t('common.clear')}
                 >
-                  Clear
+                  {t('common.clear')}
                 </button>
               )}
             </div>
@@ -94,7 +99,7 @@ export const SearchPage: React.FC = () => {
                 onClick={() => setSelectedCat('all')}
                 className={`filter-tab-btn ${selectedCat === 'all' ? 'active' : ''}`}
               >
-                All Categories
+                {t('common.all')}
               </button>
               <button
                 role="tab"
@@ -102,7 +107,7 @@ export const SearchPage: React.FC = () => {
                 onClick={() => setSelectedCat('colors')}
                 className={`filter-tab-btn ${selectedCat === 'colors' ? 'active' : ''}`}
               >
-                Elamel Colors
+                {t('brand.subbrands.colors')}
               </button>
               <button
                 role="tab"
@@ -110,7 +115,7 @@ export const SearchPage: React.FC = () => {
                 onClick={() => setSelectedCat('goodies')}
                 className={`filter-tab-btn ${selectedCat === 'goodies' ? 'active' : ''}`}
               >
-                Elamel Goodies
+                {t('brand.subbrands.goodies')}
               </button>
               <button
                 role="tab"
@@ -118,7 +123,7 @@ export const SearchPage: React.FC = () => {
                 onClick={() => setSelectedCat('moments')}
                 className={`filter-tab-btn ${selectedCat === 'moments' ? 'active' : ''}`}
               >
-                Moments & Souvenirs
+                {t('brand.subbrands.moments')}
               </button>
             </div>
 
@@ -126,7 +131,7 @@ export const SearchPage: React.FC = () => {
             <div className="search-side-controls">
               <div className="price-slider-wrap">
                 <label className="price-slider-label">
-                  Max Price: <strong>${maxPrice}</strong>
+                  {locale === 'pt' ? 'Preço Máx:' : 'Max Price:'} <strong>{formatCurrency(maxPrice)}</strong>
                 </label>
                 <input
                   type="range"
@@ -146,10 +151,10 @@ export const SearchPage: React.FC = () => {
                 className="sort-dropdown"
                 aria-label="Sort search results"
               >
-                <option value="match">Best Match</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
+                <option value="match">{locale === 'pt' ? 'Melhor Correspondência' : 'Best Match'}</option>
+                <option value="price-asc">{t('common.priceLowHigh')}</option>
+                <option value="price-desc">{t('common.priceHighLow')}</option>
+                <option value="rating">{locale === 'pt' ? 'Melhor Avaliados' : 'Highest Rated'}</option>
               </select>
             </div>
           </div>
@@ -157,8 +162,11 @@ export const SearchPage: React.FC = () => {
           {/* Results Summary */}
           <div className="search-results-summary">
             <span>
-              Found <strong>{results.length}</strong> matching item{results.length === 1 ? '' : 's'}
-              {searchTerm && <span> for "<em>{searchTerm}</em>"</span>}
+              {locale === 'pt' ? (
+                <>Encontrados <strong>{results.length}</strong> artigo(s) correspondente(s){searchTerm && <span> para "<em>{searchTerm}</em>"</span>}</>
+              ) : (
+                <>Found <strong>{results.length}</strong> matching item{results.length === 1 ? '' : 's'}{searchTerm && <span> for "<em>{searchTerm}</em>"</span>}</>
+              )}
             </span>
           </div>
 
@@ -166,8 +174,8 @@ export const SearchPage: React.FC = () => {
           {results.length === 0 ? (
             <div className="search-empty-state">
               <Sparkles size={48} color="#CBD5E1" />
-              <h3>No items found matching your criteria</h3>
-              <p>Try clearing your keywords or expanding your maximum price filter.</p>
+              <h3>{locale === 'pt' ? 'Nenhum artigo encontrado com os filtros actuais' : 'No items found matching your criteria'}</h3>
+              <p>{locale === 'pt' ? 'Experimente limpar as palavras-chave ou aumentar o filtro de preço máximo.' : 'Try clearing your keywords or expanding your maximum price filter.'}</p>
               <button
                 onClick={() => {
                   setSearchTerm('');
@@ -176,7 +184,7 @@ export const SearchPage: React.FC = () => {
                 }}
                 className="btn btn-primary"
               >
-                Reset All Filters
+                {t('common.clearFilters')}
               </button>
             </div>
           ) : (

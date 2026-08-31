@@ -2,6 +2,7 @@ import React from 'react';
 import { Product, ColorProduct, GoodiesProduct, PersonalisationItem } from '../types';
 import { useCart } from '../context/CartContext';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { Star, Plus, Eye, Sparkles, HeartHandshake, ShieldCheck } from 'lucide-react';
 
 interface ProductCardProps {
@@ -11,6 +12,7 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const { openProductModal, navigate } = useRouter();
+  const { t, formatCurrency, locale } = useI18n();
 
   const isColor = product.category === 'colors';
   const isGoodies = product.category === 'goodies';
@@ -35,7 +37,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="product-card-badge-top">
           {product.isFeatured && (
             <span className="badge badge-primary">
-              <Sparkles size={11} /> Featured
+              <Sparkles size={11} /> {t('common.sortFeatured')}
             </span>
           )}
         </div>
@@ -45,9 +47,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <button
             onClick={() => openProductModal(product.id)}
             className="btn btn-secondary btn-sm overlay-btn"
-            aria-label={`View full details for ${product.name}`}
+            aria-label={`${t('common.quickView')}: ${product.name}`}
           >
-            <Eye size={15} /> Quick View
+            <Eye size={15} /> {t('common.quickView')}
           </button>
         </div>
       </div>
@@ -56,7 +58,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="product-card-body">
         <div className="product-card-meta">
           <span className="product-subcategory">{product.subcategory}</span>
-          <div className="product-rating" aria-label={`${product.rating} stars out of 5 from ${product.reviewCount} reviews`}>
+          <div className="product-rating" aria-label={`${product.rating} / 5 (${product.reviewCount} ${t('common.reviews')})`}>
             <Star size={13} fill="#F8971D" color="#F8971D" />
             <span>{product.rating.toFixed(1)}</span>
             <span className="review-count">({product.reviewCount})</span>
@@ -82,7 +84,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <ShieldCheck size={13} color="#10B981" /> {colorProd.recommendedAge}
               </span>
               <span className="attribute-pill">
-                {colorProd.glazeCount} Glaze Colors
+                {colorProd.glazeCount} {locale === 'pt' ? 'Vidrados' : 'Glazes'}
               </span>
             </>
           )}
@@ -102,7 +104,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {momentProd && (
             <span className="attribute-pill">
-              <HeartHandshake size={13} color="#E1285B" /> Personalised Inscription
+              <HeartHandshake size={13} color="#E1285B" /> {locale === 'pt' ? 'Gravação Personalizada' : 'Custom Inscription'}
             </span>
           )}
         </div>
@@ -110,8 +112,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Card Footer with Price & Actions */}
         <div className="product-card-footer">
           <div className="product-price-wrap">
-            <span className="price-prefix">{isMoment ? 'from ' : ''}</span>
-            <span className="product-price">${product.price.toFixed(2)}</span>
+            <span className="price-prefix">{isMoment ? (locale === 'pt' ? 'desde ' : 'from ') : ''}</span>
+            <span className="product-price">{formatCurrency(product.price)}</span>
           </div>
 
           <div className="product-actions-group">
@@ -119,17 +121,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <button
                 onClick={() => navigate('/moments-souvenirs')}
                 className="btn btn-primary btn-sm"
-                aria-label={`Personalize ${product.name}`}
+                aria-label={`${locale === 'pt' ? 'Personalizar' : 'Personalize'} ${product.name}`}
               >
-                Personalize
+                {locale === 'pt' ? 'Personalizar' : 'Personalize'}
               </button>
             ) : (
               <button
                 onClick={() => addToCart(product, 1)}
                 className="btn btn-primary btn-sm"
-                aria-label={`Add ${product.name} to Treat Box`}
+                aria-label={`${t('common.addToCart')}: ${product.name}`}
               >
-                <Plus size={15} /> Add to Box
+                <Plus size={15} /> {t('common.addToCart')}
               </button>
             )}
           </div>

@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
-import { MOMENTS_PRODUCTS } from '../data/mockData';
-import { MomentsSubcategory } from '../types';
+import React, { useState, useMemo } from 'react';
+import { getLocalizedMomentsProducts } from '../data/mockData';
+import { useI18n } from '../context/I18nContext';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { PersonalisationStudio } from '../components/PersonalisationStudio';
 import { ProductCard } from '../components/ProductCard';
 import { HeartHandshake, Sparkles, Heart, Star, ArrowDown } from 'lucide-react';
 
 export const MomentsPage: React.FC = () => {
-  const [selectedTheme, setSelectedTheme] = useState<string>('All');
+  const { t, locale } = useI18n();
+  const [selectedTheme, setSelectedTheme] = useState<string>('all');
 
-  const thematicSections: { id: MomentsSubcategory | 'All'; title: string; subtitle: string }[] = [
-    { id: 'All', title: 'All Personalised Keepsakes', subtitle: 'Explore our complete collection of custom family gifts.' },
-    { id: 'Anniversary Moments', title: 'Anniversary & Couple Moments', subtitle: 'Commemorating milestones, wedding dates, and shared journeys.' },
-    { id: 'Family Celebrations', title: 'Family Celebrations & Heirlooms', subtitle: 'Generational plates, newborn announcements, and family names.' },
-    { id: 'Holiday Souvenirs', title: 'Holiday & Seasonal Souvenirs', subtitle: 'Annual traditions, custom ornaments, and festive memories.' }
-  ];
+  const momentsProducts = getLocalizedMomentsProducts(locale);
 
-  const filteredItems = selectedTheme === 'All'
-    ? MOMENTS_PRODUCTS
-    : MOMENTS_PRODUCTS.filter((m) => m.subcategory === selectedTheme);
+  const thematicSections = useMemo(() => {
+    return [
+      { id: 'all', label: t('common.all') },
+      { id: 'Heirloom Tableware', label: locale === 'pt' ? 'Loiça de Família' : 'Heirloom Tableware' },
+      { id: 'Celebration Gifts', label: locale === 'pt' ? 'Lembranças de Celebração' : 'Celebration Gifts' },
+      { id: 'Couples & Duos', label: locale === 'pt' ? 'Casais & Duplas' : 'Couples & Duos' },
+      { id: 'Holiday & Seasonal', label: locale === 'pt' ? 'Épocas Especiais' : 'Holiday & Seasonal' }
+    ];
+  }, [t, locale]);
+
+  const filteredItems = useMemo(() => {
+    if (selectedTheme === 'all') return momentsProducts;
+    return momentsProducts.filter((m) =>
+      m.subcategory.toLowerCase().includes(selectedTheme.toLowerCase()) ||
+      (selectedTheme === 'Heirloom Tableware' && m.subcategory.includes('Família')) ||
+      (selectedTheme === 'Celebration Gifts' && m.subcategory.includes('Celebra')) ||
+      (selectedTheme === 'Couples & Duos' && (m.subcategory.includes('Casais') || m.subcategory.includes('Couples'))) ||
+      (selectedTheme === 'Holiday & Seasonal' && (m.subcategory.includes('Épocas') || m.subcategory.includes('Holiday')))
+    );
+  }, [momentsProducts, selectedTheme]);
 
   const scrollToStudio = () => {
     const el = document.getElementById('personalisation-studio');
@@ -36,17 +49,16 @@ export const MomentsPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <HeartHandshake size={14} /> moments & souvenirs
+              <HeartHandshake size={14} /> {t('brand.subbrands.moments')}
             </span>
-            <h1 className="cat-page-title">Personalised Keepsakes for Couples & Families</h1>
+            <h1 className="cat-page-title">{t('moments.title')}</h1>
             <p className="cat-page-lead">
-              Every family has a story worthy of remembrance. Our artisan studio hand-letters custom heirloom ceramic plates,
-              anniversary mugs, and message cookie crates to celebrate your milestones.
+              {t('moments.subtitle')}
             </p>
 
             <div className="moments-hero-actions">
               <button onClick={scrollToStudio} className="btn btn-primary btn-lg">
-                <Sparkles size={18} /> Open Live Personalisation Studio <ArrowDown size={16} />
+                <Sparkles size={18} /> {locale === 'pt' ? 'Abrir Estúdio de Personalização em Directo' : 'Open Live Personalisation Studio'} <ArrowDown size={16} />
               </button>
             </div>
           </div>
@@ -67,7 +79,7 @@ export const MomentsPage: React.FC = () => {
                   onClick={() => setSelectedTheme(theme.id)}
                   className={`filter-tab-btn ${selectedTheme === theme.id ? 'active' : ''}`}
                 >
-                  {theme.id === 'All' ? 'All Keepsakes' : theme.id}
+                  {theme.label}
                 </button>
               ))}
             </div>
@@ -87,11 +99,11 @@ export const MomentsPage: React.FC = () => {
           <div className="family-stories-section">
             <div className="section-title-wrap">
               <span className="section-eyebrow">
-                <Heart size={14} /> Shared Memories
+                <Heart size={14} /> {locale === 'pt' ? 'Memórias Partilhadas' : 'Shared Memories'}
               </span>
-              <h2 className="section-title">Stories From Our Community</h2>
+              <h2 className="section-title">{locale === 'pt' ? 'Testemunhos da Nossa Comunidade' : 'Stories From Our Community'}</h2>
               <p className="section-subtitle">
-                Discover how families and couples have turned simple moments into lasting traditions.
+                {locale === 'pt' ? 'Descubra como famílias e casais transformaram momentos singelos em tradições para toda a vida.' : 'Discover how families and couples have turned simple moments into lasting traditions.'}
               </p>
             </div>
 
@@ -103,13 +115,15 @@ export const MomentsPage: React.FC = () => {
                   ))}
                 </div>
                 <p className="story-quote-text">
-                  "Seeing Grandma’s tears of joy when she unwrapped the family tree plate with all 8 grandchildren’s names hand-painted on the branches made our family reunion unforgettable. It is now the centerpiece of her dining room."
+                  {locale === 'pt'
+                    ? '"Ver as lágrimas de emoção da avó quando desembrulhou o prato com a árvore genealógica e os nomes dos 6 netos pintados nos ramos foi o auge da nossa reunião de família. É hoje a peça central da sala de jantar."'
+                    : '"Seeing Grandma’s tears of joy when she unwrapped the family tree plate with all 8 grandchildren’s names hand-painted on the branches made our family reunion unforgettable. It is now the centerpiece of her dining room."'}
                 </p>
                 <div className="story-author-meta">
                   <div className="author-avatar-circle">M</div>
                   <div>
-                    <strong>The Miller Family</strong>
-                    <span>Grandmother’s 80th Birthday Celebration</span>
+                    <strong>{locale === 'pt' ? 'Família Ferreira Pinto, Porto' : 'The Miller Family'}</strong>
+                    <span>{locale === 'pt' ? '80º Aniversário da Avó' : 'Grandmother’s 80th Birthday Celebration'}</span>
                   </div>
                 </div>
               </div>
@@ -121,13 +135,15 @@ export const MomentsPage: React.FC = () => {
                   ))}
                 </div>
                 <p className="story-quote-text">
-                  "My partner surprised me with a personalized cookie crate inscribed with the coordinates of the beach where we got engaged. The cookies were delicious and the wooden box now holds our keepsake photos!"
+                  {locale === 'pt'
+                    ? '"O meu noivo surpreendeu-me com a caixa em madeira rústica e biscoitos decorados com as coordenadas do local onde nos conhecemos. Os biscoitos eram deliciosos e a caixa guarda as nossas fotografias mais especiais."'
+                    : '"My partner surprised me with a personalized cookie crate inscribed with the coordinates of the beach where we got engaged. The cookies were delicious and the wooden box now holds our keepsake photos!"'}
                 </p>
                 <div className="story-author-meta">
                   <div className="author-avatar-circle">C</div>
                   <div>
-                    <strong>Carlos & Helena M.</strong>
-                    <span>5th Wedding Anniversary</span>
+                    <strong>{locale === 'pt' ? 'Mariana & Tiago, Lisboa' : 'Carlos & Helena M.'}</strong>
+                    <span>{locale === 'pt' ? 'Bodas de Madeira (5 Anos)' : '5th Wedding Anniversary'}</span>
                   </div>
                 </div>
               </div>
@@ -139,13 +155,15 @@ export const MomentsPage: React.FC = () => {
                   ))}
                 </div>
                 <p className="story-quote-text">
-                  "We have an annual tradition of ordering custom ceramic ornaments for our kids each Christmas. Watching them hang their own names on the tree brings back so many sweet memories from each year."
+                  {locale === 'pt'
+                    ? '"Temos a tradição de encomendar estrelas em cerâmica personalizadas para cada filho no Natal. Vê-los a pendurar o próprio nome na árvore ano após ano enche-nos o coração de ternura."'
+                    : '"We have an annual tradition of ordering custom ceramic ornaments for our kids each Christmas. Watching them hang their own names on the tree brings back so many sweet memories from each year."'}
                 </p>
                 <div className="story-author-meta">
                   <div className="author-avatar-circle">H</div>
                   <div>
-                    <strong>The Henderson Clan</strong>
-                    <span>Holiday Family Tradition</span>
+                    <strong>{locale === 'pt' ? 'Família Mendonça, Guimarães' : 'The Henderson Clan'}</strong>
+                    <span>{locale === 'pt' ? 'Tradição Familiar de Natal' : 'Holiday Family Tradition'}</span>
                   </div>
                 </div>
               </div>
@@ -154,27 +172,27 @@ export const MomentsPage: React.FC = () => {
 
           {/* Keepsake Creation Steps */}
           <div className="how-it-works-banner">
-            <h3 className="how-it-works-title">How Your Custom Keepsake is Created:</h3>
+            <h3 className="how-it-works-title">{locale === 'pt' ? 'Como é Criada a Sua Peça Personalizada:' : 'How Your Custom Keepsake is Created:'}</h3>
             <div className="how-steps-grid">
               <div className="how-step-item">
                 <span className="how-step-num">1</span>
-                <strong>Live Design Preview</strong>
-                <p>Type your names and dates into our studio tool to see the live rendering.</p>
+                <strong>{locale === 'pt' ? 'Pré-visualização em Directo' : 'Live Design Preview'}</strong>
+                <p>{locale === 'pt' ? 'Introduza os nomes e datas no estúdio interactivo para ver o resultado imediato.' : 'Type your names and dates into our studio tool to see the live rendering.'}</p>
               </div>
               <div className="how-step-item">
                 <span className="how-step-num">2</span>
-                <strong>Artisan Hand-Lettering</strong>
-                <p>Our studio ceramicists and pastry artists hand-inscribe your chosen words with fine glazes.</p>
+                <strong>{locale === 'pt' ? 'Caligrafia Manual Nobre' : 'Artisan Hand-Lettering'}</strong>
+                <p>{locale === 'pt' ? 'Os nossos ceramistas e pasteleiros gravam à mão as suas dedicatórias com vidrados e glacê finos.' : 'Our studio ceramicists and pastry artists hand-inscribe your chosen words with fine glazes.'}</p>
               </div>
               <div className="how-step-item">
                 <span className="how-step-num">3</span>
-                <strong>Studio Kiln Curing</strong>
-                <p>Ceramics are kiln-fired for durability; cookies are sealed fresh in food-safe parchment.</p>
+                <strong>{locale === 'pt' ? 'Cozedura no Forno do Estúdio' : 'Studio Kiln Curing'}</strong>
+                <p>{locale === 'pt' ? 'As cerâmicas são vitrificadas no forno; os biscoitos são selados no próprio dia em papel vegetal.' : 'Ceramics are kiln-fired for durability; cookies are sealed fresh in food-safe parchment.'}</p>
               </div>
               <div className="how-step-item">
                 <span className="how-step-num">4</span>
-                <strong>Luxury Gift Delivery</strong>
-                <p>Packed with satin ribbon, dried lavender sprigs, and greeting card, shipped safely to your door.</p>
+                <strong>{locale === 'pt' ? 'Entrega de Presente Requintada' : 'Luxury Gift Delivery'}</strong>
+                <p>{locale === 'pt' ? 'Embalado com fita de gorgorão, flores secas aromáticas e cartão de oferta com as suas palavras.' : 'Packed with satin ribbon, dried lavender sprigs, and greeting card, shipped safely to your door.'}</p>
               </div>
             </div>
           </div>
@@ -187,11 +205,6 @@ export const MomentsPage: React.FC = () => {
         }
         .moments-hero-actions {
           margin-top: 1.5rem;
-        }
-        .moments-theme-tabs-wrap {
-          display: flex;
-          justify-content: center;
-          margin-bottom: 2rem;
         }
         .family-stories-section {
           margin: 4.5rem 0;

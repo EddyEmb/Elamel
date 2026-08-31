@@ -1,12 +1,39 @@
 import React from 'react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { Sparkles, Heart, ShieldCheck, Users, Calendar, Award, CheckCircle2, ArrowRight, Clock, MapPin } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { t, locale } = useI18n();
 
-  const workshops = [
+  const workshops = locale === 'pt' ? [
+    {
+      id: 'ws-1',
+      title: 'Manhã Familiar de Pintura de Pratos & Pequeno-Almoço',
+      date: 'Todos os Sábados, 10:00 – 12:30',
+      age: 'A partir dos 4 anos',
+      desc: 'Pais e filhos pintam pratos de jantar a condizer enquanto saboreiam croissants frescos e refrescos de frutos silvestres.',
+      spotsLeft: 4
+    },
+    {
+      id: 'ws-2',
+      title: 'Noite de Caligrafia em Canecas para Casais & Duplas',
+      date: 'Todas as Quintas-feiras, 18:30 – 20:30',
+      age: 'Jovens & Adultos',
+      desc: 'Aprenda técnicas de caligrafia sobre cerâmica e pintura botânica com chá aromático e biscoitos estaladiços.',
+      spotsLeft: 6
+    },
+    {
+      id: 'ws-3',
+      title: 'Masterclass de Pequenos Mestres Pasteleiros',
+      date: 'Todos os Domingos, 14:00 – 15:30',
+      age: 'Dos 3 aos 10 anos',
+      desc: 'As crianças decoram biscoitos em formato de animais com glacê arco-íris e levam para casa numa lata personalizada.',
+      spotsLeft: 3
+    }
+  ] : [
     {
       id: 'ws-1',
       title: 'Family Breakfast Plate & Paint Morning',
@@ -42,11 +69,11 @@ export const AboutPage: React.FC = () => {
         <div className="container about-hero-container">
           <div className="about-hero-text">
             <span className="section-eyebrow">
-              <Sparkles size={14} /> Our Story & Heart
+              <Sparkles size={14} /> {t('about.story.eyebrow')}
             </span>
-            <h1 className="about-main-title">Crafting Colors, Baking Joy, Celebrating Families</h1>
+            <h1 className="about-main-title">{t('about.story.title')}</h1>
             <p className="about-lead">
-              <strong>elamel</strong> was born from a simple kitchen table dream: that the most precious family memories are created when hands are busy making art and hearts are gathered around delicious treats.
+              <strong>elamel</strong> {locale === 'pt' ? 'nasceu do sonho de reunir a família à volta da mesa: acreditamos que as memórias mais preciosas se constroem quando as mãos criam arte e os corações partilham doces momentos.' : 'was born from a simple kitchen table dream: that the most precious family memories are created when hands are busy making art and hearts are gathered around delicious treats.'}
             </p>
           </div>
 
@@ -56,7 +83,7 @@ export const AboutPage: React.FC = () => {
               alt="elamel Colors - Pinte • Crie • Desfrute"
               className="about-hero-logo-img"
             />
-            <span className="about-logo-caption">Pinte • Crie • Desfrute</span>
+            <span className="about-logo-caption">{t('brand.slogan')}</span>
           </div>
         </div>
       </section>
@@ -68,31 +95,37 @@ export const AboutPage: React.FC = () => {
             <div className="story-media-wrap">
               <img
                 src="./images/about_studio.jpg"
-                alt="The Elamel welcoming artisan craft studio and fresh bakery counter"
+                alt="O acolhedor estúdio de cerâmica e pastelaria artesanal Elamel"
                 className="story-studio-img"
               />
               <div className="story-experience-tag">
                 <Heart size={20} color="#E1285B" />
                 <div>
-                  <strong>A Home for Every Generation</strong>
-                  <span>Pottery studio & bakery under one roof</span>
+                  <strong>{locale === 'pt' ? 'Um Lar para Cada Geração' : 'A Home for Every Generation'}</strong>
+                  <span>{locale === 'pt' ? 'Estúdio de cerâmica & pastelaria sob o mesmo tecto' : 'Pottery studio & bakery under one roof'}</span>
                 </div>
               </div>
             </div>
 
             <div className="story-content-wrap">
               <span className="section-eyebrow">
-                <Heart size={14} /> How It All Began
+                <Heart size={14} /> {locale === 'pt' ? 'Como Tudo Começou' : 'How It All Began'}
               </span>
-              <h2 className="story-heading">Where Ceramic Glazes Meet Sweet Oven Aromas</h2>
+              <h2 className="story-heading">{locale === 'pt' ? 'Onde os Vidrados Cerâmicos se Cruzam com o Aroma a Fornada Doce' : 'Where Ceramic Glazes Meet Sweet Oven Aromas'}</h2>
               <p>
-                A few years ago, our founders—a ceramicist mother and an artisan pastry chef father—noticed how traditional craft kits felt complicated and generic, while store-bought bakery celebrations lacked personal soul.
+                {locale === 'pt'
+                  ? 'Há alguns anos, os nossos fundadores — uma mãe ceramista e um pai mestre pasteleiro — repararam que a maioria dos conjuntos de trabalhos manuais eram complicados e impessoais, enquanto os doces de compra careciam de alma e significado.'
+                  : 'A few years ago, our founders—a ceramicist mother and an artisan pastry chef father—noticed how traditional craft kits felt complicated and generic, while store-bought bakery celebrations lacked personal soul.'}
               </p>
               <p>
-                They set out to unite both worlds into a warm, inclusive sanctuary called <strong>elamel</strong>. Every ceramic piece is designed with ergonomic comfort and food-safe certification, while every cake and cookie is baked from wholesome, certified peanut-free ingredients.
+                {locale === 'pt'
+                  ? 'Decidiram unir ambos os mundos num refúgio acolhedor e familiar chamado elamel. Cada peça de cerâmica foi concebida para ser ergonómica e certificada para uso alimentar, enquanto cada bolo e biscoito é confeccionado exclusivamente com ingredientes nobres e sem amendoins.'
+                  : 'They set out to unite both worlds into a warm, inclusive sanctuary called elamel. Every ceramic piece is designed with ergonomic comfort and food-safe certification, while every cake and cookie is baked from wholesome, certified peanut-free ingredients.'}
               </p>
               <p>
-                Today, Elamel serves thousands of families, schools, and couples across the country, providing home-delivered craft kits, celebration treat crates, and in-studio workshops where generations laugh and create side by side.
+                {locale === 'pt'
+                  ? 'Hoje, a Elamel serve milhares de famílias, escolas e casais por todo o país, disponibilizando kits de pintura entregues ao domicílio, caixas comemorativas de doces e workshops no estúdio onde todas as gerações partilham sorrisos e criatividade.'
+                  : 'Today, Elamel serves thousands of families, schools, and couples across the country, providing home-delivered craft kits, celebration treat crates, and in-studio workshops where generations laugh and create side by side.'}
               </p>
             </div>
           </div>
@@ -104,11 +137,11 @@ export const AboutPage: React.FC = () => {
         <div className="container">
           <div className="section-title-wrap">
             <span className="section-eyebrow">
-              <Award size={14} /> Guiding Principles
+              <Award size={14} /> {t('about.values.eyebrow')}
             </span>
-            <h2 className="section-title">Our Values in Everything We Make</h2>
+            <h2 className="section-title">{t('about.values.title')}</h2>
             <p className="section-subtitle">
-              Every glaze pot, cookie recipe, and personalized plate is created under strict standards of safety, inclusivity, and joy.
+              {t('about.values.subtitle')}
             </p>
           </div>
 
@@ -117,9 +150,9 @@ export const AboutPage: React.FC = () => {
               <div className="value-icon-box bg-rose">
                 <ShieldCheck size={28} color="#E1285B" />
               </div>
-              <h3 className="value-title">1. Absolute Safety & Health</h3>
+              <h3 className="value-title">{t('about.values.safety.title')}</h3>
               <p className="value-desc">
-                Certified 100% lead-free, non-toxic mineral glazes and a dedicated peanut-free bakery environment with rigorous dietary segregation.
+                {t('about.values.safety.desc')}
               </p>
             </div>
 
@@ -127,9 +160,9 @@ export const AboutPage: React.FC = () => {
               <div className="value-icon-box bg-orange">
                 <Sparkles size={28} color="#F8971D" />
               </div>
-              <h3 className="value-title">2. Artisan Craft Quality</h3>
+              <h3 className="value-title">{t('about.values.artisan.title')}</h3>
               <p className="value-desc">
-                High-fired white bisque porcelain, European grass-fed butter, real Madagascar vanilla beans, and hand-inspected packaging.
+                {t('about.values.artisan.desc')}
               </p>
             </div>
 
@@ -137,9 +170,9 @@ export const AboutPage: React.FC = () => {
               <div className="value-icon-box bg-green">
                 <Users size={28} color="#10B981" />
               </div>
-              <h3 className="value-title">3. Warm Inclusivity</h3>
+              <h3 className="value-title">{t('about.values.inclusivity.title')}</h3>
               <p className="value-desc">
-                Everyone is welcomed as an artist and baker. Accessible web navigation, inclusive sensory pacing, and language suited for all ages.
+                {t('about.values.inclusivity.desc')}
               </p>
             </div>
 
@@ -147,9 +180,9 @@ export const AboutPage: React.FC = () => {
               <div className="value-icon-box bg-cyan">
                 <Heart size={28} color="#0284C7" />
               </div>
-              <h3 className="value-title">4. Wholesome Joy</h3>
+              <h3 className="value-title">{t('about.values.joy.title')}</h3>
               <p className="value-desc">
-                Encouraging shared laughter over perfection. There are no mistakes in painting or cookie decorating—only sweet memories!
+                {t('about.values.joy.desc')}
               </p>
             </div>
           </div>
@@ -162,24 +195,26 @@ export const AboutPage: React.FC = () => {
           <div className="safety-standards-banner">
             <div className="safety-banner-left">
               <span className="section-eyebrow">
-                <ShieldCheck size={14} /> Certified Standards
+                <ShieldCheck size={14} /> {locale === 'pt' ? 'Normas Certificadas' : 'Certified Standards'}
               </span>
-              <h2 className="safety-banner-title">Our Rigorous Quality & Safety Protocols</h2>
+              <h2 className="safety-banner-title">{locale === 'pt' ? 'Os Nossos Rigorosos Protocolos de Qualidade & Segurança' : 'Our Rigorous Quality & Safety Protocols'}</h2>
               <p className="safety-banner-text">
-                Because our products enter family kitchens and touch children’s hands, we hold ourselves to the highest independent certifications.
+                {locale === 'pt'
+                  ? 'Como os nossos produtos entram nas cozinhas familiares e tocam nas mãos das crianças, exigimos de nós próprios as mais exigentes certificações independentes.'
+                  : 'Because our products enter family kitchens and touch children’s hands, we hold ourselves to the highest independent certifications.'}
               </p>
               <div className="safety-badges-list">
                 <div className="safety-badge-row">
                   <CheckCircle2 size={20} color="#10B981" />
-                  <span><strong>EN71-3 & ASTM D-4236 Toy Safety:</strong> Glazes are certified water-based and zero VOCs.</span>
+                  <span><strong>{locale === 'pt' ? 'Segurança Europeia EN71-3 & ASTM D-4236:' : 'EN71-3 & ASTM D-4236 Toy Safety:'}</strong> {locale === 'pt' ? 'Vidrados minerais certificados à base de água, sem compostos orgânicos voláteis.' : 'Glazes are certified water-based and zero VOCs.'}</span>
                 </div>
                 <div className="safety-badge-row">
                   <CheckCircle2 size={20} color="#10B981" />
-                  <span><strong>Food Contact Approval:</strong> Tableware glazes are oven-cured into non-porous, food-safe glass sheen.</span>
+                  <span><strong>{locale === 'pt' ? 'Aptos para Contacto com Alimentos:' : 'Food Contact Approval:'}</strong> {locale === 'pt' ? 'A loiça pintada e cozida no forno ganha uma película vitrificada lisa e 100% inócua.' : 'Tableware glazes are oven-cured into non-porous, food-safe glass sheen.'}</span>
                 </div>
                 <div className="safety-badge-row">
                   <CheckCircle2 size={20} color="#10B981" />
-                  <span><strong>Segregated Bakery Kitchen:</strong> Dedicated peanut-free facility with air filtration and strict batch testing.</span>
+                  <span><strong>{locale === 'pt' ? 'Pastelaria Sem Amendoins:' : 'Segregated Bakery Kitchen:'}</strong> {locale === 'pt' ? 'Instalações com controlo ambiental de alergénios e testes periódicos por lote.' : 'Dedicated peanut-free facility with air filtration and strict batch testing.'}</span>
                 </div>
               </div>
             </div>
@@ -188,9 +223,11 @@ export const AboutPage: React.FC = () => {
               <div className="craft-safety-quote-box">
                 <Heart size={32} color="#E1285B" />
                 <p>
-                  "As parents ourselves, we never ship a ceramic kit or bake a treat that we wouldn’t proudly give to our own toddlers and grandparents."
+                  {locale === 'pt'
+                    ? '"Sendo nós próprios pais, nunca enviaríamos um conjunto de cerâmica nem confecionaríamos um doce que não oferecêssemos com orgulho aos nossos filhos e aos nossos avós."'
+                    : '"As parents ourselves, we never ship a ceramic kit or bake a treat that we wouldn’t proudly give to our own toddlers and grandparents."'}
                 </p>
-                <div className="quote-signer">— The Elamel Craft & Kitchen Team</div>
+                <div className="quote-signer">{locale === 'pt' ? '— A Equipa de Atelier & Cozinha Elamel' : '— The Elamel Craft & Kitchen Team'}</div>
               </div>
             </div>
           </div>
@@ -202,11 +239,11 @@ export const AboutPage: React.FC = () => {
         <div className="container">
           <div className="section-title-wrap">
             <span className="section-eyebrow">
-              <Calendar size={14} /> Join Us In Person
+              <Calendar size={14} /> {t('about.workshops.eyebrow')}
             </span>
-            <h2 className="section-title">Studio Family Workshops & Community Events</h2>
+            <h2 className="section-title">{t('about.workshops.title')}</h2>
             <p className="section-subtitle">
-              Come visit our studio for guided painting sessions, afternoon tea masterclasses, and school holiday celebrations.
+              {t('about.workshops.subtitle')}
             </p>
           </div>
 
@@ -215,7 +252,7 @@ export const AboutPage: React.FC = () => {
               <div key={ws.id} className="workshop-card">
                 <div className="workshop-badge-row">
                   <span className="badge badge-primary">{ws.age}</span>
-                  <span className="workshop-spots">{ws.spotsLeft} spots available</span>
+                  <span className="workshop-spots">{t('about.workshops.spotsLeft', { count: ws.spotsLeft })}</span>
                 </div>
 
                 <h3 className="workshop-title">{ws.title}</h3>
@@ -228,7 +265,7 @@ export const AboutPage: React.FC = () => {
                   </div>
                   <div className="meta-item">
                     <MapPin size={15} color="#E1285B" />
-                    <span>Elamel Studio Workshop, Room 102</span>
+                    <span>{locale === 'pt' ? 'Atelier Elamel, Sala Criativa' : 'Elamel Studio Workshop, Room 102'}</span>
                   </div>
                 </div>
 
@@ -236,7 +273,7 @@ export const AboutPage: React.FC = () => {
                   onClick={() => navigate('/contact')}
                   className="btn btn-secondary btn-full-width"
                 >
-                  Inquire & Reserve Seats <ArrowRight size={15} />
+                  {t('about.workshops.inquireAction')} <ArrowRight size={15} />
                 </button>
               </div>
             ))}

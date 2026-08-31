@@ -1,27 +1,35 @@
 import React, { useState, useMemo } from 'react';
-import { COLOR_PRODUCTS } from '../data/mockData';
-import { ColorsSubcategory } from '../types';
+import { getLocalizedColorProducts } from '../data/mockData';
+import { useI18n } from '../context/I18nContext';
 import { ProductCard } from '../components/ProductCard';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { GlazeStudio } from '../components/GlazeStudio';
 import { Palette, ShieldCheck, Sparkles, Search, Info } from 'lucide-react';
 
 export const ColorsPage: React.FC = () => {
-  const [selectedSubcat, setSelectedSubcat] = useState<string>('All');
+  const { t, locale } = useI18n();
+  const [selectedSubcat, setSelectedSubcat] = useState<string>('all');
   const [searchFilter, setSearchFilter] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
 
-  const subcategories: (ColorsSubcategory | 'All')[] = [
-    'All',
-    'Tableware Colors',
-    'Kids & Family Kits',
-    'Gift Sets',
-    'Decorative Pieces'
-  ];
+  const colorProducts = getLocalizedColorProducts(locale);
+
+  const subcategoryTabs = useMemo(() => {
+    return [
+      { id: 'all', label: t('common.all') },
+      { id: 'Tableware Colors', label: locale === 'pt' ? 'Loiça em Cerâmica' : 'Tableware Colors' },
+      { id: 'Kids & Family Kits', label: locale === 'pt' ? 'Infantil & Figuras' : 'Kids & Animals' },
+      { id: 'Gift Sets', label: locale === 'pt' ? 'Conjuntos Presente' : 'Gift Sets' },
+      { id: 'Decorative Pieces', label: locale === 'pt' ? 'Peças Decorativas' : 'Decorative Pieces' }
+    ];
+  }, [t, locale]);
 
   const filteredProducts = useMemo(() => {
-    return COLOR_PRODUCTS.filter((prod) => {
-      const matchCat = selectedSubcat === 'All' || prod.subcategory === selectedSubcat;
+    return colorProducts.filter((prod) => {
+      const matchCat =
+        selectedSubcat === 'all' ||
+        prod.subcategory.toLowerCase().includes(selectedSubcat.toLowerCase()) ||
+        (selectedSubcat === 'Kids & Family Kits' && (prod.subcategory.includes('Infantil') || prod.subcategory.includes('Kids')));
       const matchText =
         prod.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
         prod.description.toLowerCase().includes(searchFilter.toLowerCase());
@@ -32,7 +40,7 @@ export const ColorsPage: React.FC = () => {
       if (sortBy === 'rating') return b.rating - a.rating;
       return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
     });
-  }, [selectedSubcat, searchFilter, sortBy]);
+  }, [colorProducts, selectedSubcat, searchFilter, sortBy]);
 
   return (
     <div className="colors-page">
@@ -43,26 +51,25 @@ export const ColorsPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <Palette size={14} /> elamel colors
+              <Palette size={14} /> {t('brand.subbrands.colors')}
             </span>
-            <h1 className="cat-page-title">Ceramic Painting & Family Craft Kits</h1>
+            <h1 className="cat-page-title">{t('colors.title')}</h1>
             <p className="cat-page-lead">
-              Transform smooth white bisque tableware and decorative ceramics into enduring family keepsakes.
-              All kits include water-based, lead-free non-toxic glazes, artist brushes, and step-by-step guides.
+              {t('colors.subtitle')}
             </p>
 
             <div className="cat-hero-badges-row">
               <div className="hero-pill-badge">
                 <ShieldCheck size={16} color="#10B981" />
-                <span>100% Lead-Free & Non-Toxic</span>
+                <span>{t('colors.highlights.nonToxic')}</span>
               </div>
               <div className="hero-pill-badge">
                 <Sparkles size={16} color="#F8971D" />
-                <span>Food-Safe After Home Oven Cure</span>
+                <span>{t('colors.highlights.foodSafe')}</span>
               </div>
               <div className="hero-pill-badge">
                 <Info size={16} color="#0284C7" />
-                <span>Safe for Ages 3 to 100</span>
+                <span>{t('colors.highlights.easyCure')}</span>
               </div>
             </div>
           </div>
@@ -76,15 +83,15 @@ export const ColorsPage: React.FC = () => {
           <div className="catalog-toolbar">
             {/* Subcategory Tabs */}
             <div className="filter-tabs" role="tablist" aria-label="Ceramic subcategories">
-              {subcategories.map((subcat) => (
+              {subcategoryTabs.map((subcat) => (
                 <button
-                  key={subcat}
+                  key={subcat.id}
                   role="tab"
-                  aria-selected={selectedSubcat === subcat}
-                  onClick={() => setSelectedSubcat(subcat)}
-                  className={`filter-tab-btn ${selectedSubcat === subcat ? 'active' : ''}`}
+                  aria-selected={selectedSubcat === subcat.id}
+                  onClick={() => setSelectedSubcat(subcat.id)}
+                  className={`filter-tab-btn ${selectedSubcat === subcat.id ? 'active' : ''}`}
                 >
-                  {subcat}
+                  {subcat.label}
                 </button>
               ))}
             </div>
@@ -97,7 +104,7 @@ export const ColorsPage: React.FC = () => {
                   type="text"
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  placeholder="Filter kits..."
+                  placeholder={t('common.searchPlaceholder')}
                   className="filter-search-input"
                   aria-label="Filter ceramic kits"
                 />
@@ -109,10 +116,10 @@ export const ColorsPage: React.FC = () => {
                 className="sort-dropdown"
                 aria-label="Sort products by"
               >
-                <option value="featured">Featured First</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
+                <option value="featured">{locale === 'pt' ? 'Destaques Primeiro' : 'Featured First'}</option>
+                <option value="price-asc">{t('common.priceLowHigh')}</option>
+                <option value="price-desc">{t('common.priceHighLow')}</option>
+                <option value="rating">{locale === 'pt' ? 'Melhor Avaliados' : 'Highest Rated'}</option>
               </select>
             </div>
           </div>
@@ -120,22 +127,24 @@ export const ColorsPage: React.FC = () => {
           {/* Results Summary */}
           <div className="results-summary-row">
             <span className="results-count">
-              Showing <strong>{filteredProducts.length}</strong> Ceramic Kit{filteredProducts.length === 1 ? '' : 's'}
+              {locale === 'pt'
+                ? <>A apresentar <strong>{filteredProducts.length}</strong> kit(s) de cerâmica</>
+                : <>Showing <strong>{filteredProducts.length}</strong> Ceramic Kit{filteredProducts.length === 1 ? '' : 's'}</>}
             </span>
           </div>
 
           {/* Products Grid */}
           {filteredProducts.length === 0 ? (
             <div className="no-results-box">
-              <p>No ceramic kits found matching your current filter.</p>
+              <p>{locale === 'pt' ? 'Não foram encontrados conjuntos de cerâmica com o filtro actual.' : 'No ceramic kits found matching your current filter.'}</p>
               <button
                 onClick={() => {
-                  setSelectedSubcat('All');
+                  setSelectedSubcat('all');
                   setSearchFilter('');
                 }}
                 className="btn btn-secondary btn-sm"
               >
-                Clear Filters
+                {t('common.clearFilters')}
               </button>
             </div>
           ) : (
@@ -154,27 +163,27 @@ export const ColorsPage: React.FC = () => {
             <div className="safety-guide-header">
               <ShieldCheck size={26} color="#10B981" />
               <div>
-                <h3 className="safety-guide-title">Ceramic Craft Safety & Care Guidelines</h3>
-                <p className="safety-guide-sub">We prioritize child safety, hygiene, and lasting family memories.</p>
+                <h3 className="safety-guide-title">{locale === 'pt' ? 'Normas de Segurança & Cuidados com a Cerâmica' : 'Ceramic Craft Safety & Care Guidelines'}</h3>
+                <p className="safety-guide-sub">{locale === 'pt' ? 'Damos prioridade à segurança infantil, higiene alimentar e memórias duradouras.' : 'We prioritize child safety, hygiene, and lasting family memories.'}</p>
               </div>
             </div>
 
             <div className="safety-guide-grid">
               <div className="guide-point">
-                <strong>Non-Toxic Certification</strong>
-                <p>All mineral glazes comply with international toy and craft safety standards (EN71-3, ASTM D-4236). Free of lead, cadmium, and volatile organic compounds.</p>
+                <strong>{locale === 'pt' ? 'Certificação Não-Tóxica' : 'Non-Toxic Certification'}</strong>
+                <p>{locale === 'pt' ? 'Todos os vidrados minerais cumprem as directivas europeias de segurança para brinquedos (EN71-3, ASTM D-4236). Isentos de chumbo, cádmio e compostos orgânicos voláteis.' : 'All mineral glazes comply with international toy and craft safety standards (EN71-3, ASTM D-4236). Free of lead, cadmium, and volatile organic compounds.'}</p>
               </div>
               <div className="guide-point">
-                <strong>Simple Home Oven Curing</strong>
-                <p>Bake your painted pottery in your regular home oven at 150°C (300°F) for 35 minutes to permanently bond the vibrant colors.</p>
+                <strong>{locale === 'pt' ? 'Cura Simples no Forno Doméstico' : 'Simple Home Oven Curing'}</strong>
+                <p>{locale === 'pt' ? 'Basta levar as suas peças pintadas ao forno convencional a 150°C durante 35 minutos para fixar definitivamente os vidrados vitrificados.' : 'Bake your painted pottery in your regular home oven at 150°C (300°F) for 35 minutes to permanently bond the vibrant colors.'}</p>
               </div>
               <div className="guide-point">
-                <strong>Everyday Dining & Care</strong>
-                <p>Once cured, dinnerware items are water-resistant and food-safe. Hand-washing with a soft sponge preserves the luster for generations.</p>
+                <strong>{locale === 'pt' ? 'Utilização Quotidiana à Mesa' : 'Everyday Dining & Care'}</strong>
+                <p>{locale === 'pt' ? 'Após a cozedura, a loiça é resistente à água e segura para contacto com alimentos. A lavagem manual com esponja macia preserva o brilho durante décadas.' : 'Once cured, dinnerware items are water-resistant and food-safe. Hand-washing with a soft sponge preserves the luster for generations.'}</p>
               </div>
               <div className="guide-point">
-                <strong>Recommended Age Guidance</strong>
-                <p>Kids under 6 should be supervised around ceramicware. For toddlers, we recommend our sturdy thick-walled animal figurine kits.</p>
+                <strong>{locale === 'pt' ? 'Idades Recomendadas' : 'Recommended Age Guidance'}</strong>
+                <p>{locale === 'pt' ? 'Crianças com menos de 6 anos devem ser acompanhadas por um adulto. Para bebés e crianças pequeninas, recomendamos os kits de figuras robustas de animais.' : 'Kids under 6 should be supervised around ceramicware. For toddlers, we recommend our sturdy thick-walled animal figurine kits.'}</p>
               </div>
             </div>
           </div>

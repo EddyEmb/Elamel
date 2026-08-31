@@ -1,12 +1,47 @@
 import React from 'react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { Network, ChevronRight, Home, Palette, Shield } from 'lucide-react';
 
 export const SitemapPage: React.FC = () => {
   const { navigate } = useRouter();
+  const { locale } = useI18n();
 
-  const siteSections = [
+  const siteSections = locale === 'pt' ? [
+    {
+      title: 'Navegação Principal & Submarcas',
+      icon: <Home size={20} color="#E1285B" />,
+      links: [
+        { label: 'Página Inicial', path: '/', desc: 'Apresentação da marca, destaques das 3 colecções, testemunhos e produtos em destaque' },
+        { label: 'Elamel Colors', path: '/colors', desc: 'Kits de cerâmica: Loiça de jantar, Peças decorativas, Conjuntos de oferta, Loiça infantil e Estúdio de vidrados' },
+        { label: 'Elamel Goodies', path: '/goodies', desc: 'Pastelaria artesanal: Bolos de família, Biscoitos e bolachas, Celebrações e Criador de Caixas de Iguarias' },
+        { label: 'Moments & Souvenirs', path: '/moments-souvenirs', desc: 'Lembranças personalizadas: Pratos heráldicos, caixas de biscoitos com dedicatória, canecas de casal' },
+        { label: 'Sobre a Elamel', path: '/about', desc: 'A nossa história, valores fundamentais, normas de segurança alimentar e workshops no atelier' },
+        { label: 'Contacto & Encomendas', path: '/contact', desc: 'Formulário de encomenda e contacto, localização do atelier, telefone, correio electrónico e perguntas frequentes' }
+      ]
+    },
+    {
+      title: 'Experiências & Ferramentas Interactivas',
+      icon: <Palette size={20} color="#F8971D" />,
+      links: [
+        { label: 'Estúdio de Personalização em Directo', path: '/moments-souvenirs', desc: 'Ferramenta de pré-visualização interactiva de gravação em cerâmica e caixas de madeira' },
+        { label: 'Estúdio de Vidrados e Cores', path: '/colors', desc: 'Simulador 2D interactivo para experimentar vidrados e combinações na cerâmica' },
+        { label: 'Criador Familiar de Caixas de Iguarias', path: '/goodies', desc: 'Compositor interactivo de caixas de 4 e 6 unidades com monitor em tempo real de alergénios' },
+        { label: 'Pesquisa Global do Catálogo', path: '/search', desc: 'Pesquisa avançada com filtros por preço, categoria e ingredientes' }
+      ]
+    },
+    {
+      title: 'Acessibilidade, Confiança & Informação Legal',
+      icon: <Shield size={20} color="#10B981" />,
+      links: [
+        { label: 'Declaração de Acessibilidade', path: '/accessibility', desc: 'Conformidade WCAG 2.2 AA, escala de letra, modo de alto contraste e navegação por teclado' },
+        { label: 'Política de Privacidade', path: '/privacy', desc: 'Protecção da privacidade familiar e infantil, ausência de padrões obscuros e conformidade RGPD' },
+        { label: 'Termos de Utilização', path: '/terms', desc: 'Condições gerais de serviço, expedição segura de loiça e pastelaria' },
+        { label: 'Mapa do Sítio', path: '/sitemap', desc: 'Estrutura hierárquica completa de todas as páginas públicas e ferramentas' }
+      ]
+    }
+  ] : [
     {
       title: 'Main Navigation & Subbrands',
       icon: <Home size={20} color="#E1285B" />,
@@ -49,11 +84,13 @@ export const SitemapPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <Network size={14} /> Information Architecture
+              <Network size={14} /> {locale === 'pt' ? 'Arquitectura de Informação' : 'Information Architecture'}
             </span>
-            <h1 className="cat-page-title">Website Sitemap & Page Directory</h1>
+            <h1 className="cat-page-title">{locale === 'pt' ? 'Mapa do Sítio & Directório de Páginas' : 'Website Sitemap & Page Directory'}</h1>
             <p className="cat-page-lead">
-              A comprehensive hierarchical overview of all pages, interactive tools, subbrands, and legal policies on the Elamel website.
+              {locale === 'pt'
+                ? 'Visão hierárquica e detalhada de todas as secções, ferramentas interactivas, submarcas e páginas informativas da plataforma Elamel.'
+                : 'A comprehensive hierarchical overview of all pages, interactive tools, subbrands, and legal policies on the Elamel website.'}
             </p>
           </div>
         </div>

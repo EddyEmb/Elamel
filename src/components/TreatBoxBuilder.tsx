@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useI18n } from '../context/I18nContext';
 import { GOODIES_PRODUCTS } from '../data/mockData';
 import { GoodiesProduct } from '../types';
 import { Gift, Plus, Trash2, ShieldCheck, Check } from 'lucide-react';
@@ -7,6 +8,7 @@ import confetti from 'canvas-confetti';
 
 export const TreatBoxBuilder: React.FC = () => {
   const { addToCart } = useCart();
+  const { t, formatCurrency, locale } = useI18n();
   const [boxSize, setBoxSize] = useState<4 | 6>(4);
   const [selectedTreats, setSelectedTreats] = useState<GoodiesProduct[]>([]);
 
@@ -42,24 +44,24 @@ export const TreatBoxBuilder: React.FC = () => {
 
     const customBoxProduct: GoodiesProduct = {
       id: `custom-box-${Date.now()}`,
-      name: `Custom Family Treat Box (${boxSize} Assorted Treats)`,
+      name: locale === 'pt' ? `Caixa de Iguarias Familiar (${boxSize} Doces Sortidos)` : `Custom Family Treat Box (${boxSize} Assorted Treats)`,
       category: 'goodies',
       subcategory: 'Occasion Treats',
       price: boxPrice,
-      description: `Hand-selected assortment of ${boxSize} gourmet treats: ${selectedTreats.map(t => t.name).join(', ')}.`,
-      longDescription: `Your personalized family treat box packed fresh in a presentation gift box with parchment lining. Contains: ${selectedTreats.map(t => t.name).join(' • ')}.`,
+      description: locale === 'pt' ? `Sortido artesanal seleccionado com ${boxSize} doces gourmet: ${selectedTreats.map(t => t.name).join(', ')}.` : `Hand-selected assortment of ${boxSize} gourmet treats: ${selectedTreats.map(t => t.name).join(', ')}.`,
+      longDescription: locale === 'pt' ? `A sua caixa de pastelaria personalizada, embalada fresca com papel vegetal e fita decorativa. Contém: ${selectedTreats.map(t => t.name).join(' • ')}.` : `Your personalized family treat box packed fresh in a presentation gift box with parchment lining. Contains: ${selectedTreats.map(t => t.name).join(' • ')}.`,
       image: './images/goodies_assortment.jpg',
       rating: 5.0,
       reviewCount: 1,
       tags: ['Custom Assortment', 'Gift Box', 'Family Sharing'],
-      flavorProfile: 'Assorted custom gourmet bakery selection',
-      portionSize: `Box of ${boxSize} treats (Serves ${boxSize}–${boxSize * 2})`,
+      flavorProfile: locale === 'pt' ? 'Sortido personalizado de pastelaria artesanal' : 'Assorted custom gourmet bakery selection',
+      portionSize: locale === 'pt' ? `Caixa de ${boxSize} peças (Serve ${boxSize} a ${boxSize * 2} pessoas)` : `Box of ${boxSize} treats (Serves ${boxSize}–${boxSize * 2})`,
       servings: boxSize * 2,
       dietaryTags: ['Vegetarian'],
-      ingredients: ['Mixed artisanal pastry ingredients according to chosen treats'],
-      allergenWarning: 'Contains items with Gluten, Dairy, and Eggs. Check individual treat labels.',
-      storageInstructions: 'Keep in box at room temperature or chilled according to treat guidelines.',
-      servingTemperature: 'Best enjoyed fresh within 3 days.'
+      ingredients: [locale === 'pt' ? 'Ingredientes nobres de pastelaria de acordo com os doces seleccionados' : 'Mixed artisanal pastry ingredients according to chosen treats'],
+      allergenWarning: locale === 'pt' ? 'Contém itens com glúten, lacticínios e ovos. Consulte os rótulos individuais.' : 'Contains items with Gluten, Dairy, and Eggs. Check individual treat labels.',
+      storageInstructions: locale === 'pt' ? 'Conservar na caixa à temperatura ambiente ou no frio de acordo com cada doce.' : 'Keep in box at room temperature or chilled according to treat guidelines.',
+      servingTemperature: locale === 'pt' ? 'Consumir de preferência fresco no prazo de 3 dias.' : 'Best enjoyed fresh within 3 days.'
     };
 
     addToCart(customBoxProduct, 1, undefined, undefined, selectedTreats);
@@ -75,11 +77,13 @@ export const TreatBoxBuilder: React.FC = () => {
     <div className="treat-box-builder-card" id="treat-box-builder">
       <div className="builder-header">
         <span className="section-eyebrow">
-          <Gift size={14} /> Mix & Match Studio
+          <Gift size={14} /> {t('treatBox.title')}
         </span>
-        <h3 className="builder-title">Build a Custom Family Treat Box</h3>
+        <h3 className="builder-title">{t('treatBox.subtitle')}</h3>
         <p className="builder-sub">
-          Choose your box size and pick your family’s favorite cakes, biscuits, and pastries!
+          {locale === 'pt'
+            ? 'Escolha a dimensão da caixa e seleccione os bolos, biscoitos e bolachas preferidos da sua família!'
+            : 'Choose your box size and pick your family’s favorite cakes, biscuits, and pastries!'}
         </p>
       </div>
 
@@ -95,11 +99,11 @@ export const TreatBoxBuilder: React.FC = () => {
           aria-pressed={boxSize === 4}
         >
           <div className="size-btn-head">
-            <strong>4-Piece Family Sampler</strong>
+            <strong>{t('treatBox.box4')}</strong>
             {boxSize === 4 && <Check size={16} className="size-check-icon" />}
           </div>
-          <span className="size-btn-price">$22.00</span>
-          <span className="size-btn-desc">Ideal for small family afternoon tea</span>
+          <span className="size-btn-price">{formatCurrency(22.00)}</span>
+          <span className="size-btn-desc">{t('treatBox.box4Desc')}</span>
         </button>
 
         <button
@@ -109,11 +113,11 @@ export const TreatBoxBuilder: React.FC = () => {
           aria-pressed={boxSize === 6}
         >
           <div className="size-btn-head">
-            <strong>6-Piece Celebration Crate</strong>
+            <strong>{t('treatBox.box6')}</strong>
             {boxSize === 6 && <Check size={16} className="size-check-icon" />}
           </div>
-          <span className="size-btn-price">$32.00</span>
-          <span className="size-btn-desc">Perfect for weekend birthday gatherings</span>
+          <span className="size-btn-price">{formatCurrency(32.00)}</span>
+          <span className="size-btn-desc">{t('treatBox.box6Desc')}</span>
         </button>
       </div>
 
@@ -121,11 +125,11 @@ export const TreatBoxBuilder: React.FC = () => {
         {/* Available Treats Selection */}
         <div className="available-treats-col">
           <div className="col-header-row">
-            <h4 className="column-title">1. Select Treats to Add:</h4>
+            <h4 className="column-title">{t('treatBox.step2')}</h4>
             <span className="col-counter-hint">
               {boxSize - selectedTreats.length === 0
-                ? 'Box is full!'
-                : `Need ${boxSize - selectedTreats.length} more`}
+                ? (locale === 'pt' ? 'Caixa completa!' : 'Box is full!')
+                : (locale === 'pt' ? `Faltam ${boxSize - selectedTreats.length} doce(s)` : `Need ${boxSize - selectedTreats.length} more`)}
             </span>
           </div>
 
@@ -146,9 +150,9 @@ export const TreatBoxBuilder: React.FC = () => {
                   onClick={() => handleAddTreat(treat)}
                   disabled={isFull}
                   className="btn btn-secondary btn-sm picker-add-btn"
-                  aria-label={`Add ${treat.name} to box`}
+                  aria-label={`${t('common.addToCart')}: ${treat.name}`}
                 >
-                  <Plus size={14} /> Add
+                  <Plus size={14} /> {locale === 'pt' ? 'Adicionar' : 'Add'}
                 </button>
               </div>
             ))}
@@ -159,16 +163,16 @@ export const TreatBoxBuilder: React.FC = () => {
         <div className="box-slots-col">
           <div className="box-slots-header">
             <h4 className="column-title">
-              2. Your Box Slots ({selectedTreats.length}/{boxSize})
+              {locale === 'pt' ? `Lugares na Caixa (${selectedTreats.length}/${boxSize})` : `Your Box Slots (${selectedTreats.length}/${boxSize})`}
             </h4>
             {selectedTreats.length > 0 && (
               <button
                 type="button"
                 onClick={handleClearBox}
                 className="btn-clear-box"
-                aria-label="Clear all chosen treats from box"
+                aria-label={t('common.clear')}
               >
-                Clear All
+                {t('common.clear')}
               </button>
             )}
           </div>
@@ -189,8 +193,8 @@ export const TreatBoxBuilder: React.FC = () => {
                         type="button"
                         onClick={() => handleRemoveSlot(idx)}
                         className="btn-remove-slot"
-                        aria-label={`Remove ${treat.name} from slot ${idx + 1}`}
-                        title="Remove treat"
+                        aria-label={`${t('treatBox.remove')}: ${treat.name}`}
+                        title={t('treatBox.remove')}
                       >
                         <Trash2 size={13} />
                       </button>
@@ -200,7 +204,7 @@ export const TreatBoxBuilder: React.FC = () => {
                       <div className="empty-plus-icon">
                         <Plus size={18} />
                       </div>
-                      <span>Slot {idx + 1} Available</span>
+                      <span>{locale === 'pt' ? `Espaço ${idx + 1} Livre` : `Slot ${idx + 1} Available`}</span>
                     </div>
                   )}
                 </div>
@@ -213,7 +217,7 @@ export const TreatBoxBuilder: React.FC = () => {
             <div className="box-dietary-summary" role="status" aria-live="polite">
               <ShieldCheck size={18} color="#10B981" className="summary-shield-icon" />
               <div>
-                <strong>Box Dietary Profile:</strong>{' '}
+                <strong>{t('treatBox.dietarySummary')}</strong>{' '}
                 <span>{allergensInBox.join(', ')}</span>
               </div>
             </div>
@@ -228,10 +232,12 @@ export const TreatBoxBuilder: React.FC = () => {
           >
             {isFull ? (
               <>
-                <Gift size={18} /> Pack & Add Custom Box (${boxPrice.toFixed(2)})
+                <Gift size={18} /> {locale === 'pt' ? `Embalar e Adicionar ao Cesto (${formatCurrency(boxPrice)})` : `Pack & Add Custom Box (${formatCurrency(boxPrice)})`}
               </>
             ) : (
-              <>Add {boxSize - selectedTreats.length} More Treat{boxSize - selectedTreats.length > 1 ? 's' : ''} to Complete Box</>
+              <>
+                {t('treatBox.boxIncomplete', { remaining: boxSize - selectedTreats.length })}
+              </>
             )}
           </button>
         </div>
@@ -241,218 +247,224 @@ export const TreatBoxBuilder: React.FC = () => {
         .treat-box-builder-card {
           background: #FFFFFF;
           border-radius: var(--radius-xl);
+          padding: 2.5rem;
           border: 1px solid var(--color-border-light);
-          padding: 3.5rem;
           box-shadow: var(--shadow-lg);
-          margin: 3.5rem 0;
+          margin: 2.5rem 0;
         }
         .builder-header {
           text-align: center;
-          max-width: 650px;
-          margin: 0 auto 2.5rem auto;
+          max-width: 680px;
+          margin: 0 auto 2rem auto;
         }
         .builder-title {
-          font-size: 2.2rem;
-          margin-bottom: 0.5rem;
+          font-size: 1.875rem;
+          font-weight: 800;
+          color: var(--color-text-main);
+          margin: 0.4rem 0 0.5rem 0;
         }
         .builder-sub {
           color: var(--color-text-muted);
-          font-size: 1.05rem;
+          font-size: 0.95rem;
         }
         .size-selector-row {
-          display: flex;
-          justify-content: center;
-          gap: 1.5rem;
-          margin-bottom: 3rem;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.25rem;
+          margin-bottom: 2rem;
         }
         .size-btn {
+          background: var(--color-surface);
+          border: 2px solid var(--color-border);
+          border-radius: var(--radius-lg);
+          padding: 1.25rem 1.5rem;
+          text-align: left;
+          cursor: pointer;
+          transition: all var(--transition-fast);
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
-          gap: 0.25rem;
-          padding: 1.25rem 1.75rem;
-          background: var(--color-bg-subtle);
-          border: 2px solid var(--color-border);
-          border-radius: var(--radius-xl);
-          cursor: pointer;
-          font-family: var(--font-heading);
-          transition: all var(--transition-fast);
-          min-width: 260px;
-          text-align: left;
+          gap: 0.35rem;
         }
         .size-btn:hover {
           border-color: var(--color-primary);
           background: #FFFFFF;
-          box-shadow: var(--shadow-md);
         }
         .size-btn.active {
           border-color: var(--color-primary);
-          background: var(--color-primary-light);
-          color: var(--color-text-main);
-          box-shadow: 0 4px 14px rgba(225, 40, 91, 0.12);
+          background: #FFFFFF;
+          box-shadow: 0 4px 15px rgba(225, 40, 91, 0.12);
         }
         .size-btn-head {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 100%;
-        }
-        .size-btn-head strong {
           font-size: 1.05rem;
+          color: var(--color-text-main);
         }
         .size-check-icon {
           color: var(--color-primary);
         }
         .size-btn-price {
+          font-family: var(--font-heading);
           font-size: 1.35rem;
           font-weight: 800;
           color: var(--color-primary);
         }
         .size-btn-desc {
-          font-size: 0.75rem;
+          font-size: 0.8125rem;
           color: var(--color-text-muted);
-          font-family: var(--font-body);
         }
         .builder-grid {
           display: grid;
-          grid-template-columns: 1.15fr 1fr;
-          gap: 3rem;
+          grid-template-columns: 1.1fr 1.25fr;
+          gap: 2rem;
           align-items: start;
         }
         .col-header-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 1.25rem;
+          margin-bottom: 1rem;
         }
         .column-title {
-          font-size: 1.2rem;
+          font-size: 1.05rem;
+          font-weight: 700;
           color: var(--color-text-main);
           margin: 0;
         }
         .col-counter-hint {
           font-size: 0.8125rem;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--color-primary);
-          background: var(--color-primary-light);
-          padding: 0.2rem 0.6rem;
-          border-radius: var(--radius-full);
         }
         .treats-picker-grid {
           display: flex;
           flex-direction: column;
-          gap: 0.85rem;
+          gap: 0.65rem;
+          max-height: 480px;
+          overflow-y: auto;
+          padding-right: 0.5rem;
         }
         .treat-picker-item {
           display: flex;
           align-items: center;
-          gap: 1.15rem;
-          padding: 0.9rem 1.15rem;
-          background: #FFFFFF;
-          border: 1.5px solid var(--color-border-light);
-          border-radius: var(--radius-lg);
-          box-shadow: var(--shadow-sm);
-          transition: all var(--transition-fast);
+          gap: 0.85rem;
+          background: var(--color-surface);
+          border: 1px solid var(--color-border-light);
+          border-radius: var(--radius-md);
+          padding: 0.65rem 0.85rem;
+          transition: transform var(--transition-fast), border-color var(--transition-fast);
         }
         .treat-picker-item:hover {
-          border-color: rgba(225, 40, 91, 0.4);
-          transform: translateY(-2px);
-          box-shadow: var(--shadow-md);
+          border-color: var(--color-border);
+          transform: translateX(3px);
         }
         .treat-picker-thumb {
-          width: 56px;
-          height: 56px;
-          border-radius: var(--radius-md);
+          width: 52px;
+          height: 52px;
+          border-radius: var(--radius-sm);
           object-fit: cover;
           flex-shrink: 0;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
         .treat-picker-info {
-          flex: 1 1 auto;
+          flex: 1;
           min-width: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
         }
         .treat-picker-name {
           display: block;
-          font-family: var(--font-heading);
-          font-size: 0.95rem;
-          font-weight: 700;
+          font-size: 0.875rem;
           color: var(--color-text-main);
-          line-height: 1.35;
-          word-break: normal;
-          overflow-wrap: break-word;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .treat-picker-diet {
           display: flex;
-          align-items: center;
-          gap: 0.35rem;
-          flex-wrap: wrap;
+          gap: 0.3rem;
+          margin-top: 0.25rem;
         }
         .treat-mini-tag {
           font-size: 0.7rem;
           font-weight: 600;
-          color: var(--color-text-muted);
+          color: var(--color-text-light);
           background: var(--color-bg-subtle);
-          padding: 0.1rem 0.45rem;
+          padding: 0.1rem 0.35rem;
           border-radius: var(--radius-sm);
-          border: 1px solid var(--color-border-light);
         }
         .picker-add-btn {
           flex-shrink: 0;
-          padding: 0.45rem 1rem;
-          font-size: 0.8125rem;
-          font-weight: 700;
-          border-radius: var(--radius-full);
-          white-space: nowrap;
-          margin-left: 0.5rem;
+        }
+        .box-slots-col {
+          background: #FAFAF9;
+          border-radius: var(--radius-lg);
+          padding: 1.5rem;
+          border: 1px dashed var(--color-border);
         }
         .box-slots-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 1.25rem;
+          margin-bottom: 1rem;
         }
         .btn-clear-box {
           background: none;
           border: none;
-          color: var(--color-primary);
+          color: var(--color-text-light);
           font-size: 0.8125rem;
-          font-weight: 700;
+          font-weight: 600;
           cursor: pointer;
-          padding: 0.2rem 0.5rem;
-          border-radius: var(--radius-sm);
-          transition: background var(--transition-fast);
+          text-decoration: underline;
         }
         .btn-clear-box:hover {
-          background: var(--color-primary-light);
+          color: var(--color-primary);
         }
         .slots-container {
           display: grid;
-          gap: 0.85rem;
+          gap: 0.75rem;
           margin-bottom: 1.5rem;
         }
-        .grid-4 { grid-template-columns: 1fr 1fr; }
-        .grid-6 { grid-template-columns: 1fr 1fr; }
+        .slots-container.grid-4 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .slots-container.grid-6 {
+          grid-template-columns: 1fr 1fr;
+        }
         .box-slot {
-          min-height: 88px;
-          border-radius: var(--radius-lg);
-          border: 2px dashed var(--color-border);
+          min-height: 84px;
+          border-radius: var(--radius-md);
+          display: flex;
+          align-items: center;
+          transition: all var(--transition-fast);
+        }
+        .box-slot.empty {
+          border: 2px dashed #D6D3D1;
+          background: rgba(255, 255, 255, 0.6);
+          justify-content: center;
+        }
+        .slot-empty-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.3rem;
+          color: #A8A29E;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+        .empty-plus-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: #E7E5E4;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0.75rem;
-          background: var(--color-bg-subtle);
-          position: relative;
-          transition: all var(--transition-fast);
+          color: #78716C;
         }
         .box-slot.filled {
+          border: 1px solid var(--color-border);
           background: #FFFFFF;
-          border-style: solid;
-          border-color: var(--color-primary);
-          box-shadow: 0 4px 12px rgba(225, 40, 91, 0.08);
+          box-shadow: var(--shadow-sm);
+          padding: 0.5rem 0.65rem;
         }
         .slot-filled-content {
           display: flex;
@@ -468,23 +480,17 @@ export const TreatBoxBuilder: React.FC = () => {
           flex-shrink: 0;
         }
         .slot-info {
-          flex: 1 1 auto;
+          flex: 1;
           min-width: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.15rem;
         }
         .slot-title {
           display: block;
-          font-family: var(--font-heading);
           font-size: 0.8125rem;
           font-weight: 700;
           color: var(--color-text-main);
-          line-height: 1.25;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
+          white-space: nowrap;
           overflow: hidden;
+          text-overflow: ellipsis;
         }
         .slot-flavor {
           display: block;
@@ -495,68 +501,41 @@ export const TreatBoxBuilder: React.FC = () => {
           text-overflow: ellipsis;
         }
         .btn-remove-slot {
-          background: #FEE2E2;
-          color: #DC2626;
+          background: none;
           border: none;
-          width: 26px;
-          height: 26px;
-          border-radius: 50%;
+          color: var(--color-text-light);
           cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: all 0.2s;
+          padding: 0.35rem;
+          border-radius: var(--radius-sm);
+          transition: color var(--transition-fast), background var(--transition-fast);
         }
         .btn-remove-slot:hover {
-          background: #DC2626;
-          color: #FFFFFF;
-          transform: scale(1.1);
-        }
-        .slot-empty-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.4rem;
-          font-size: 0.8125rem;
-          font-weight: 600;
-          color: var(--color-text-light);
-        }
-        .empty-plus-icon {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background: #FFFFFF;
-          border: 1px solid var(--color-border);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #94A3B8;
+          color: #EF4444;
+          background: #FEE2E2;
         }
         .box-dietary-summary {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          background: #ECFDF5;
-          border: 1.5px solid #A7F3D0;
-          padding: 0.85rem 1.15rem;
-          border-radius: var(--radius-lg);
-          font-size: 0.875rem;
-          color: #065F46;
-          margin-bottom: 1.5rem;
+          gap: 0.6rem;
+          background: rgba(16, 185, 129, 0.1);
+          border: 1px solid rgba(16, 185, 129, 0.25);
+          padding: 0.65rem 0.85rem;
+          border-radius: var(--radius-md);
+          font-size: 0.8125rem;
+          color: var(--color-text-main);
+          margin-bottom: 1.25rem;
         }
         .summary-shield-icon {
           flex-shrink: 0;
         }
-        .btn-disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
 
-        @media (max-width: 992px) {
-          .builder-grid { grid-template-columns: 1fr; }
-          .treat-box-builder-card { padding: 2rem 1.5rem; }
-          .size-btn { min-width: 100%; }
+        @media (max-width: 900px) {
+          .builder-grid {
+            grid-template-columns: 1fr;
+          }
+          .size-selector-row {
+            grid-template-columns: 1fr;
+          }
         }
       `}</style>
     </div>

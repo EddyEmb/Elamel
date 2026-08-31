@@ -1,31 +1,33 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useI18n } from '../context/I18nContext';
 import { COLOR_PRODUCTS } from '../data/mockData';
 import { Palette, Sparkles, Plus, Check, RefreshCw } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const GlazeStudio: React.FC = () => {
   const { addToCart } = useCart();
+  const { t, formatCurrency, locale } = useI18n();
 
   // Pottery piece choice
   const potteryModels = [
-    { id: 'plate', name: 'Botanical Dinner Plate', basePrice: 34.50, shape: 'circle', prod: COLOR_PRODUCTS[0] },
-    { id: 'mug', name: 'Cozy Morning Mug', basePrice: 29.00, shape: 'mug', prod: COLOR_PRODUCTS[1] },
-    { id: 'vase', name: 'Spring Blossom Vase', basePrice: 38.00, shape: 'vase', prod: COLOR_PRODUCTS[2] },
-    { id: 'animal', name: 'Little Explorer Bunny', basePrice: 26.50, shape: 'bunny', prod: COLOR_PRODUCTS[3] }
+    { id: 'plate', name: locale === 'pt' ? 'Prato de Jantar Botânico' : 'Botanical Dinner Plate', basePrice: 34.50, shape: 'circle', prod: COLOR_PRODUCTS[0] },
+    { id: 'mug', name: locale === 'pt' ? 'Caneca Aconchegante' : 'Cozy Morning Mug', basePrice: 29.00, shape: 'mug', prod: COLOR_PRODUCTS[1] },
+    { id: 'vase', name: locale === 'pt' ? 'Vaso Flor de Primavera' : 'Spring Blossom Vase', basePrice: 38.00, shape: 'vase', prod: COLOR_PRODUCTS[2] },
+    { id: 'animal', name: locale === 'pt' ? 'Coelhinho Explorador' : 'Little Explorer Bunny', basePrice: 26.50, shape: 'bunny', prod: COLOR_PRODUCTS[3] }
   ];
 
   const [selectedModel, setSelectedModel] = useState(potteryModels[0]);
 
   // Color Glaze Swatches
   const glazes = [
-    { name: 'Petal Rose', hex: '#F472B6', desc: 'Soft warm floral pink' },
-    { name: 'Sunset Peach', hex: '#FB923C', desc: 'Sunny warm apricot' },
-    { name: 'Buttercup Yellow', hex: '#FACC15', desc: 'Joyful bright yellow' },
-    { name: 'Mint Meadow', hex: '#34D399', desc: 'Gentle leafy green' },
-    { name: 'Sky Cyan', hex: '#38BDF8', desc: 'Crisp morning blue' },
-    { name: 'Lavender Frost', hex: '#C084FC', desc: 'Serene soft purple' },
-    { name: 'Earthy Clay', hex: '#A8A29E', desc: 'Warm natural neutral' }
+    { name: locale === 'pt' ? 'Rosa Pétala' : 'Petal Rose', hex: '#F472B6', desc: locale === 'pt' ? 'Rosa suave e floral' : 'Soft warm floral pink' },
+    { name: locale === 'pt' ? 'Pêssego Pôr-do-Sol' : 'Sunset Peach', hex: '#FB923C', desc: locale === 'pt' ? 'Alperce luminoso e acolhedor' : 'Sunny warm apricot' },
+    { name: locale === 'pt' ? 'Amarelo Raio-de-Sol' : 'Buttercup Yellow', hex: '#FACC15', desc: locale === 'pt' ? 'Amarelo vivo e alegre' : 'Joyful bright yellow' },
+    { name: locale === 'pt' ? 'Verde Salva' : 'Mint Meadow', hex: '#34D399', desc: locale === 'pt' ? 'Verde folha refrescante' : 'Gentle leafy green' },
+    { name: locale === 'pt' ? 'Azul Celeste' : 'Sky Cyan', hex: '#38BDF8', desc: locale === 'pt' ? 'Azul límpido da manhã' : 'Crisp morning blue' },
+    { name: locale === 'pt' ? 'Lavanda Silvestre' : 'Lavender Frost', hex: '#C084FC', desc: locale === 'pt' ? 'Púrpura suave e sereno' : 'Serene soft purple' },
+    { name: locale === 'pt' ? 'Barro Terracota' : 'Earthy Clay', hex: '#A8A29E', desc: locale === 'pt' ? 'Neutro orgânico quente' : 'Warm natural neutral' }
   ];
 
   // Glaze selections for zones
@@ -73,11 +75,13 @@ export const GlazeStudio: React.FC = () => {
     <div className="glaze-studio-card" id="glaze-studio">
       <div className="glaze-studio-header">
         <span className="section-eyebrow">
-          <Palette size={14} /> Interactive Ceramic Studio
+          <Palette size={14} /> {t('glazeStudio.title')}
         </span>
-        <h3 className="glaze-studio-title">Paint & Test Your Glaze Palette</h3>
+        <h3 className="glaze-studio-title">{t('glazeStudio.subtitle')}</h3>
         <p className="glaze-studio-sub">
-          Select a ceramic piece, pick your favorite non-toxic Elamel glazes, and click on sections to preview your custom color harmony!
+          {locale === 'pt'
+            ? 'Seleccione a peça em faiança, escolha os vidrados não-tóxicos e clique nas diferentes secções para compor a sua harmonia de cores!'
+            : 'Select a ceramic piece, pick your favorite non-toxic Elamel glazes, and click on sections to preview your custom color harmony!'}
         </p>
       </div>
 
@@ -86,7 +90,7 @@ export const GlazeStudio: React.FC = () => {
         <div className="glaze-controls">
           {/* Piece Selector */}
           <div className="control-group">
-            <label className="control-label">1. Choose Pottery Bisque:</label>
+            <label className="control-label">{t('glazeStudio.selectModel')}</label>
             <div className="pottery-model-chips">
               {potteryModels.map((model) => (
                 <button
@@ -95,7 +99,7 @@ export const GlazeStudio: React.FC = () => {
                   onClick={() => setSelectedModel(model)}
                   className={`pottery-chip-btn ${selectedModel.id === model.id ? 'active' : ''}`}
                 >
-                  {model.name} (${model.basePrice.toFixed(2)})
+                  {model.name} ({formatCurrency(model.basePrice)})
                 </button>
               ))}
             </div>
@@ -104,7 +108,7 @@ export const GlazeStudio: React.FC = () => {
           {/* Color Glazes Selector */}
           <div className="control-group">
             <label className="control-label">
-              2. Select Active Brush Glaze: <strong style={{ color: activeGlaze.hex }}>{activeGlaze.name}</strong>
+              {t('glazeStudio.selectColor')} <strong style={{ color: activeGlaze.hex }}>{activeGlaze.name}</strong>
             </label>
             <div className="glaze-swatches-grid">
               {glazes.map((glaze) => (
@@ -127,7 +131,7 @@ export const GlazeStudio: React.FC = () => {
           {/* Action Helper */}
           <div className="studio-tips-box">
             <Sparkles size={16} color="#F8971D" />
-            <span>Click on the sections of the pottery illustration to apply your selected glaze!</span>
+            <span>{locale === 'pt' ? 'Clique nas zonas da ilustração para aplicar o vidrado mineral seleccionado!' : 'Click on the sections of the pottery illustration to apply your selected glaze!'}</span>
           </div>
 
           <div className="controls-footer-actions">
@@ -136,14 +140,14 @@ export const GlazeStudio: React.FC = () => {
               onClick={handleResetColors}
               className="btn btn-secondary btn-sm"
             >
-              <RefreshCw size={14} /> Reset Palette
+              <RefreshCw size={14} /> {locale === 'pt' ? 'Repor Cores' : 'Reset Palette'}
             </button>
             <button
               type="button"
               onClick={handleAddCustomKit}
               className="btn btn-primary"
             >
-              <Plus size={16} /> Add This Custom Kit to Box (${selectedModel.basePrice.toFixed(2)})
+              <Plus size={16} /> {locale === 'pt' ? `Adicionar Kit com Estas Cores (${formatCurrency(selectedModel.basePrice)})` : `Add This Custom Kit to Bag (${formatCurrency(selectedModel.basePrice)})`}
             </button>
           </div>
         </div>
@@ -196,7 +200,7 @@ export const GlazeStudio: React.FC = () => {
                   className="clickable-zone"
                 />
                 <text x="150" y="155" textAnchor="middle" fontSize="12" fill="#0F172A" pointerEvents="none" fontWeight="600">
-                  Click Zones
+                  {locale === 'pt' ? 'Clique nas Secções' : 'Click Zones'}
                 </text>
               </svg>
             )}
@@ -238,76 +242,133 @@ export const GlazeStudio: React.FC = () => {
                   className="clickable-zone"
                 />
                 {/* Belly Swirl Stripe */}
-                <rect
-                  x="70"
-                  y="135"
-                  width="140"
-                  height="45"
-                  fill={zoneColors.accent1}
+                <path
+                  d="M70 160 Q140 185 210 160"
+                  fill="none"
+                  stroke={zoneColors.accent1}
+                  strokeWidth="16"
                   onClick={() => handleZoneClick('accent1')}
                   className="clickable-zone"
                 />
-                <text x="140" y="162" textAnchor="middle" fontSize="13" fill="#FFFFFF" pointerEvents="none" fontWeight="700">
-                  Custom Swirl
+                <text x="140" y="130" textAnchor="middle" fontSize="12" fill="#0F172A" pointerEvents="none" fontWeight="600">
+                  {locale === 'pt' ? 'Caneca Aconchegante' : 'Cozy Mug'}
                 </text>
               </svg>
             )}
 
             {selectedModel.id === 'vase' && (
               <svg viewBox="0 0 300 300" className="interactive-pottery-svg">
-                {/* Vase Neck */}
-                <path
-                  d="M110 50 L190 50 L175 110 L125 110 Z"
+                {/* Fluted Base */}
+                <ellipse
+                  cx="150"
+                  cy="250"
+                  rx="60"
+                  ry="20"
                   fill={zoneColors.rim}
                   onClick={() => handleZoneClick('rim')}
                   className="clickable-zone"
                 />
-                {/* Vase Body */}
-                <ellipse
-                  cx="150"
-                  cy="190"
-                  rx="75"
-                  ry="75"
+                {/* Vase Main Bulb Body */}
+                <path
+                  d="M100 90 Q60 170 100 240 L200 240 Q240 170 200 90 Z"
                   fill={zoneColors.base}
+                  stroke="#CBD5E1"
+                  strokeWidth="3"
                   onClick={() => handleZoneClick('base')}
                   className="clickable-zone"
                 />
-                {/* Vase Gradient Wave */}
+                {/* Middle Decorative Band */}
                 <ellipse
                   cx="150"
-                  cy="200"
-                  rx="55"
-                  ry="45"
+                  cy="170"
+                  rx="75"
+                  ry="18"
                   fill={zoneColors.accent1}
                   onClick={() => handleZoneClick('accent1')}
                   className="clickable-zone"
                 />
-                <circle
-                  cx="150"
-                  cy="185"
-                  r="20"
+                {/* Fluted Neck & Lip */}
+                <path
+                  d="M115 50 L185 50 L170 90 L130 90 Z"
                   fill={zoneColors.accent2}
                   onClick={() => handleZoneClick('accent2')}
                   className="clickable-zone"
                 />
+                <text x="150" y="215" textAnchor="middle" fontSize="12" fill="#0F172A" pointerEvents="none" fontWeight="600">
+                  {locale === 'pt' ? 'Vaso Flor de Primavera' : 'Bloom Vase'}
+                </text>
               </svg>
             )}
 
             {selectedModel.id === 'animal' && (
               <svg viewBox="0 0 300 300" className="interactive-pottery-svg">
-                {/* Bunny Ears */}
-                <ellipse cx="115" cy="80" rx="16" ry="45" fill={zoneColors.rim} onClick={() => handleZoneClick('rim')} className="clickable-zone" />
-                <ellipse cx="185" cy="80" rx="16" ry="45" fill={zoneColors.rim} onClick={() => handleZoneClick('rim')} className="clickable-zone" />
+                {/* Left Ear */}
+                <ellipse
+                  cx="105"
+                  cy="70"
+                  rx="18"
+                  ry="50"
+                  fill={zoneColors.accent1}
+                  transform="rotate(-15 105 70)"
+                  onClick={() => handleZoneClick('accent1')}
+                  className="clickable-zone"
+                />
+                {/* Right Ear */}
+                <ellipse
+                  cx="195"
+                  cy="70"
+                  rx="18"
+                  ry="50"
+                  fill={zoneColors.accent1}
+                  transform="rotate(15 195 70)"
+                  onClick={() => handleZoneClick('accent1')}
+                  className="clickable-zone"
+                />
                 {/* Bunny Body */}
-                <circle cx="150" cy="200" r="65" fill={zoneColors.base} onClick={() => handleZoneClick('base')} className="clickable-zone" />
+                <ellipse
+                  cx="150"
+                  cy="205"
+                  rx="80"
+                  ry="65"
+                  fill={zoneColors.base}
+                  stroke="#CBD5E1"
+                  strokeWidth="3"
+                  onClick={() => handleZoneClick('base')}
+                  className="clickable-zone"
+                />
                 {/* Bunny Head */}
-                <circle cx="150" cy="140" r="45" fill={zoneColors.accent1} onClick={() => handleZoneClick('accent1')} className="clickable-zone" />
-                {/* Bunny Cheeks */}
-                <circle cx="150" cy="150" r="14" fill={zoneColors.accent2} onClick={() => handleZoneClick('accent2')} className="clickable-zone" />
+                <circle
+                  cx="150"
+                  cy="140"
+                  r="55"
+                  fill={zoneColors.base}
+                  stroke="#CBD5E1"
+                  strokeWidth="3"
+                  onClick={() => handleZoneClick('base')}
+                  className="clickable-zone"
+                />
+                {/* Chest Bowtie / Collar */}
+                <polygon
+                  points="130,185 170,185 160,195 170,205 130,205 140,195"
+                  fill={zoneColors.rim}
+                  onClick={() => handleZoneClick('rim')}
+                  className="clickable-zone"
+                />
+                {/* Belly Spot */}
+                <circle
+                  cx="150"
+                  cy="225"
+                  r="30"
+                  fill={zoneColors.accent2}
+                  onClick={() => handleZoneClick('accent2')}
+                  className="clickable-zone"
+                />
+                <text x="150" y="145" textAnchor="middle" fontSize="12" fill="#0F172A" pointerEvents="none" fontWeight="600">
+                  {locale === 'pt' ? 'Coelhinho' : 'Bunny'}
+                </text>
               </svg>
             )}
           </div>
-          <span className="visual-stage-caption">Interactive 2D Pottery Simulator</span>
         </div>
       </div>
 
@@ -315,28 +376,32 @@ export const GlazeStudio: React.FC = () => {
         .glaze-studio-card {
           background: #FFFFFF;
           border-radius: var(--radius-xl);
+          padding: 2.5rem;
           border: 1px solid var(--color-border-light);
-          padding: 3rem;
           box-shadow: var(--shadow-lg);
-          margin: 3.5rem 0;
+          margin: 2.5rem 0;
         }
         .glaze-studio-header {
+          margin-bottom: 2rem;
           text-align: center;
-          max-width: 650px;
-          margin: 0 auto 2.5rem auto;
+          max-width: 680px;
+          margin-left: auto;
+          margin-right: auto;
         }
         .glaze-studio-title {
-          font-size: 2rem;
-          margin-bottom: 0.5rem;
+          font-size: 1.875rem;
+          font-weight: 800;
+          color: var(--color-text-main);
+          margin: 0.4rem 0 0.5rem 0;
         }
         .glaze-studio-sub {
           color: var(--color-text-muted);
-          font-size: 1rem;
+          font-size: 0.95rem;
         }
         .glaze-studio-grid {
           display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          gap: 3rem;
+          grid-template-columns: 1.25fr 1fr;
+          gap: 2.5rem;
           align-items: center;
         }
         .control-group {
@@ -345,8 +410,8 @@ export const GlazeStudio: React.FC = () => {
         .control-label {
           display: block;
           font-family: var(--font-heading);
-          font-size: 0.95rem;
           font-weight: 700;
+          font-size: 0.9375rem;
           color: var(--color-text-main);
           margin-bottom: 0.75rem;
         }
@@ -356,10 +421,10 @@ export const GlazeStudio: React.FC = () => {
           gap: 0.5rem;
         }
         .pottery-chip-btn {
-          padding: 0.6rem 1rem;
-          background: #FFFFFF;
-          border: 1.5px solid var(--color-border);
+          background: var(--color-bg-subtle);
+          border: 1px solid var(--color-border);
           border-radius: var(--radius-full);
+          padding: 0.55rem 1rem;
           font-family: var(--font-heading);
           font-size: 0.875rem;
           font-weight: 600;
@@ -372,10 +437,11 @@ export const GlazeStudio: React.FC = () => {
           color: var(--color-primary);
         }
         .pottery-chip-btn.active {
+          background: var(--color-primary);
           border-color: var(--color-primary);
-          background: var(--color-primary-light);
-          color: var(--color-primary);
+          color: #FFFFFF;
           font-weight: 700;
+          box-shadow: 0 2px 8px rgba(225, 40, 91, 0.25);
         }
         .glaze-swatches-grid {
           display: grid;
@@ -386,34 +452,36 @@ export const GlazeStudio: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          padding: 0.45rem 0.65rem;
-          background: #FFFFFF;
-          border: 1.5px solid var(--color-border);
+          background: var(--color-bg-subtle);
+          border: 1px solid var(--color-border);
           border-radius: var(--radius-md);
+          padding: 0.45rem 0.65rem;
           cursor: pointer;
-          font-size: 0.8125rem;
-          font-weight: 600;
-          color: var(--color-text-main);
           transition: all var(--transition-fast);
+          text-align: left;
         }
         .glaze-swatch-btn:hover {
           border-color: var(--color-primary);
         }
         .glaze-swatch-btn.active {
+          background: #FFFFFF;
           border-color: var(--color-primary);
-          box-shadow: 0 0 0 2px var(--color-primary);
+          box-shadow: 0 0 0 2px rgba(225, 40, 91, 0.2);
         }
         .swatch-circle {
           width: 22px;
           height: 22px;
           border-radius: 50%;
-          display: inline-flex;
+          display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
+          border: 1px solid rgba(0, 0, 0, 0.1);
           flex-shrink: 0;
         }
         .swatch-name {
+          font-size: 0.8125rem;
+          font-weight: 600;
+          color: var(--color-text-main);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -422,13 +490,11 @@ export const GlazeStudio: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          background: var(--color-orange-light);
-          border: 1px solid #FDE68A;
+          background: var(--color-primary-light);
           padding: 0.75rem 1rem;
           border-radius: var(--radius-md);
           font-size: 0.8125rem;
-          color: #92400E;
-          font-weight: 500;
+          color: var(--color-text-main);
           margin-bottom: 1.5rem;
         }
         .controls-footer-actions {
@@ -438,48 +504,39 @@ export const GlazeStudio: React.FC = () => {
           flex-wrap: wrap;
         }
         .glaze-visual-stage {
-          background: var(--color-bg-subtle);
-          border-radius: var(--radius-xl);
-          padding: 2.5rem;
+          background: radial-gradient(circle, #F8FAFC 0%, #EDE9FE 100%);
+          border-radius: var(--radius-lg);
+          padding: 2rem;
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          border: 2px dashed rgba(0, 0, 0, 0.08);
-          box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+          border: 1px solid var(--color-border-light);
+          box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         .interactive-pottery-wrapper {
-          width: 260px;
-          height: 260px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          width: 100%;
+          max-width: 320px;
         }
         .interactive-pottery-svg {
           width: 100%;
-          height: 100%;
-          filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.08));
+          height: auto;
+          filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.08));
         }
         .clickable-zone {
           cursor: pointer;
-          transition: opacity var(--transition-fast), transform var(--transition-fast);
+          transition: filter 0.15s ease, transform 0.15s ease;
         }
         .clickable-zone:hover {
-          opacity: 0.85;
-          stroke: #E1285B;
-          stroke-width: 3px;
-        }
-        .visual-stage-caption {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--color-text-light);
-          margin-top: 1rem;
-          text-transform: uppercase;
+          filter: brightness(1.1) drop-shadow(0 0 6px rgba(225, 40, 91, 0.4));
         }
 
-        @media (max-width: 992px) {
-          .glaze-studio-grid { grid-template-columns: 1fr; }
-          .glaze-studio-card { padding: 1.75rem; }
+        @media (max-width: 850px) {
+          .glaze-studio-grid {
+            grid-template-columns: 1fr;
+          }
+          .glaze-visual-stage {
+            order: -1;
+          }
         }
       `}</style>
     </div>

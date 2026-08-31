@@ -1,10 +1,12 @@
 import React from 'react';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { useAccessibility } from '../context/AccessibilityContext';
+import { useI18n } from '../context/I18nContext';
 import { Eye, Type, Zap, ShieldCheck, Keyboard, Volume2, Sparkles } from 'lucide-react';
 
 export const AccessibilityPage: React.FC = () => {
   const { settings, setFontSize, toggleHighContrast, toggleReducedMotion } = useAccessibility();
+  const { t, locale } = useI18n();
 
   return (
     <div className="accessibility-page">
@@ -14,12 +16,13 @@ export const AccessibilityPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <Eye size={14} /> Inclusive by Design
+              <Eye size={14} /> {locale === 'pt' ? 'Inclusivo por Natureza' : 'Inclusive by Design'}
             </span>
-            <h1 className="cat-page-title">Accessibility Statement & Preferences</h1>
+            <h1 className="cat-page-title">{locale === 'pt' ? 'Declaração de Acessibilidade & Preferências de Visualização' : 'Accessibility Statement & Preferences'}</h1>
             <p className="cat-page-lead">
-              We are committed to ensuring digital accessibility for all family members, children, and adults of varying abilities.
-              Our website is built adhering to the <strong>WCAG 2.2 Level AA</strong> guidelines.
+              {locale === 'pt'
+                ? 'Assumimos o compromisso de garantir uma experiência digital acolhedora a todos os elementos da família, crianças e adultos. A nossa plataforma foi desenvolvida em conformidade rigorosa com as directrizes europeias e internacionais WCAG 2.2 Nível AA.'
+                : 'We are committed to ensuring digital accessibility for all family members, children, and adults of varying abilities. Our website is built adhering to the WCAG 2.2 Level AA guidelines.'}
             </p>
           </div>
         </div>
@@ -32,8 +35,8 @@ export const AccessibilityPage: React.FC = () => {
             <div className="tester-header">
               <Sparkles size={24} color="#E1285B" />
               <div>
-                <h2 className="tester-title">Interactive Display & Reading Preferences</h2>
-                <p className="tester-sub">Customize your display settings across the entire website in real time.</p>
+                <h2 className="tester-title">{t('accessibility.controlsTitle')}</h2>
+                <p className="tester-sub">{locale === 'pt' ? 'Personalize o aspecto visual e o tamanho do texto em tempo real em todas as páginas.' : 'Customize your display settings across the entire website in real time.'}</p>
               </div>
             </div>
 
@@ -42,27 +45,27 @@ export const AccessibilityPage: React.FC = () => {
               <div className="tester-control-box">
                 <div className="tester-box-head">
                   <Type size={20} color="#0284C7" />
-                  <strong>Text Size Adjustment</strong>
+                  <strong>{t('accessibility.textSize')}</strong>
                 </div>
-                <p className="tester-box-desc">Scale typography for comfortable reading:</p>
+                <p className="tester-box-desc">{locale === 'pt' ? 'Ajuste a escala tipográfica para uma leitura sem esforço:' : 'Scale typography for comfortable reading:'}</p>
                 <div className="tester-btn-group">
                   <button
                     onClick={() => setFontSize('normal')}
                     className={`tester-choice-btn ${settings.fontSize === 'normal' ? 'active' : ''}`}
                   >
-                    Standard (100%)
+                    {t('accessibility.textSizeNormal')}
                   </button>
                   <button
                     onClick={() => setFontSize('large')}
                     className={`tester-choice-btn ${settings.fontSize === 'large' ? 'active' : ''}`}
                   >
-                    Large (115%)
+                    {t('accessibility.textSizeLarge')}
                   </button>
                   <button
                     onClick={() => setFontSize('xlarge')}
                     className={`tester-choice-btn ${settings.fontSize === 'xlarge' ? 'active' : ''}`}
                   >
-                    Extra Large (130%)
+                    {t('accessibility.textSizeXLarge')}
                   </button>
                 </div>
               </div>
@@ -71,14 +74,14 @@ export const AccessibilityPage: React.FC = () => {
               <div className="tester-control-box">
                 <div className="tester-box-head">
                   <Eye size={20} color="#F8971D" />
-                  <strong>High Contrast Palette</strong>
+                  <strong>{t('accessibility.contrast')}</strong>
                 </div>
-                <p className="tester-box-desc">Enforces black-on-white text with 14:1+ luminance:</p>
+                <p className="tester-box-desc">{t('accessibility.contrastHelp')}</p>
                 <button
                   onClick={toggleHighContrast}
                   className={`btn ${settings.highContrast ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
                 >
-                  {settings.highContrast ? 'High Contrast is ON' : 'Enable High Contrast'}
+                  {settings.highContrast ? (locale === 'pt' ? 'Alto Contraste Activado' : 'High Contrast is ON') : (locale === 'pt' ? 'Activar Alto Contraste' : 'Enable High Contrast')}
                 </button>
               </div>
 
@@ -86,14 +89,14 @@ export const AccessibilityPage: React.FC = () => {
               <div className="tester-control-box">
                 <div className="tester-box-head">
                   <Zap size={20} color="#10B981" />
-                  <strong>Animation & Motion Control</strong>
+                  <strong>{t('accessibility.motion')}</strong>
                 </div>
-                <p className="tester-box-desc">Eliminates sliding panels and celebratory effects:</p>
+                <p className="tester-box-desc">{t('accessibility.motionHelp')}</p>
                 <button
                   onClick={toggleReducedMotion}
                   className={`btn ${settings.reducedMotion ? 'btn-primary' : 'btn-secondary'} btn-full-width`}
                 >
-                  {settings.reducedMotion ? 'Reduced Motion is ON' : 'Enable Reduced Motion'}
+                  {settings.reducedMotion ? (locale === 'pt' ? 'Animações Reduzidas' : 'Reduced Motion is ON') : (locale === 'pt' ? 'Reduzir Animações' : 'Enable Reduced Motion')}
                 </button>
               </div>
             </div>
@@ -101,85 +104,85 @@ export const AccessibilityPage: React.FC = () => {
 
           {/* Detailed WCAG 2.2 Principles Breakdown */}
           <div className="a11y-details-card">
-            <h2 className="a11y-section-heading">How We Implement WCAG 2.2 Principles (POUR)</h2>
+            <h2 className="a11y-section-heading">{locale === 'pt' ? 'Como Cumprimos os 4 Princípios WCAG 2.2 (POUR)' : 'How We Implement WCAG 2.2 Principles (POUR)'}</h2>
 
             <div className="pour-grid">
               <div className="pour-card">
                 <div className="pour-header">
                   <Eye size={22} color="#E1285B" />
-                  <h3>1. Perceivable</h3>
+                  <h3>{locale === 'pt' ? '1. Perceptível (Perceivable)' : '1. Perceivable'}</h3>
                 </div>
                 <ul>
-                  <li><strong>Text Contrast:</strong> Minimum 4.5:1 ratio for body text and 3:1 for large headers against light backgrounds.</li>
-                  <li><strong>Alt Text:</strong> All meaningful images include descriptive alternative text detailing item type and use.</li>
-                  <li><strong>Sensory Independence:</strong> Instructions do not rely solely on shape, size, or color alone.</li>
+                  <li><strong>{locale === 'pt' ? 'Contraste de Texto:' : 'Text Contrast:'}</strong> {locale === 'pt' ? 'Rácio mínimo de 4.5:1 para texto corrente e 3:1 para títulos sobre fundos claros.' : 'Minimum 4.5:1 ratio for body text and 3:1 for large headers against light backgrounds.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Texto Alternativo (Alt):' : 'Alt Text:'}</strong> {locale === 'pt' ? 'Todas as imagens relevantes contêm descrições detalhadas da peça e dos materiais.' : 'All meaningful images include descriptive alternative text detailing item type and use.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Independência Sensorial:' : 'Sensory Independence:'}</strong> {locale === 'pt' ? 'Nenhuma instrução depende unicamente de cores ou formatos visuais isolados.' : 'Instructions do not rely solely on shape, size, or color alone.'}</li>
                 </ul>
               </div>
 
               <div className="pour-card">
                 <div className="pour-header">
                   <Keyboard size={22} color="#F8971D" />
-                  <h3>2. Operable</h3>
+                  <h3>{locale === 'pt' ? '2. Operável (Operable)' : '2. Operable'}</h3>
                 </div>
                 <ul>
-                  <li><strong>Full Keyboard Navigation:</strong> Every button, filter, and modal is reachable via <code>Tab</code> and <code>Shift+Tab</code>.</li>
-                  <li><strong>Visible Focus Indicators:</strong> High-visibility outline (<code>3px solid #E1285B</code>) on active elements.</li>
-                  <li><strong>Controllable Motion:</strong> Carousels feature visible pause/play controls.</li>
-                  <li><strong>Skip Link:</strong> Direct "Skip to main content" link for keyboard users.</li>
+                  <li><strong>{locale === 'pt' ? 'Navegação por Teclado:' : 'Full Keyboard Navigation:'}</strong> {locale === 'pt' ? 'Todos os botões, filtros e janelas modais são navegáveis via Tab e Shift+Tab.' : 'Every button, filter, and modal is reachable via Tab and Shift+Tab.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Foco Visual Destacado:' : 'Visible Focus Indicators:'}</strong> {locale === 'pt' ? 'Contornos de foco bem nítidos em elementos activos.' : 'High-visibility outline on active elements.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Controlo de Movimento:' : 'Controllable Motion:'}</strong> {locale === 'pt' ? 'Os carrosséis possuem botões de Pausa e Reprodução.' : 'Carousels feature visible pause/play controls.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Ligação de Atalho Directo:' : 'Skip Link:'}</strong> {locale === 'pt' ? 'Ligação para saltar directamente para o conteúdo principal.' : 'Direct "Skip to main content" link for keyboard users.'}</li>
                 </ul>
               </div>
 
               <div className="pour-card">
                 <div className="pour-header">
                   <Volume2 size={22} color="#0284C7" />
-                  <h3>3. Understandable</h3>
+                  <h3>{locale === 'pt' ? '3. Compreensível (Understandable)' : '3. Understandable'}</h3>
                 </div>
                 <ul>
-                  <li><strong>Predictable Layout:</strong> Consistent navigation, header, and footer positions on every single page.</li>
-                  <li><strong>Clear Error Feedback:</strong> Friendly inline validation messages explaining how to fix issues.</li>
-                  <li><strong>Plain Language:</strong> Jargon-free copy respectful of both children and adults.</li>
+                  <li><strong>{locale === 'pt' ? 'Estrutura Previsível:' : 'Predictable Layout:'}</strong> {locale === 'pt' ? 'Barra de navegação, cabeçalhos e rodapé consistentes em todas as páginas.' : 'Consistent navigation, header, and footer positions on every single page.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Validação Construtiva:' : 'Clear Error Feedback:'}</strong> {locale === 'pt' ? 'Mensagens de ajuda claras a indicar como corrigir campos incompletos.' : 'Friendly inline validation messages explaining how to fix issues.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Linguagem Simples:' : 'Plain Language:'}</strong> {locale === 'pt' ? 'Textos claros e acessíveis para crianças, pais e avós.' : 'Plain language copy respectful of both children and adults.'}</li>
                 </ul>
               </div>
 
               <div className="pour-card">
                 <div className="pour-header">
                   <ShieldCheck size={22} color="#10B981" />
-                  <h3>4. Robust</h3>
+                  <h3>{locale === 'pt' ? '4. Robusto (Robust)' : '4. Robust'}</h3>
                 </div>
                 <ul>
-                  <li><strong>Semantic HTML5:</strong> Native <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;footer&gt;</code> tags.</li>
-                  <li><strong>ARIA Landmarks & Live Regions:</strong> Dynamic shopping bag and toast updates are announced automatically.</li>
-                  <li><strong>Cross-Browser Reliability:</strong> Functions seamlessly without requiring external plugins.</li>
+                  <li><strong>{locale === 'pt' ? 'HTML5 Semântico:' : 'Semantic HTML5:'}</strong> {locale === 'pt' ? 'Utilização de elementos padrão <header>, <nav>, <main>, <section> e <footer>.' : 'Native <header>, <nav>, <main>, <section>, and <footer> tags.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Suporte para Leitores de Ecrã:' : 'ARIA Landmarks & Live Regions:'}</strong> {locale === 'pt' ? 'As notificações do cesto e avisos são anunciados via atributos aria-live.' : 'Dynamic shopping bag and toast updates are announced automatically.'}</li>
+                  <li><strong>{locale === 'pt' ? 'Compatibilidade Ampla:' : 'Cross-Browser Reliability:'}</strong> {locale === 'pt' ? 'Funcionamento uniforme em computadores, tablets e telemóveis sem necessidade de extensões.' : 'Functions seamlessly without requiring external plugins.'}</li>
                 </ul>
               </div>
             </div>
 
             {/* Keyboard Shortcuts Reference */}
             <div className="keyboard-shortcuts-table-wrap">
-              <h3 className="sub-heading">Keyboard Navigation Guide</h3>
+              <h3 className="sub-heading">{locale === 'pt' ? 'Guia de Navegação Rápida por Teclado' : 'Keyboard Navigation Guide'}</h3>
               <table className="shortcuts-table">
                 <thead>
                   <tr>
-                    <th>Key</th>
-                    <th>Action</th>
+                    <th>{locale === 'pt' ? 'Tecla' : 'Key'}</th>
+                    <th>{locale === 'pt' ? 'Acção' : 'Action'}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td><kbd>Tab</kbd></td>
-                    <td>Move focus to the next interactive link, button, or input</td>
+                    <td>{locale === 'pt' ? 'Avança o foco para a próxima ligação, botão ou campo' : 'Move focus to the next interactive link, button, or input'}</td>
                   </tr>
                   <tr>
                     <td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
-                    <td>Move focus to the previous interactive element</td>
+                    <td>{locale === 'pt' ? 'Recua o foco para o elemento interactivo anterior' : 'Move focus to the previous interactive element'}</td>
                   </tr>
                   <tr>
-                    <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
-                    <td>Activate buttons, links, or toggle checkboxes</td>
+                    <td><kbd>Enter</kbd> / <kbd>Espaço</kbd></td>
+                    <td>{locale === 'pt' ? 'Activa botões, abre produtos e acciona caixas de selecção' : 'Activate buttons, links, or toggle checkboxes'}</td>
                   </tr>
                   <tr>
                     <td><kbd>Esc</kbd></td>
-                    <td>Close open modals, search overlay, or Treat Box drawer</td>
+                    <td>{locale === 'pt' ? 'Fecha janelas modais abertas, pesquisa e gaveta de compras' : 'Close open modals, search overlay, or Treat Box drawer'}</td>
                   </tr>
                 </tbody>
               </table>

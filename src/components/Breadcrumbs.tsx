@@ -1,13 +1,30 @@
 import React from 'react';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { ChevronRight, Home } from 'lucide-react';
 
 export const Breadcrumbs: React.FC = () => {
   const { breadcrumbs, navigate } = useRouter();
+  const { t } = useI18n();
 
   if (breadcrumbs.length <= 1) {
     return null;
   }
+
+  const getCrumbLabel = (crumb: { label: string; href: string }) => {
+    if (crumb.href === '/') return t('nav.home');
+    if (crumb.href.startsWith('/colors')) return t('brand.subbrands.colors');
+    if (crumb.href.startsWith('/goodies')) return t('brand.subbrands.goodies');
+    if (crumb.href.startsWith('/moments')) return t('brand.subbrands.moments');
+    if (crumb.href.startsWith('/about')) return t('nav.about');
+    if (crumb.href.startsWith('/contact')) return t('nav.contact');
+    if (crumb.href.startsWith('/search')) return t('nav.search');
+    if (crumb.href.startsWith('/accessibility')) return t('nav.accessibility');
+    if (crumb.href.startsWith('/privacy')) return t('footer.links.privacy');
+    if (crumb.href.startsWith('/terms')) return t('footer.links.terms');
+    if (crumb.href.startsWith('/sitemap')) return t('footer.links.sitemap');
+    return crumb.label;
+  };
 
   return (
     <nav className="breadcrumbs-nav" aria-label="Breadcrumbs navigation">
@@ -15,6 +32,7 @@ export const Breadcrumbs: React.FC = () => {
         <ol className="breadcrumbs-list">
           {breadcrumbs.map((crumb, idx) => {
             const isLast = idx === breadcrumbs.length - 1;
+            const label = getCrumbLabel(crumb);
 
             return (
               <li key={crumb.href} className="breadcrumbs-item">
@@ -22,21 +40,21 @@ export const Breadcrumbs: React.FC = () => {
                   <button
                     onClick={() => navigate(crumb.href)}
                     className="breadcrumb-home-btn"
-                    aria-label="Return to Home"
+                    aria-label={t('nav.home')}
                   >
                     <Home size={15} />
-                    <span>Home</span>
+                    <span>{t('nav.home')}</span>
                   </button>
                 ) : isLast ? (
                   <span className="breadcrumbs-current" aria-current="page">
-                    {crumb.label}
+                    {label}
                   </span>
                 ) : (
                   <button
                     onClick={() => navigate(crumb.href)}
                     className="breadcrumb-btn"
                   >
-                    {crumb.label}
+                    {label}
                   </button>
                 )}
 

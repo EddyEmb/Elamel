@@ -12,6 +12,8 @@ import { SearchModal } from './components/SearchModal';
 import { AccessibilityModal } from './components/AccessibilityModal';
 import { ToastContainer } from './components/ToastContainer';
 
+import { I18nProvider, useI18n } from './context/I18nContext';
+
 // Pages
 import { HomePage } from './pages/HomePage';
 import { ColorsPage } from './pages/ColorsPage';
@@ -27,6 +29,7 @@ import { AccessibilityPage } from './pages/AccessibilityPage';
 
 const AppContent: React.FC = () => {
   const { currentPath } = useRouter();
+  const { t } = useI18n();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isA11yModalOpen, setIsA11yModalOpen] = useState(false);
 
@@ -68,7 +71,7 @@ const AppContent: React.FC = () => {
     <div className="app-shell">
       {/* Skip link for keyboard accessibility */}
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t('nav.skipToContent')}
       </a>
 
       {/* Main Header */}
@@ -103,14 +106,16 @@ const AppContent: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <AccessibilityProvider>
-      <ToastProvider>
-        <RouterProvider>
-          <CartProvider>
-            <AppContent />
-          </CartProvider>
-        </RouterProvider>
-      </ToastProvider>
-    </AccessibilityProvider>
+    <I18nProvider>
+      <AccessibilityProvider>
+        <ToastProvider>
+          <RouterProvider>
+            <CartProvider>
+              <AppContent />
+            </CartProvider>
+          </RouterProvider>
+        </ToastProvider>
+      </AccessibilityProvider>
+    </I18nProvider>
   );
 };

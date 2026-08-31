@@ -1,41 +1,58 @@
 import React, { useState, useMemo } from 'react';
-import { GOODIES_PRODUCTS } from '../data/mockData';
-import { GoodiesSubcategory, DietaryTag } from '../types';
+import { getLocalizedGoodiesProducts } from '../data/mockData';
+import { useI18n } from '../context/I18nContext';
 import { ProductCard } from '../components/ProductCard';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { TreatBoxBuilder } from '../components/TreatBoxBuilder';
 import { Cake, ShieldCheck, Heart, Sparkles, Filter, Search, Check } from 'lucide-react';
 
 export const GoodiesPage: React.FC = () => {
-  const [selectedSubcat, setSelectedSubcat] = useState<string>('All');
-  const [selectedDiet, setSelectedDiet] = useState<string>('All');
+  const { t, locale } = useI18n();
+  const [selectedSubcat, setSelectedSubcat] = useState<string>('all');
+  const [selectedDiet, setSelectedDiet] = useState<string>('all');
   const [searchFilter, setSearchFilter] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
 
-  const subcategories: (GoodiesSubcategory | 'All')[] = [
-    'All',
-    'Family Cakes',
-    'Cookies & Biscuits',
-    'Occasion Treats',
-    'Kids-Friendly Options'
-  ];
+  const goodiesProducts = getLocalizedGoodiesProducts(locale);
 
-  const dietaryFilters: (DietaryTag | 'All')[] = [
-    'All',
-    'Nut-Free',
-    'Gluten-Free',
-    'Vegetarian',
-    'Organic'
-  ];
+  const subcategoryTabs = useMemo(() => {
+    return [
+      { id: 'all', label: t('common.all') },
+      { id: 'Family Cakes', label: locale === 'pt' ? 'Bolos de Família' : 'Family Cakes' },
+      { id: 'Cookies & Biscuits', label: locale === 'pt' ? 'Biscoitos & Bolachas' : 'Cookies & Biscuits' },
+      { id: 'Celebration Treats', label: locale === 'pt' ? 'Celebrações & Caixas' : 'Celebration Treats' }
+    ];
+  }, [t, locale]);
+
+  const dietaryFilterOptions: { id: string; label: string }[] = useMemo(() => {
+    return [
+      { id: 'all', label: t('common.all') },
+      { id: 'Nut-Free', label: locale === 'pt' ? 'Sem Amendoins' : 'Nut-Free' },
+      { id: 'Gluten-Free', label: locale === 'pt' ? 'Sem Glúten' : 'Gluten-Free' },
+      { id: 'Vegetarian', label: locale === 'pt' ? 'Vegetariano' : 'Vegetarian' },
+      { id: 'Low Sugar', label: locale === 'pt' ? 'Baixo Açúcar' : 'Low Sugar' }
+    ];
+  }, [t, locale]);
 
   const filteredProducts = useMemo(() => {
-    return GOODIES_PRODUCTS.filter((prod) => {
-      const matchCat = selectedSubcat === 'All' || prod.subcategory === selectedSubcat;
-      const matchDiet = selectedDiet === 'All' || prod.dietaryTags.includes(selectedDiet as DietaryTag);
+    return goodiesProducts.filter((prod) => {
+      const matchCat =
+        selectedSubcat === 'all' ||
+        prod.subcategory.toLowerCase().includes(selectedSubcat.toLowerCase()) ||
+        (selectedSubcat === 'Family Cakes' && prod.subcategory.includes('Bolos')) ||
+        (selectedSubcat === 'Cookies & Biscuits' && (prod.subcategory.includes('Biscoitos') || prod.subcategory.includes('Bolachas'))) ||
+        (selectedSubcat === 'Celebration Treats' && prod.subcategory.includes('Celebra'));
+
+      const matchDiet =
+        selectedDiet === 'all' ||
+        prod.dietaryTags.some((d) => d.toLowerCase().includes(selectedDiet.toLowerCase())) ||
+        prod.tags.some((t) => t.toLowerCase().includes(selectedDiet.toLowerCase()));
+
       const matchText =
         prod.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
         prod.flavorProfile.toLowerCase().includes(searchFilter.toLowerCase()) ||
         prod.description.toLowerCase().includes(searchFilter.toLowerCase());
+
       return matchCat && matchDiet && matchText;
     }).sort((a, b) => {
       if (sortBy === 'price-asc') return a.price - b.price;
@@ -43,7 +60,7 @@ export const GoodiesPage: React.FC = () => {
       if (sortBy === 'rating') return b.rating - a.rating;
       return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
     });
-  }, [selectedSubcat, selectedDiet, searchFilter, sortBy]);
+  }, [goodiesProducts, selectedSubcat, selectedDiet, searchFilter, sortBy]);
 
   return (
     <div className="goodies-page">
@@ -54,26 +71,25 @@ export const GoodiesPage: React.FC = () => {
         <div className="container">
           <div className="cat-hero-inner">
             <span className="section-eyebrow">
-              <Cake size={14} /> elamel goodies
+              <Cake size={14} /> {t('brand.subbrands.goodies')}
             </span>
-            <h1 className="cat-page-title">Artisanal Family Cakes & Bakery Treats</h1>
+            <h1 className="cat-page-title">{t('goodies.title')}</h1>
             <p className="cat-page-lead">
-              Honest, freshly baked celebrations made with pure butter, real Madagascar vanilla, and organic berries.
-              Every treat is prepared with gentle sweetness, clear allergen warnings, and generous family portions.
+              {t('goodies.subtitle')}
             </p>
 
             <div className="cat-hero-badges-row">
               <div className="hero-pill-badge">
                 <ShieldCheck size={16} color="#10B981" />
-                <span>Dedicated Peanut-Free Kitchen</span>
+                <span>{t('goodies.highlights.peanutFree')}</span>
               </div>
               <div className="hero-pill-badge">
                 <Sparkles size={16} color="#F8971D" />
-                <span>Certified Gluten-Free Options</span>
+                <span>{t('goodies.highlights.glutenFree')}</span>
               </div>
               <div className="hero-pill-badge">
                 <Heart size={16} color="#E1285B" />
-                <span>Zero Artificial Preservatives</span>
+                <span>{t('goodies.highlights.natural')}</span>
               </div>
             </div>
           </div>
@@ -87,15 +103,15 @@ export const GoodiesPage: React.FC = () => {
           <div className="catalog-toolbar">
             {/* Category Tabs */}
             <div className="filter-tabs" role="tablist" aria-label="Goodies subcategories">
-              {subcategories.map((subcat) => (
+              {subcategoryTabs.map((subcat) => (
                 <button
-                  key={subcat}
+                  key={subcat.id}
                   role="tab"
-                  aria-selected={selectedSubcat === subcat}
-                  onClick={() => setSelectedSubcat(subcat)}
-                  className={`filter-tab-btn ${selectedSubcat === subcat ? 'active' : ''}`}
+                  aria-selected={selectedSubcat === subcat.id}
+                  onClick={() => setSelectedSubcat(subcat.id)}
+                  className={`filter-tab-btn ${selectedSubcat === subcat.id ? 'active' : ''}`}
                 >
-                  {subcat}
+                  {subcat.label}
                 </button>
               ))}
             </div>
@@ -108,7 +124,7 @@ export const GoodiesPage: React.FC = () => {
                   type="text"
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  placeholder="Search flavors, cakes..."
+                  placeholder={locale === 'pt' ? 'Pesquisar sabores, bolos...' : 'Search flavors, cakes...'}
                   className="filter-search-input"
                   aria-label="Search bakery treats"
                 />
@@ -120,10 +136,10 @@ export const GoodiesPage: React.FC = () => {
                 className="sort-dropdown"
                 aria-label="Sort products by"
               >
-                <option value="featured">Featured First</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
+                <option value="featured">{locale === 'pt' ? 'Destaques Primeiro' : 'Featured First'}</option>
+                <option value="price-asc">{t('common.priceLowHigh')}</option>
+                <option value="price-desc">{t('common.priceHighLow')}</option>
+                <option value="rating">{locale === 'pt' ? 'Melhor Avaliados' : 'Highest Rated'}</option>
               </select>
             </div>
           </div>
@@ -131,17 +147,17 @@ export const GoodiesPage: React.FC = () => {
           {/* Secondary Dietary Filter Bar */}
           <div className="dietary-filter-bar">
             <span className="diet-filter-label">
-              <Filter size={14} /> Dietary & Allergen Filter:
+              <Filter size={14} /> {locale === 'pt' ? 'Filtro Dietético & Alergénios:' : 'Dietary & Allergen Filter:'}
             </span>
             <div className="diet-chips-wrap">
-              {dietaryFilters.map((diet) => (
+              {dietaryFilterOptions.map((diet) => (
                 <button
-                  key={diet}
-                  onClick={() => setSelectedDiet(diet)}
-                  className={`diet-chip-btn ${selectedDiet === diet ? 'active' : ''}`}
+                  key={diet.id}
+                  onClick={() => setSelectedDiet(diet.id)}
+                  className={`diet-chip-btn ${selectedDiet === diet.id ? 'active' : ''}`}
                 >
-                  {selectedDiet === diet && <Check size={13} />}
-                  {diet === 'All' ? 'All Diets' : diet}
+                  {selectedDiet === diet.id && <Check size={13} />}
+                  {diet.label}
                 </button>
               ))}
             </div>
@@ -150,23 +166,25 @@ export const GoodiesPage: React.FC = () => {
           {/* Summary */}
           <div className="results-summary-row">
             <span className="results-count">
-              Showing <strong>{filteredProducts.length}</strong> Bakery Treat{filteredProducts.length === 1 ? '' : 's'}
+              {locale === 'pt'
+                ? <>A apresentar <strong>{filteredProducts.length}</strong> iguaria(s) de pastelaria</>
+                : <>Showing <strong>{filteredProducts.length}</strong> Bakery Treat{filteredProducts.length === 1 ? '' : 's'}</>}
             </span>
           </div>
 
           {/* Products Grid */}
           {filteredProducts.length === 0 ? (
             <div className="no-results-box">
-              <p>No bakery treats found matching your dietary filter or search.</p>
+              <p>{locale === 'pt' ? 'Não foram encontradas iguarias com o filtro seleccionado.' : 'No bakery treats found matching your dietary filter or search.'}</p>
               <button
                 onClick={() => {
-                  setSelectedSubcat('All');
-                  setSelectedDiet('All');
+                  setSelectedSubcat('all');
+                  setSelectedDiet('all');
                   setSearchFilter('');
                 }}
                 className="btn btn-secondary btn-sm"
               >
-                Reset All Filters
+                {t('common.clearFilters')}
               </button>
             </div>
           ) : (
@@ -185,27 +203,27 @@ export const GoodiesPage: React.FC = () => {
             <div className="standards-header">
               <ShieldCheck size={28} color="#10B981" />
               <div>
-                <h3 className="standards-title">Our Kitchen & Allergen Transparency Promise</h3>
-                <p className="standards-sub">Every ingredient is clearly accounted for so families can celebrate with peace of mind.</p>
+                <h3 className="standards-title">{locale === 'pt' ? 'O Nosso Compromisso de Transparência & Alergénios' : 'Our Kitchen & Allergen Transparency Promise'}</h3>
+                <p className="standards-sub">{locale === 'pt' ? 'Cada ingrediente é rigorosamente declarado para que as famílias celebrem com total tranquilidade.' : 'Every ingredient is clearly accounted for so families can celebrate with peace of mind.'}</p>
               </div>
             </div>
 
             <div className="standards-grid">
               <div className="standard-item">
-                <strong>Natural Ingredients Only</strong>
-                <p>We use real fruit purees (strawberries, raspberries, blueberries) and natural plant pigments (spirulina, turmeric, beetroot) for our vibrant pastel icings.</p>
+                <strong>{locale === 'pt' ? 'Apenas Ingredientes Naturais' : 'Natural Ingredients Only'}</strong>
+                <p>{locale === 'pt' ? 'Utilizamos purés de fruta fresca (morangos, framboesas, mirtilos) e corantes vegetais de origem botânica (espirulina, curcuma, beterraba) nas nossas decorações em glacê.' : 'We use real fruit purees (strawberries, raspberries, blueberries) and natural plant pigments (spirulina, turmeric, beetroot) for our vibrant pastel icings.'}</p>
               </div>
               <div className="standard-item">
-                <strong>Peanut-Free Production</strong>
-                <p>Our bakery facility is strictly 100% peanut-free. Any specialty items containing tree nuts (like almond flour in our fudge cake) are prepared in dedicated zones.</p>
+                <strong>{locale === 'pt' ? 'Produção Estritamente Sem Amendoins' : 'Peanut-Free Production'}</strong>
+                <p>{locale === 'pt' ? 'A nossa pastelaria opera sob rigoroso protocolo 100% livre de amendoins. Quaisquer artigos com frutos de casca rija (como a farinha de amêndoa no bolo fudge) são confecionados em zonas dedicadas.' : 'Our bakery facility is strictly 100% peanut-free. Any specialty items containing tree nuts (like almond flour in our fudge cake) are prepared in dedicated zones.'}</p>
               </div>
               <div className="standard-item">
-                <strong>Gentle Sweetness for Little Ones</strong>
-                <p>Our recipes use 30% less refined sugar than commercial bakeries, highlighting natural Madagascar vanilla, real dairy butter, and fresh seasonal fruits.</p>
+                <strong>{locale === 'pt' ? 'Doçura Moderada para os Mais Novos' : 'Gentle Sweetness for Little Ones'}</strong>
+                <p>{locale === 'pt' ? 'As nossas receitas contêm 30% menos açúcares refinados que a pastelaria comercial, realçando a baunilha natural em vagem, a manteiga nobre e as frutas da estação.' : 'Our recipes use 30% less refined sugar than commercial bakeries, highlighting natural Madagascar vanilla, real dairy butter, and fresh seasonal fruits.'}</p>
               </div>
               <div className="standard-item">
-                <strong>Fresh Daily Deliveries</strong>
-                <p>Every cake and cookie box is baked and decorated within hours of dispatch to ensure optimal tenderness and crispness on your celebration table.</p>
+                <strong>{locale === 'pt' ? 'Fornadas Frescas Diárias' : 'Fresh Daily Deliveries'}</strong>
+                <p>{locale === 'pt' ? 'Cada bolo e caixa de biscoitos é cozinhado e decorado poucas horas antes da expedição para garantir a máxima frescura e aroma à sua mesa.' : 'Every cake and cookie box is baked and decorated within hours of dispatch to ensure optimal tenderness and crispness on your celebration table.'}</p>
               </div>
             </div>
           </div>
@@ -306,6 +324,8 @@ export const GoodiesPage: React.FC = () => {
           font-size: 0.875rem;
           color: var(--color-text-muted);
           line-height: 1.5;
+          margin: 0;
+        }
         @media (max-width: 768px) {
           .cat-page-title { font-size: 2.1rem; }
           .catalog-toolbar { flex-direction: column; align-items: stretch; }

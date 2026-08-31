@@ -4,18 +4,27 @@ export type ColorsSubcategory =
   | 'Tableware Colors' 
   | 'Decorative Pieces' 
   | 'Gift Sets' 
-  | 'Kids & Family Kits';
+  | 'Kids & Family Kits'
+  | 'Kids & Animals'
+  | string;
 
 export type GoodiesSubcategory = 
   | 'Family Cakes' 
   | 'Cookies & Biscuits' 
   | 'Occasion Treats' 
-  | 'Kids-Friendly Options';
+  | 'Celebration Treats'
+  | 'Kids-Friendly Options'
+  | string;
 
 export type MomentsSubcategory = 
   | 'Anniversary Moments' 
   | 'Family Celebrations' 
-  | 'Holiday Souvenirs';
+  | 'Holiday Souvenirs'
+  | 'Heirloom Tableware'
+  | 'Celebration Gifts'
+  | 'Couples & Duos'
+  | 'Holiday & Seasonal'
+  | string;
 
 export type DietaryTag = 
   | 'Gluten-Free' 
@@ -24,7 +33,10 @@ export type DietaryTag =
   | 'Vegetarian' 
   | 'Dairy-Free' 
   | 'Egg-Free' 
-  | 'Organic';
+  | 'Organic'
+  | 'Low Sugar'
+  | 'Refined Sugar-Free'
+  | string;
 
 export interface BaseProduct {
   id: string;
@@ -39,6 +51,7 @@ export interface BaseProduct {
   reviewCount: number;
   isFeatured?: boolean;
   tags: string[];
+  materials?: string[];
 }
 
 export interface ColorProduct extends BaseProduct {
@@ -52,7 +65,7 @@ export interface ColorProduct extends BaseProduct {
   familyMomentTip: string;
   glazeCount: number;
   brushCount: number;
-  difficulty: 'Beginner' | 'All Ages' | 'Intermediate';
+  difficulty: 'Beginner' | 'All Ages' | 'Intermediate' | 'Easy' | 'Family Project' | string;
 }
 
 export interface GoodiesProduct extends BaseProduct {
@@ -71,16 +84,19 @@ export interface GoodiesProduct extends BaseProduct {
 export interface PersonalisationItem extends BaseProduct {
   category: 'moments';
   subcategory: MomentsSubcategory;
-  baseItemType: 'ceramic_plate' | 'ceramic_mug' | 'cookie_crate' | 'wooden_plaque' | 'anniversary_set';
+  baseItemType?: 'ceramic_plate' | 'ceramic_mug' | 'cookie_crate' | 'wooden_plaque' | 'anniversary_set' | string;
   charLimit: number;
+  materials?: string[];
+  turnaroundDays?: number;
+  leadTimeDays?: number;
+  personalisationFields?: string[];
   sampleStories: {
     title: string;
     family: string;
     quote: string;
-    occasion: string;
+    occasion?: string;
   }[];
   customizationSteps: string[];
-  leadTimeDays: number;
 }
 
 export type Product = ColorProduct | GoodiesProduct | PersonalisationItem;

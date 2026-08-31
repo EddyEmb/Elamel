@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { useToast } from '../context/ToastContext';
+import { useI18n } from '../context/I18nContext';
 import { Heart, Sparkles, Mail, Phone, MapPin, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { navigate } = useRouter();
   const { addToast } = useToast();
+  const { t, locale } = useI18n();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail || !newsletterEmail.includes('@')) {
-      addToast('Please enter a valid email', 'We need a valid email to send our family craft guides.', 'dietary');
+      addToast(
+        locale === 'pt' ? 'Endereço Inválido' : 'Please enter a valid email',
+        locale === 'pt' ? 'Por favor insira um correio electrónico válido.' : 'We need a valid email to send our family craft guides.',
+        'dietary'
+      );
       return;
     }
     setIsSubscribed(true);
-    addToast('Welcome to the Family Club!', 'Thank you! You will receive free weekend craft stencils & seasonal treat recipes.', 'success');
+    addToast(
+      locale === 'pt' ? 'Bem-vindo ao Clube Familiar!' : 'Welcome to the Family Club!',
+      locale === 'pt' ? 'Subscrição confirmada com sucesso. Receberá em breve as nossas novidades.' : 'Thank you! You will receive free weekend craft stencils & seasonal treat recipes.',
+      'success'
+    );
   };
 
   return (
@@ -26,10 +36,10 @@ export const Footer: React.FC = () => {
         <div className="container newsletter-inner">
           <div className="newsletter-text">
             <span className="section-eyebrow">
-              <Sparkles size={14} /> Join The Elamel Family Club
+              <Sparkles size={14} /> {t('footer.newsletterTitle')}
             </span>
-            <h3 className="newsletter-heading">Receive free weekend painting stencils & seasonal treat recipes</h3>
-            <p className="newsletter-sub">No spam, ever. Only wholesome family activities and celebratory seasonal treats.</p>
+            <h3 className="newsletter-heading">{t('footer.newsletterSubtitle')}</h3>
+            <p className="newsletter-sub">{t('footer.privacyNotice')}</p>
           </div>
 
           <div className="newsletter-form-wrap">
@@ -37,8 +47,8 @@ export const Footer: React.FC = () => {
               <div className="newsletter-success">
                 <CheckCircle2 size={24} color="#10B981" />
                 <div>
-                  <strong>You're part of the club!</strong>
-                  <p>Check your inbox for our welcome bundle of printable family stencils.</p>
+                  <strong>{locale === 'pt' ? 'Já faz parte do clube!' : "You're part of the club!"}</strong>
+                  <p>{locale === 'pt' ? 'Consulte a sua caixa de correio para descarregar o guia de boas-vindas.' : 'Check your inbox for our welcome bundle of printable family stencils.'}</p>
                 </div>
               </div>
             ) : (
@@ -47,13 +57,13 @@ export const Footer: React.FC = () => {
                   type="email"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  placeholder="Enter your family email address..."
+                  placeholder={t('footer.newsletterPlaceholder')}
                   className="newsletter-input"
                   aria-label="Email address for family newsletter"
                   required
                 />
                 <button type="submit" className="btn btn-primary">
-                  Join Club
+                  {t('footer.subscribe')}
                 </button>
               </form>
             )}
@@ -79,41 +89,41 @@ export const Footer: React.FC = () => {
             </a>
             <p className="footer-tagline">
               Pinte • Crie • Desfrute<br />
-              Joyful, food-safe ceramic painting kits, artisanal bakery treats, and treasured family keepsakes.
+              {t('brand.description')}
             </p>
             <div className="safety-badge">
               <ShieldCheck size={18} color="#10B981" />
-              <span>100% Non-Toxic & Dedicated Peanut-Free Bakery</span>
+              <span>{locale === 'pt' ? '100% Não-Tóxico & Pastelaria Isenta de Amendoins' : '100% Non-Toxic & Dedicated Peanut-Free Bakery'}</span>
             </div>
           </div>
 
           {/* Quick Links: Subbrands */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Our Offerings</h4>
+            <h4 className="footer-col-title">{locale === 'pt' ? 'As Nossas Criações' : 'Our Offerings'}</h4>
             <ul className="footer-nav-list">
               <li>
                 <button onClick={() => navigate('/colors')} className="footer-link">
-                  Elamel Colors (Ceramic Kits)
+                  {t('brand.subbrands.colors')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/goodies')} className="footer-link">
-                  Elamel Goodies (Cakes & Treats)
+                  {t('brand.subbrands.goodies')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/moments-souvenirs')} className="footer-link">
-                  Moments & Souvenirs (Keepsakes)
+                  {t('brand.subbrands.moments')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/colors')} className="footer-link">
-                  Kids & Family Kits
+                  {locale === 'pt' ? 'Kits para Crianças e Famílias' : 'Kids & Family Kits'}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/goodies')} className="footer-link">
-                  Treat Box Assortments
+                  {locale === 'pt' ? 'Caixas de Iguarias Sortidas' : 'Treat Box Assortments'}
                 </button>
               </li>
             </ul>
@@ -121,31 +131,31 @@ export const Footer: React.FC = () => {
 
           {/* Company & Support */}
           <div className="footer-col">
-            <h4 className="footer-col-title">About & Help</h4>
+            <h4 className="footer-col-title">{locale === 'pt' ? 'Sobre & Ajuda' : 'About & Help'}</h4>
             <ul className="footer-nav-list">
               <li>
                 <button onClick={() => navigate('/about')} className="footer-link">
-                  Our Story & Values
+                  {t('nav.about')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/contact')} className="footer-link">
-                  Contact & Inquiries
+                  {t('nav.contact')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/search')} className="footer-link">
-                  Search Catalog
+                  {t('nav.search')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/accessibility')} className="footer-link">
-                  Accessibility Statement
+                  {t('footer.links.accessibility')}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/sitemap')} className="footer-link">
-                  Website Sitemap
+                  {t('footer.links.sitemap')}
                 </button>
               </li>
             </ul>
@@ -153,22 +163,22 @@ export const Footer: React.FC = () => {
 
           {/* Contact Details */}
           <div className="footer-col">
-            <h4 className="footer-col-title">Studio & Contact</h4>
+            <h4 className="footer-col-title">{t('contact.addressTitle')}</h4>
             <div className="footer-contact-item">
               <MapPin size={18} className="footer-contact-icon" />
-              <span>124 Rainbow Craft Lane, Creative District</span>
+              <span>{t('contact.addressValue')}</span>
             </div>
             <div className="footer-contact-item">
               <Phone size={18} className="footer-contact-icon" />
-              <span>+1 (800) 555-ELAMEL</span>
+              <span>{t('contact.phoneValue')}</span>
             </div>
             <div className="footer-contact-item">
               <Mail size={18} className="footer-contact-icon" />
-              <span>hello@elamel-family.com</span>
+              <span>{t('contact.emailValue')}</span>
             </div>
             <div className="footer-hours">
-              <strong>Studio Hours:</strong><br />
-              Tuesday – Sunday: 9:00 AM – 6:00 PM
+              <strong>{t('contact.hoursTitle')}:</strong><br />
+              <span>{t('contact.hoursValue')}</span>
             </div>
           </div>
         </div>
@@ -176,38 +186,40 @@ export const Footer: React.FC = () => {
         {/* Bottom Legal & Accessibility Bar */}
         <div className="footer-bottom">
           <p className="copyright-text">
-            © {new Date().getFullYear()} <strong>elamel</strong>. All rights reserved. Made with{' '}
-            <Heart size={14} color="#E1285B" style={{ display: 'inline', verticalAlign: 'middle' }} /> for families everywhere.
+            © {new Date().getFullYear()} <strong>elamel</strong>. {t('footer.rights')} Made with{' '}
+            <Heart size={14} color="#E1285B" style={{ display: 'inline', verticalAlign: 'middle' }} /> {locale === 'pt' ? 'para todas as famílias.' : 'for families everywhere.'}
           </p>
           <div className="footer-legal-links">
             <button onClick={() => navigate('/privacy')} className="footer-legal-btn">
-              Privacy Policy
+              {t('footer.links.privacy')}
             </button>
             <span aria-hidden="true">•</span>
             <button onClick={() => navigate('/terms')} className="footer-legal-btn">
-              Terms of Use
+              {t('footer.links.terms')}
             </button>
             <span aria-hidden="true">•</span>
             <button onClick={() => navigate('/accessibility')} className="footer-legal-btn">
-              Accessibility
+              {t('footer.links.accessibility')}
             </button>
             <span aria-hidden="true">•</span>
             <button onClick={() => navigate('/sitemap')} className="footer-legal-btn">
-              Sitemap
+              {t('footer.links.sitemap')}
             </button>
           </div>
         </div>
       </div>
 
+      {/* Embedded Component CSS */}
       <style>{`
         .site-footer {
-          background-color: #FFFFFF;
-          border-top: 1px solid var(--color-border-light);
-          margin-top: 5rem;
+          background: #201C1D;
+          color: #E2DEDF;
+          font-family: var(--font-body);
         }
         .footer-newsletter-banner {
-          background: var(--gradient-rainbow-subtle);
-          border-bottom: 1px solid var(--color-border-light);
+          background: linear-gradient(135deg, rgba(225, 40, 91, 0.15) 0%, rgba(254, 209, 65, 0.1) 100%);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           padding: 3rem 0;
         }
         .newsletter-inner {
@@ -221,44 +233,51 @@ export const Footer: React.FC = () => {
           max-width: 540px;
         }
         .newsletter-heading {
+          font-family: var(--font-heading);
+          color: #FFFFFF;
           font-size: 1.5rem;
-          margin-bottom: 0.5rem;
+          font-weight: 700;
+          margin: 0.5rem 0 0.4rem 0;
         }
         .newsletter-sub {
-          color: var(--color-text-muted);
+          color: #A0989A;
           font-size: 0.9375rem;
           margin: 0;
         }
         .newsletter-form-wrap {
-          flex-grow: 1;
+          flex: 1;
+          min-width: 280px;
           max-width: 480px;
         }
         .newsletter-form {
           display: flex;
-          gap: 0.75rem;
+          gap: 0.5rem;
         }
         .newsletter-input {
-          flex-grow: 1;
-          padding: 0.85rem 1.25rem;
+          flex: 1;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.18);
           border-radius: var(--radius-full);
-          border: 1.5px solid var(--color-border);
-          font-family: var(--font-body);
+          padding: 0.75rem 1.25rem;
+          color: #FFFFFF;
+          font-family: inherit;
           font-size: 0.9375rem;
+          outline: none;
+          transition: border-color var(--transition-fast);
         }
         .newsletter-input:focus {
           border-color: var(--color-primary);
-          outline: none;
-          box-shadow: 0 0 0 3px rgba(225, 40, 91, 0.15);
+          background: rgba(255, 255, 255, 0.12);
         }
         .newsletter-success {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          background: #ECFDF5;
-          border: 1px solid #A7F3D0;
-          padding: 1rem 1.25rem;
+          gap: 0.75rem;
+          background: rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.3);
           border-radius: var(--radius-md);
-          color: #065F46;
+          padding: 0.75rem 1.25rem;
+          color: #FFFFFF;
           font-size: 0.875rem;
         }
         .footer-main {
@@ -266,36 +285,40 @@ export const Footer: React.FC = () => {
         }
         .footer-grid {
           display: grid;
-          grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+          grid-template-columns: 2fr 1fr 1fr 1.5fr;
           gap: 3rem;
           margin-bottom: 3.5rem;
         }
         .footer-logo-img {
           height: 48px;
-          margin-bottom: 1.25rem;
+          filter: brightness(0) invert(1);
+          margin-bottom: 1rem;
         }
         .footer-tagline {
           font-size: 0.9375rem;
-          color: var(--color-text-muted);
           line-height: 1.6;
-          margin-bottom: 1.25rem;
+          color: #A0989A;
+          margin-bottom: 1.5rem;
         }
         .safety-badge {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.25);
+          color: #34D399;
           font-size: 0.8125rem;
           font-weight: 600;
-          color: #065F46;
-          background: #ECFDF5;
-          padding: 0.4rem 0.8rem;
-          border-radius: var(--radius-md);
-          border: 1px solid #A7F3D0;
+          padding: 0.4rem 0.75rem;
+          border-radius: var(--radius-full);
         }
         .footer-col-title {
-          font-size: 1.1rem;
+          font-family: var(--font-heading);
+          color: #FFFFFF;
+          font-size: 1.05rem;
+          font-weight: 700;
           margin-bottom: 1.25rem;
-          color: var(--color-text-main);
+          letter-spacing: -0.01em;
         }
         .footer-nav-list {
           list-style: none;
@@ -306,48 +329,53 @@ export const Footer: React.FC = () => {
         .footer-link {
           background: none;
           border: none;
-          color: var(--color-text-muted);
-          font-family: var(--font-body);
+          color: #A0989A;
+          font-family: inherit;
           font-size: 0.9375rem;
           cursor: pointer;
-          text-align: left;
           padding: 0;
+          text-align: left;
           transition: color var(--transition-fast);
         }
         .footer-link:hover {
-          color: var(--color-primary);
+          color: #FFFFFF;
           text-decoration: underline;
         }
         .footer-contact-item {
           display: flex;
           align-items: flex-start;
-          gap: 0.75rem;
-          margin-bottom: 0.75rem;
-          font-size: 0.9375rem;
-          color: var(--color-text-muted);
+          gap: 0.65rem;
+          font-size: 0.875rem;
+          color: #A0989A;
+          margin-bottom: 0.65rem;
+          line-height: 1.4;
         }
         .footer-contact-icon {
           color: var(--color-primary);
           flex-shrink: 0;
-          margin-top: 0.2rem;
+          margin-top: 0.15rem;
         }
         .footer-hours {
           margin-top: 1rem;
-          font-size: 0.875rem;
-          color: var(--color-text-light);
+          font-size: 0.8125rem;
+          color: #A0989A;
+          line-height: 1.5;
           padding-top: 0.75rem;
-          border-top: 1px dashed var(--color-border);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
         .footer-bottom {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 1.5rem;
           padding-top: 2rem;
-          border-top: 1px solid var(--color-border-light);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           font-size: 0.875rem;
-          color: var(--color-text-light);
+          color: #80787A;
           flex-wrap: wrap;
-          gap: 1rem;
+        }
+        .copyright-text {
+          margin: 0;
         }
         .footer-legal-links {
           display: flex;
@@ -357,24 +385,41 @@ export const Footer: React.FC = () => {
         .footer-legal-btn {
           background: none;
           border: none;
-          color: var(--color-text-light);
+          color: #80787A;
           font-size: 0.875rem;
           cursor: pointer;
+          padding: 0;
           font-family: inherit;
+          transition: color var(--transition-fast);
         }
         .footer-legal-btn:hover {
-          color: var(--color-primary);
+          color: #FFFFFF;
           text-decoration: underline;
         }
 
-        @media (max-width: 992px) {
-          .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+        @media (max-width: 900px) {
+          .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+          }
+          .footer-brand-col {
+            grid-column: span 2;
+          }
         }
-        @media (max-width: 640px) {
-          .footer-grid { grid-template-columns: 1fr; }
-          .footer-bottom { flex-direction: column; text-align: center; }
-          .footer-legal-links { justify-content: center; }
-          .newsletter-form { flex-direction: column; }
+        @media (max-width: 600px) {
+          .footer-grid {
+            grid-template-columns: 1fr;
+          }
+          .footer-brand-col {
+            grid-column: span 1;
+          }
+          .newsletter-form {
+            flex-direction: column;
+          }
+          .footer-bottom {
+            flex-direction: column;
+            text-align: center;
+          }
         }
       `}</style>
     </footer>

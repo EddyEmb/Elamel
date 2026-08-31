@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { ALL_PRODUCTS } from '../data/mockData';
 import { Search, X, ChevronRight, Tag, Sparkles } from 'lucide-react';
 
@@ -10,6 +11,7 @@ interface SearchModalProps {
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => {
   const { navigate, openProductModal } = useRouter();
+  const { t, formatCurrency, locale } = useI18n();
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<'all' | 'colors' | 'goodies' | 'moments'>('all');
 
@@ -63,7 +65,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
-        aria-label="Search catalog"
+        aria-label={t('nav.search')}
       >
         {/* Search Input Header */}
         <div className="search-modal-header">
@@ -72,12 +74,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search ceramic kits, birthday cakes, cookies, souvenirs..."
+            placeholder={t('common.searchPlaceholder')}
             className="search-modal-input"
             autoFocus
             aria-label="Search catalog query input"
           />
-          <button onClick={onClose} className="btn-icon" aria-label="Close search">
+          <button onClick={onClose} className="btn-icon" aria-label={t('common.close')}>
             <X size={20} />
           </button>
         </div>
@@ -88,25 +90,25 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
             onClick={() => setActiveCategory('all')}
             className={`search-filter-pill ${activeCategory === 'all' ? 'active' : ''}`}
           >
-            All Items ({ALL_PRODUCTS.length})
+            {t('common.all')} ({ALL_PRODUCTS.length})
           </button>
           <button
             onClick={() => setActiveCategory('colors')}
             className={`search-filter-pill ${activeCategory === 'colors' ? 'active' : ''}`}
           >
-            Elamel Colors
+            {t('brand.subbrands.colors')}
           </button>
           <button
             onClick={() => setActiveCategory('goodies')}
             className={`search-filter-pill ${activeCategory === 'goodies' ? 'active' : ''}`}
           >
-            Elamel Goodies
+            {t('brand.subbrands.goodies')}
           </button>
           <button
             onClick={() => setActiveCategory('moments')}
             className={`search-filter-pill ${activeCategory === 'moments' ? 'active' : ''}`}
           >
-            Moments & Souvenirs
+            {t('brand.subbrands.moments')}
           </button>
         </div>
 
@@ -114,15 +116,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
         <div className="search-results-container">
           <div className="search-results-header">
             <span className="results-count-text">
-              {query ? `Found ${results.length} results for "${query}"` : 'Popular Suggestions & Featured Kits'}
+              {query
+                ? (locale === 'pt' ? `Encontrados ${results.length} resultado(s) para "${query}"` : `Found ${results.length} results for "${query}"`)
+                : (locale === 'pt' ? 'Sugestões Populares e Kits em Destaque' : 'Popular Suggestions & Featured Kits')}
             </span>
           </div>
 
           {results.length === 0 ? (
             <div className="search-no-results">
               <Sparkles size={36} color="#CBD5E1" />
-              <p>No products found matching your search.</p>
-              <span className="sub-hint">Try searching for "plate", "cake", "mug", or "gift".</span>
+              <p>{locale === 'pt' ? 'Não foram encontrados produtos correspondentes à sua pesquisa.' : 'No products found matching your search.'}</p>
+              <span className="sub-hint">{locale === 'pt' ? 'Experimente pesquisar por "prato", "bolo", "caneca", ou "lembrança".' : 'Try searching for "plate", "cake", "mug", or "gift".'}</span>
             </div>
           ) : (
             <div className="search-results-list">
@@ -140,7 +144,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
                     </div>
                     <p className="search-item-desc">{item.description}</p>
                     <div className="search-item-footer">
-                      <span className="search-price">${item.price.toFixed(2)}</span>
+                      <span className="search-price">{formatCurrency(item.price)}</span>
                       <span className="search-tag-sample">
                         <Tag size={12} /> {item.tags[0]}
                       </span>
@@ -160,7 +164,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose }) => 
               onClick={handleViewAllInSearchPage}
               className="btn btn-secondary btn-full-width"
             >
-              Open Full Search Page with Advanced Filters
+              {locale === 'pt' ? 'Ver Todos os Resultados com Filtros Avançados' : 'Open Full Search Page with Advanced Filters'}
             </button>
           </div>
         )}

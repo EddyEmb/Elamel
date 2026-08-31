@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
-import { ALL_PRODUCTS } from '../data/mockData';
+import { useI18n } from '../context/I18nContext';
+import { getLocalizedAllProducts } from '../data/mockData';
 import { ProductCard } from '../components/ProductCard';
 import {
   Sparkles,
@@ -22,9 +23,10 @@ import {
 
 export const HomePage: React.FC = () => {
   const { navigate } = useRouter();
+  const { t, locale, formatCurrency } = useI18n();
 
-  // Carousel State for Featured Showcase
-  const featuredProducts = ALL_PRODUCTS.filter((p) => p.isFeatured);
+  const allProducts = getLocalizedAllProducts(locale);
+  const featuredProducts = allProducts.filter((p) => p.isFeatured);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isCarouselPlaying, setIsCarouselPlaying] = useState(true);
 
@@ -58,15 +60,15 @@ export const HomePage: React.FC = () => {
           <div className="hero-text-col">
             <div className="hero-badge">
               <Sparkles size={16} className="text-primary" />
-              <span>Safe • Creative • Delicious</span>
+              <span>{t('home.hero.badge')}</span>
             </div>
 
             <h1 className="hero-main-title">
-              Colors, treats, and moments for every family.
+              {t('home.hero.title')}
             </h1>
 
             <p className="hero-tagline">
-              <strong>elamel</strong> brings families and couples together through certified food-safe ceramic painting kits, artisanal bakery treats, and treasured personalized keepsakes.
+              <strong>elamel</strong> {locale === 'pt' ? 'une famílias, crianças e casais através de conjuntos certificados de pintura em cerâmica aptos para uso alimentar, iguarias artesanais de pastelaria e lembranças personalizadas que perduram no tempo.' : 'brings families and couples together through certified food-safe ceramic painting kits, artisanal bakery treats, and treasured personalized keepsakes.'}
             </p>
 
             <div className="hero-actions-row">
@@ -74,14 +76,14 @@ export const HomePage: React.FC = () => {
                 onClick={() => navigate('/colors')}
                 className="btn btn-primary btn-lg"
               >
-                <Palette size={20} /> Explore Elamel Colors
+                <Palette size={20} /> {t('home.hero.ctaColors')}
               </button>
 
               <button
                 onClick={() => navigate('/goodies')}
                 className="btn btn-secondary btn-lg"
               >
-                <Cake size={20} /> Explore Elamel Goodies
+                <Cake size={20} /> {t('home.hero.ctaGoodies')}
               </button>
             </div>
 
@@ -90,7 +92,7 @@ export const HomePage: React.FC = () => {
                 onClick={() => navigate('/moments-souvenirs')}
                 className="hero-sub-link"
               >
-                <span>Discover Personalised Moments & Souvenirs</span>
+                <span>{t('home.hero.ctaMoments')}</span>
                 <ArrowRight size={16} />
               </button>
             </div>
@@ -99,15 +101,15 @@ export const HomePage: React.FC = () => {
             <div className="hero-trust-row">
               <div className="trust-item">
                 <ShieldCheck size={18} color="#10B981" />
-                <span>100% Non-Toxic Glazes</span>
+                <span>{locale === 'pt' ? 'Vidrados 100% Não-Tóxicos' : '100% Non-Toxic Glazes'}</span>
               </div>
               <div className="trust-item">
                 <CheckCircle2 size={18} color="#10B981" />
-                <span>Peanut-Free Bakery</span>
+                <span>{locale === 'pt' ? 'Pastelaria Sem Amendoins' : 'Peanut-Free Bakery'}</span>
               </div>
               <div className="trust-item">
                 <Heart size={18} color="#E1285B" />
-                <span>Made for All Ages</span>
+                <span>{locale === 'pt' ? 'Para Todas as Idades' : 'Made for All Ages'}</span>
               </div>
             </div>
           </div>
@@ -116,7 +118,7 @@ export const HomePage: React.FC = () => {
             <div className="hero-image-card">
               <img
                 src="./images/hero_family.jpg"
-                alt="Joyful family laughing and painting ceramic pottery together around a table with sweet cookies"
+                alt="Família alegre a pintar loiça de cerâmica em conjunto à volta da mesa"
                 className="hero-main-img"
               />
               <div className="hero-floating-card">
@@ -124,8 +126,8 @@ export const HomePage: React.FC = () => {
                   <Palette size={22} color="#FFFFFF" />
                 </div>
                 <div>
-                  <strong>Weekend Craft Morning</strong>
-                  <p>Non-toxic ceramics & sweet treats delivered to your door</p>
+                  <strong>{locale === 'pt' ? 'Manhã Criativa em Família' : 'Weekend Craft Morning'}</strong>
+                  <p>{locale === 'pt' ? 'Cerâmica não-tóxica e doces entregues à sua porta' : 'Non-toxic ceramics & sweet treats delivered to your door'}</p>
                 </div>
               </div>
             </div>
@@ -138,11 +140,11 @@ export const HomePage: React.FC = () => {
         <div className="container">
           <div className="section-title-wrap">
             <span className="section-eyebrow">
-              <Sparkles size={14} /> The Elamel Experience
+              <Sparkles size={14} /> {t('home.categories.eyebrow')}
             </span>
-            <h2 className="section-title">Three Worlds of Family Joy</h2>
+            <h2 className="section-title">{t('home.categories.title')}</h2>
             <p className="section-subtitle">
-              Whether you want to paint tableware together, share fresh celebratory bakery treats, or create an heirloom family gift, we have something special for you.
+              {t('home.categories.subtitle')}
             </p>
           </div>
 
@@ -152,26 +154,26 @@ export const HomePage: React.FC = () => {
               <div className="cat-card-media">
                 <img
                   src="./images/ceramic_kits.jpg"
-                  alt="Elamel Colors ceramic craft kits with pastel glazes and brushes"
+                  alt="Elamel Colors - Conjuntos de pintura em cerâmica com vidrados pastel e pincéis"
                   className="cat-card-img"
                 />
-                <span className="cat-pill pill-rose">Elamel Colors</span>
+                <span className="cat-pill pill-rose">{t('brand.subbrands.colors')}</span>
               </div>
               <div className="cat-card-body">
-                <h3 className="cat-card-title">Ceramic Painting & Craft Kits</h3>
+                <h3 className="cat-card-title">{t('home.categories.colors.title')}</h3>
                 <p className="cat-card-text">
-                  Complete DIY kits featuring smooth bisque porcelain tableware, vases, and child-safe animal pottery with certified lead-free mineral glazes.
+                  {t('home.categories.colors.desc')}
                 </p>
                 <ul className="cat-card-features">
-                  <li><CheckCircle2 size={15} color="#10B981" /> Dinner plates, bowls & mugs</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Easy home oven-cure glazes</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Safe for toddlers and beginner artists</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Pratos de jantar, taças e canecas' : 'Dinner plates, bowls & mugs'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Vidrados para forno doméstico fácil' : 'Easy home oven-cure glazes'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Seguro para crianças e principiantes' : 'Safe for toddlers and beginner artists'}</li>
                 </ul>
                 <button
                   onClick={() => navigate('/colors')}
                   className="btn btn-primary btn-full-width"
                 >
-                  <Palette size={18} /> Browse Colors Kits
+                  <Palette size={18} /> {t('home.categories.colors.action')}
                 </button>
               </div>
             </div>
@@ -181,26 +183,26 @@ export const HomePage: React.FC = () => {
               <div className="cat-card-media">
                 <img
                   src="./images/goodies_assortment.jpg"
-                  alt="Elamel Goodies freshly baked cakes and rainbow swirl cookies"
+                  alt="Elamel Goodies - Bolos artesanais e biscoitos decorados à mão"
                   className="cat-card-img"
                 />
-                <span className="cat-pill pill-orange">Elamel Goodies</span>
+                <span className="cat-pill pill-orange">{t('brand.subbrands.goodies')}</span>
               </div>
               <div className="cat-card-body">
-                <h3 className="cat-card-title">Artisanal Cakes & Cookies</h3>
+                <h3 className="cat-card-title">{t('home.categories.goodies.title')}</h3>
                 <p className="cat-card-text">
-                  Delicate vanilla berry sponge cakes, hand-piped rainbow sugar cookies, and wholesome whole-grain honey animal biscuits with clear dietary labeling.
+                  {t('home.categories.goodies.desc')}
                 </p>
                 <ul className="cat-card-features">
-                  <li><CheckCircle2 size={15} color="#10B981" /> Low-sugar family formulations</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Gluten-free & nut-free options</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Custom Treat Box creator available</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Fórmulas familiares com teor reduzido de açúcar' : 'Low-sugar family formulations'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Opções sem glúten e sem amendoins' : 'Gluten-free & nut-free options'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Criador interactivo de Caixas de Iguarias' : 'Custom Treat Box creator available'}</li>
                 </ul>
                 <button
                   onClick={() => navigate('/goodies')}
                   className="btn btn-primary btn-full-width"
                 >
-                  <Cake size={18} /> Browse Goodies Treats
+                  <Cake size={18} /> {t('home.categories.goodies.action')}
                 </button>
               </div>
             </div>
@@ -210,26 +212,26 @@ export const HomePage: React.FC = () => {
               <div className="cat-card-media">
                 <img
                   src="./images/moments_gifts.jpg"
-                  alt="Personalized family tree plate and custom couples mugs"
+                  alt="Lembranças personalizadas e peças de família Elamel"
                   className="cat-card-img"
                 />
-                <span className="cat-pill pill-cyan">Moments & Souvenirs</span>
+                <span className="cat-pill pill-cyan">{t('brand.subbrands.moments')}</span>
               </div>
               <div className="cat-card-body">
-                <h3 className="cat-card-title">Personalised Family Keepsakes</h3>
+                <h3 className="cat-card-title">{t('home.categories.moments.title')}</h3>
                 <p className="cat-card-text">
-                  Custom hand-lettered heirloom plates, message cookie crates, and couple anniversary mugs with live interactive studio preview before ordering.
+                  {t('home.categories.moments.desc')}
                 </p>
                 <ul className="cat-card-features">
-                  <li><CheckCircle2 size={15} color="#10B981" /> Family names & special dates</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Live real-time studio preview tool</li>
-                  <li><CheckCircle2 size={15} color="#10B981" /> Complimentary luxury gift wrap</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Apelidos de família e datas comemorativas' : 'Family names & special dates'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Estúdio de pré-visualização em tempo real' : 'Live real-time studio preview tool'}</li>
+                  <li><CheckCircle2 size={15} color="#10B981" /> {locale === 'pt' ? 'Embalagem nobre de oferta de cortesia' : 'Complimentary luxury gift wrap'}</li>
                 </ul>
                 <button
                   onClick={() => navigate('/moments-souvenirs')}
                   className="btn btn-primary btn-full-width"
                 >
-                  <HeartHandshake size={18} /> Create Keepsake
+                  <HeartHandshake size={18} /> {t('home.categories.moments.action')}
                 </button>
               </div>
             </div>
@@ -243,11 +245,11 @@ export const HomePage: React.FC = () => {
           <div className="why-love-banner">
             <div className="section-title-wrap text-center-wrap">
               <span className="section-eyebrow">
-                <Heart size={14} /> Our Core Promise
+                <Heart size={14} /> {t('home.whyLove.eyebrow')}
               </span>
-              <h2 className="section-title">Why Families Love Elamel</h2>
+              <h2 className="section-title">{t('home.whyLove.title')}</h2>
               <p className="section-subtitle">
-                Designed from the ground up for safety, emotional connection, and memorable family experiences.
+                {t('home.whyLove.subtitle')}
               </p>
             </div>
 
@@ -256,9 +258,9 @@ export const HomePage: React.FC = () => {
                 <div className="why-icon-circle color-rose">
                   <ShieldCheck size={28} color="#E1285B" />
                 </div>
-                <h4 className="why-card-title">100% Non-Toxic & Food Safe</h4>
+                <h4 className="why-card-title">{t('home.whyLove.reasons.safe.title')}</h4>
                 <p className="why-card-desc">
-                  All ceramic glazes are strictly non-toxic, water-based, and lead-free. Tableware can be safely used for daily breakfasts and dinners.
+                  {t('home.whyLove.reasons.safe.desc')}
                 </p>
               </div>
 
@@ -266,9 +268,9 @@ export const HomePage: React.FC = () => {
                 <div className="why-icon-circle color-orange">
                   <Smile size={28} color="#F8971D" />
                 </div>
-                <h4 className="why-card-title">Dedicated Allergen Care</h4>
+                <h4 className="why-card-title">{t('home.whyLove.reasons.allergens.title')}</h4>
                 <p className="why-card-desc">
-                  Our bakery treats are made in segregated zones with prominent allergen tags (Gluten-Free, Nut-Free) and wholesome unbleached ingredients.
+                  {t('home.whyLove.reasons.allergens.desc')}
                 </p>
               </div>
 
@@ -276,9 +278,9 @@ export const HomePage: React.FC = () => {
                 <div className="why-icon-circle color-green">
                   <Users size={28} color="#10B981" />
                 </div>
-                <h4 className="why-card-title">Bonding for All Generations</h4>
+                <h4 className="why-card-title">{t('home.whyLove.reasons.bonding.title')}</h4>
                 <p className="why-card-desc">
-                  From toddler handprints and creative kids kits to couples’ anniversary mugs and grandparent platters, everyone participates with joy.
+                  {t('home.whyLove.reasons.bonding.desc')}
                 </p>
               </div>
 
@@ -286,9 +288,9 @@ export const HomePage: React.FC = () => {
                 <div className="why-icon-circle color-cyan">
                   <Sparkles size={28} color="#0284C7" />
                 </div>
-                <h4 className="why-card-title">Three-Click Access & Transparency</h4>
+                <h4 className="why-card-title">{t('home.whyLove.reasons.transparency.title')}</h4>
                 <p className="why-card-desc">
-                  No hidden fees, no dark patterns. Fast browsing, easy pre-order inquiries, and immediate friendly human support.
+                  {t('home.whyLove.reasons.transparency.desc')}
                 </p>
               </div>
             </div>
@@ -302,9 +304,9 @@ export const HomePage: React.FC = () => {
           <div className="carousel-section-header">
             <div>
               <span className="section-eyebrow">
-                <Sparkles size={14} /> Family Favorites
+                <Sparkles size={14} /> {t('home.featured.eyebrow')}
               </span>
-              <h2 className="section-title">Featured Kits & Celebration Treats</h2>
+              <h2 className="section-title">{t('home.featured.title')}</h2>
             </div>
 
             {/* Carousel Controls with Play/Pause (Accessible Spec Requirement) */}
@@ -361,7 +363,7 @@ export const HomePage: React.FC = () => {
                         <div className="carousel-meta-row">
                           <span className="product-rating">
                             <Star size={15} fill="#F8971D" color="#F8971D" />
-                            <strong>{product.rating.toFixed(1)}</strong> ({product.reviewCount} reviews)
+                            <strong>{product.rating.toFixed(1)}</strong> ({product.reviewCount} {locale === 'pt' ? 'avaliações' : 'reviews'})
                           </span>
                           <span className="carousel-category-tag">elamel • {product.category.toUpperCase()}</span>
                         </div>
@@ -370,7 +372,7 @@ export const HomePage: React.FC = () => {
                         <p className="carousel-item-desc">{product.longDescription}</p>
 
                         <div className="carousel-price-action-row">
-                          <span className="carousel-price">${product.price.toFixed(2)}</span>
+                          <span className="carousel-price">{formatCurrency(product.price)}</span>
                           <button
                             onClick={() => {
                               if (product.category === 'moments') {
@@ -381,7 +383,7 @@ export const HomePage: React.FC = () => {
                             }}
                             className="btn btn-primary btn-lg"
                           >
-                            Explore This Item <ArrowRight size={18} />
+                            {locale === 'pt' ? 'Explorar Este Artigo' : 'Explore This Item'} <ArrowRight size={18} />
                           </button>
                         </div>
                       </div>
@@ -406,9 +408,9 @@ export const HomePage: React.FC = () => {
 
           {/* Grid of Other Highlights */}
           <div className="grid-highlights-wrap">
-            <h3 className="sub-grid-heading">More Family Highlights</h3>
+            <h3 className="sub-grid-heading">{locale === 'pt' ? 'Mais Destaques para a Família' : 'More Family Highlights'}</h3>
             <div className="product-grid">
-              {ALL_PRODUCTS.slice(0, 3).map((prod) => (
+              {allProducts.slice(0, 3).map((prod) => (
                 <ProductCard key={prod.id} product={prod} />
               ))}
             </div>
@@ -422,24 +424,24 @@ export const HomePage: React.FC = () => {
           <div className="cta-banner-card">
             <div className="cta-content">
               <span className="section-eyebrow">
-                <Sparkles size={14} /> Ready for Family Joy?
+                <Sparkles size={14} /> {t('home.cta.eyebrow')}
               </span>
-              <h2 className="cta-title">Start Crafting & Tasting Together Today</h2>
+              <h2 className="cta-title">{t('home.cta.title')}</h2>
               <p className="cta-subtitle">
-                Choose a ceramic color kit, select gourmet cookies, or personalize a custom family keepsake in just 3 clicks.
+                {t('home.cta.subtitle')}
               </p>
               <div className="cta-buttons-row">
                 <button
                   onClick={() => navigate('/colors')}
                   className="btn btn-primary btn-lg"
                 >
-                  <Palette size={18} /> Pick a Ceramic Kit
+                  <Palette size={18} /> {t('home.cta.buttonColors')}
                 </button>
                 <button
                   onClick={() => navigate('/moments-souvenirs')}
                   className="btn btn-secondary btn-lg"
                 >
-                  <HeartHandshake size={18} /> Design a Keepsake
+                  <HeartHandshake size={18} /> {t('home.cta.buttonMoments')}
                 </button>
               </div>
             </div>

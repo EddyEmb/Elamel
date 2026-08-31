@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAccessibility } from '../context/AccessibilityContext';
 import { useRouter } from '../context/RouterContext';
+import { useI18n } from '../context/I18nContext';
 import { X, Type, Eye, Zap, RotateCcw, Check, ExternalLink } from 'lucide-react';
 
 interface AccessibilityModalProps {
@@ -11,6 +12,7 @@ interface AccessibilityModalProps {
 export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, onClose }) => {
   const { settings, setFontSize, toggleHighContrast, toggleReducedMotion, resetSettings } = useAccessibility();
   const { navigate } = useRouter();
+  const { t, locale } = useI18n();
 
   if (!isOpen) return null;
 
@@ -20,16 +22,18 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
         <div className="a11y-modal-header">
           <div className="a11y-title-wrap">
             <Eye size={22} color="#E1285B" />
-            <h3 id="a11y-modal-title" className="a11y-modal-title">Accessibility & Display Controls</h3>
+            <h3 id="a11y-modal-title" className="a11y-modal-title">{t('accessibility.controlsTitle')}</h3>
           </div>
-          <button onClick={onClose} className="btn-icon" aria-label="Close accessibility controls">
+          <button onClick={onClose} className="btn-icon" aria-label={t('common.close')}>
             <X size={20} />
           </button>
         </div>
 
         <div className="a11y-modal-body">
           <p className="a11y-intro-text">
-            We are dedicated to providing a comfortable, family-friendly, and accessible experience for all visitors. Adjust your viewing preferences below:
+            {locale === 'pt'
+              ? 'Dedicamo-nos a proporcionar uma experiência confortável, familiar e acessível a todos os visitantes. Ajuste as suas preferências abaixo:'
+              : 'We are dedicated to providing a comfortable, family-friendly, and accessible experience for all visitors. Adjust your viewing preferences below:'}
           </p>
 
           {/* Font Scaling Control */}
@@ -37,8 +41,10 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
             <div className="a11y-card-header">
               <Type size={20} color="#0284C7" />
               <div>
-                <strong className="a11y-control-name">Text Size Scaling</strong>
-                <p className="a11y-control-desc">Increase font size for comfortable reading across all devices.</p>
+                <strong className="a11y-control-name">{t('accessibility.textSize')}</strong>
+                <p className="a11y-control-desc">
+                  {locale === 'pt' ? 'Aumente o tamanho da letra para uma leitura confortável em qualquer dispositivo.' : 'Increase font size for comfortable reading across all devices.'}
+                </p>
               </div>
             </div>
 
@@ -48,7 +54,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
                 className={`font-size-choice-btn ${settings.fontSize === 'normal' ? 'active' : ''}`}
               >
                 <span>A</span>
-                <small>Standard (100%)</small>
+                <small>{t('accessibility.textSizeNormal')}</small>
                 {settings.fontSize === 'normal' && <Check size={14} />}
               </button>
 
@@ -57,7 +63,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
                 className={`font-size-choice-btn ${settings.fontSize === 'large' ? 'active' : ''}`}
               >
                 <span style={{ fontSize: '1.2rem' }}>A</span>
-                <small>Large (115%)</small>
+                <small>{t('accessibility.textSizeLarge')}</small>
                 {settings.fontSize === 'large' && <Check size={14} />}
               </button>
 
@@ -66,7 +72,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
                 className={`font-size-choice-btn ${settings.fontSize === 'xlarge' ? 'active' : ''}`}
               >
                 <span style={{ fontSize: '1.4rem' }}>A</span>
-                <small>Extra Large (130%)</small>
+                <small>{t('accessibility.textSizeXLarge')}</small>
                 {settings.fontSize === 'xlarge' && <Check size={14} />}
               </button>
             </div>
@@ -77,8 +83,8 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
             <div className="a11y-card-header">
               <Eye size={20} color="#F8971D" />
               <div>
-                <strong className="a11y-control-name">High Contrast Mode</strong>
-                <p className="a11y-control-desc">Sharpens borders, maximizes text contrast (14:1+), and emphasizes outlines.</p>
+                <strong className="a11y-control-name">{t('accessibility.contrast')}</strong>
+                <p className="a11y-control-desc">{t('accessibility.contrastHelp')}</p>
               </div>
             </div>
 
@@ -87,7 +93,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
               className={`a11y-toggle-btn ${settings.highContrast ? 'active' : ''}`}
               aria-pressed={settings.highContrast}
             >
-              <span>{settings.highContrast ? 'High Contrast Enabled' : 'Standard Warm Colors'}</span>
+              <span>{settings.highContrast ? (locale === 'pt' ? 'Alto Contraste Activado' : 'High Contrast Enabled') : (locale === 'pt' ? 'Cores Padrão' : 'Standard Warm Colors')}</span>
               <span className="toggle-switch-pill" />
             </button>
           </div>
@@ -97,8 +103,8 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
             <div className="a11y-card-header">
               <Zap size={20} color="#10B981" />
               <div>
-                <strong className="a11y-control-name">Reduce Motion & Animations</strong>
-                <p className="a11y-control-desc">Minimizes transitions, sliding panels, and celebratory effects.</p>
+                <strong className="a11y-control-name">{t('accessibility.motion')}</strong>
+                <p className="a11y-control-desc">{t('accessibility.motionHelp')}</p>
               </div>
             </div>
 
@@ -107,7 +113,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
               className={`a11y-toggle-btn ${settings.reducedMotion ? 'active' : ''}`}
               aria-pressed={settings.reducedMotion}
             >
-              <span>{settings.reducedMotion ? 'Reduced Motion Active' : 'Subtle Animations Enabled'}</span>
+              <span>{settings.reducedMotion ? (locale === 'pt' ? 'Animações Reduzidas' : 'Reduced Motion Active') : (locale === 'pt' ? 'Animações Padrão' : 'Subtle Animations Enabled')}</span>
               <span className="toggle-switch-pill" />
             </button>
           </div>
@@ -116,7 +122,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
         {/* Modal Footer */}
         <div className="a11y-modal-footer">
           <button onClick={resetSettings} className="btn btn-secondary btn-sm">
-            <RotateCcw size={14} /> Reset to Defaults
+            <RotateCcw size={14} /> {locale === 'pt' ? 'Repor Predefinições' : 'Reset to Defaults'}
           </button>
           <button
             onClick={() => {
@@ -125,7 +131,7 @@ export const AccessibilityModal: React.FC<AccessibilityModalProps> = ({ isOpen, 
             }}
             className="btn btn-outline-primary btn-sm"
           >
-            <ExternalLink size={14} /> Read Full Statement
+            <ExternalLink size={14} /> {locale === 'pt' ? 'Ler Declaração Completa' : 'Read Full Statement'}
           </button>
         </div>
       </div>
